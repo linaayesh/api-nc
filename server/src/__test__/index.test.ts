@@ -3,7 +3,7 @@ import supertest from 'supertest';
 import app from '../app';
 
 describe('/', () => {
-  it('should return 200 OK and Content-Type json', async () => {
+  test('should return 200 OK and Content-Type json', async () => {
     const res = await supertest(app)
       .get('/')
       .expect('Content-Type', /json/)
