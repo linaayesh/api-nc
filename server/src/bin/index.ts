@@ -38,14 +38,14 @@ const onError = (error: NodeJS.ErrnoException): void => {
 (async (): Promise<void> => {
   try {
     await sequelize.authenticate();
-    const server = app.listen(port, (): void => {
+    const server = app.listen(port as number, 'localhost', (): void => {
       const addr: string | IServerAddress | null = server.address();
       const bind = typeof addr === 'string'
         ? `pipe ${addr}`
         : addr !== null
-          ? `${addr.port}`
+          ? `${addr.address}:${addr.port}`
           : `port ${addr}`;
-      console.log(`Listening on http://localhost:${bind}`);
+      console.log(`Listening on http://${bind}`);
     });
     server.on('error', onError);
   } catch (err) {
