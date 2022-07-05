@@ -1,0 +1,38 @@
+{
+  "compilerOptions": {
+    "target": "es2022",
+    "lib": ["es5", "es6", "ESNext", "ES2021"],
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "module": "commonjs",
+    "rootDir": "./",
+    "moduleResolution": "node",
+    "baseUrl": ".",
+    "typeRoots": ["./node_modules/@types"],
+    "types": ["node","express","jest"],
+    "resolveJsonModule": true,
+    "allowJs": true,
+    "sourceMap": true,
+    "outDir": "./dist",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "strict": true,
+    "noImplicitAny": true,
+    "skipLibCheck": false,
+    "removeComments": true
+  },
+  "paths": {
+    "app/*": ["src/*"],
+    "@controllers/*": ["src/controllers/*"],
+    "@services/*": ["src/services/*"],
+    "@helpers/*": ["src/helpers/*"],
+    "@middleware/*": ["src/middleware/*"],
+    "@routes/*": ["src/routes/*"],
+    "@validation": ["src/validation/*"],
+    "@interfaces/*": ["src/interfaces/*"],
+    "@types/*": ["src/types/*"],
+    "@config/*": ["src/config/*"],
+    "@models/*": ["src/models/*"],
+    "@bin/*": ["src/bin/*"]
+  }
+}
