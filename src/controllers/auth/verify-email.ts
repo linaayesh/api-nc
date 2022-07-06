@@ -11,7 +11,7 @@ export default async (req: Request, res: Response, next: NextFunction)
 
     const userExists = await Users.findOne({ where: { id: userId } });
     if (!userExists) res.json({ message: 'No data' });
-    const [userVerified] = await Users.update({ isVerified: true }, { where: { id: userId } });
+    const [userVerified] = await Users.update({ isApproved: true }, { where: { id: userId } });
     if (userVerified) {
       res.status(302).redirect('http://localhost:3000');
     } else {

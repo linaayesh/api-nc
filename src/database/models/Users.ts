@@ -11,7 +11,6 @@ interface IUsers extends Model<
   email: string;
   password: string;
   roleId: number;
-  isVerified?: boolean;
   isApproved?: boolean;
 }
 
@@ -40,14 +39,8 @@ const Users = sequelize.define<IUsers>(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    isVerified: {
-      type: DataTypes.BOOLEAN,
-      allowNull: false,
-      defaultValue: false,
-    },
     isApproved: {
       type: DataTypes.BOOLEAN,
-      allowNull: false,
       defaultValue: false,
     },
   },

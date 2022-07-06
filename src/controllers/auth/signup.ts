@@ -1,10 +1,9 @@
 import { Request, Response, NextFunction } from 'express';
 import { hash } from 'bcrypt';
-import { Roles, Users } from '../../database/models';
+import { Users } from '../../database/models';
 import {
   CustomError,
   sendEmail,
-  signToken,
   signupSchema,
   validateError,
 } from '../../utilities';
@@ -17,25 +16,20 @@ export default async ({ body }: Request, res: Response, next: NextFunction):Prom
     const userExists = await Users.findOne({ where: { email } });
     if (userExists) throw new CustomError('User already exists', 409);
     const hashedPassword = await hash(password, 10);
-    const { id: roleId, name: role } = await Roles.create({ name: 'artist' });
-    const { id: userId } = await Users.create({
+    await Users.create({
       username,
       email,
-      roleId: Number(roleId),
+      roleId: 2,
       password: hashedPassword,
     });
 
-    const token = await signToken({
-      id: Number(userId),
-      username,
-      email,
-      role,
-    });
-    await sendEmail(email, 'Welcome to the app', `<h1>Welcome to the app, ${username}!</h1><p>please verify your account by clicking on <a href="http://localhost:5000/api/v1/auth/verify-email/${token}">this link</a></p>`);
+    await sendEmail(email, 'Welcome to NextUp Comedy Dashboard', `<h1>Welcome, ${username}!</h1>
+    <p>Wait for Our NextUp Comedy Stuff to approve your account. We will send you an email when your account is approved. </p>
+    <br/>
+    <p> Stay tuned.</p>`);
     res
-      .cookie('access_token', token)
       .status(201)
-      .json({ message: 'Confirmation email sent successfully' });
+      .json({ message: 'Sign up successfully. Please Check your email.' });
   } catch (err) {
     next(validateError(err as Error));
   }

@@ -1,21 +1,19 @@
 import { createTransport } from 'nodemailer';
-import dotenv from 'dotenv';
+import config from '../config';
 
-dotenv.config();
-
-const { APP_MAIL, MAIL_PASSWORD } = process.env;
+const { appMail, mailPassword } = config.server;
 
 export default async (to: string, subject: string, content: string):Promise<void> => {
   const transporter = createTransport({
     host: 'smtp.gmail.com',
     auth: {
-      user: APP_MAIL,
-      pass: MAIL_PASSWORD,
+      user: appMail,
+      pass: mailPassword,
     },
   });
 
   await transporter.sendMail({
-    from: APP_MAIL,
+    from: appMail,
     to,
     subject,
     html: content,

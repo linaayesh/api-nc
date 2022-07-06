@@ -19,7 +19,7 @@ const Roles = sequelize.define<IRoles>(
       autoIncrement: true,
     },
     name: {
-      type: DataTypes.ENUM('artist', 'venue', 'admin', 'super-admin'),
+      type: DataTypes.ENUM('comedian', 'system-admin'),
       allowNull: false,
     },
   },

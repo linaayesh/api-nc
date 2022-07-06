@@ -5,13 +5,13 @@
   "main": "index.js",
   "scripts": {
     "start": "NODE_ENV=production node ./server/dist/bin/index.js",
-    "dev": "cross-env NODE_ENV=development ts-node-dev ./server/src/bin/index.ts",
+    "dev": "cross-env NODE_ENV=development ts-node-dev ./src/bin/index.ts",
     "test": "cross-env NODE_ENV=test jest -i",
     "dev:client": "cd client&& npm start",
     "build": "tsc -p .",
-    "lint": "eslint --ext .ts server/src/",
-    "build:db": "cross-env NODE_ENV=development ts-node ./server/src/database/config/buildDB.ts",
-    "insert:db": "cross-env NODE_ENV=development ts-node ./server/src/database/fakeData/build.ts"
+    "lint": "eslint --ext .ts src/",
+    "build:db": "cross-env NODE_ENV=development ts-node ./src/database/config/buildDB.ts",
+    "insert:db": "cross-env NODE_ENV=development ts-node ./src/database/fakeData/build.ts"
   },
   "repository": {
     "type": "git",

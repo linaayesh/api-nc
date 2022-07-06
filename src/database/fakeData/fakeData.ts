@@ -2,60 +2,46 @@ const users = [
   {
     username: 'zaher',
     email: 'zaherabuamro@gmail.com',
-    password: 'zaher123',
-    roleId: 1,
-    isVerified: true,
+    password: '$2b$10$O2cKyz8IAgx0jI2OO89j0uZWX9avosPQQ3xWZzcQn7fP/Y3OeFfXG',
+    roleId: 2,
     isApproved: true,
   },
   {
     username: 'ibrahim',
     email: 'ibrahim.jarada@gmail.com',
-    password: 'ibrahim123',
+    password: '$2b$10$O2cKyz8IAgx0jI2OO89j0uZWX9avosPQQ3xWZzcQn7fP/Y3OeFfXG',
     roleId: 2,
-    isVerified: true,
     isApproved: true,
   },
   {
     username: 'rand',
-    email: 'rand@gmail.com',
-    password: 'rand123',
-    roleId: 3,
-    isVerified: true,
+    email: 'randsohail98@gmail.com',
+    password: '$2b$10$O2cKyz8IAgx0jI2OO89j0uZWX9avosPQQ3xWZzcQn7fP/Y3OeFfXG',
+    roleId: 2,
     isApproved: false,
   },
   {
     username: 'ayman',
     email: 'ayman@gmail.com',
-    password: 'ayman123',
-    roleId: 4,
-    isVerified: false,
+    password: '$2b$10$O2cKyz8IAgx0jI2OO89j0uZWX9avosPQQ3xWZzcQn7fP/Y3OeFfXG',
+    roleId: 2,
     isApproved: false,
   },
   {
     username: 'admin',
     email: 'admin@gmail.com',
-    password: 'admin123',
-    roleId: 5,
-    isVerified: true,
+    password: '$2b$10$O2cKyz8IAgx0jI2OO89j0uZWX9avosPQQ3xWZzcQn7fP/Y3OeFfXG',
+    roleId: 1,
     isApproved: true,
   },
 ];
 
 const roles = [
   {
-    name: 'artist',
+    name: 'system-admin',
   },
   {
-    name: 'artist',
-  },
-  {
-    name: 'venue',
-  },
-  {
-    name: 'admin',
-  },
-  {
-    name: 'super-admin',
+    name: 'comedian',
   },
 ];
 
