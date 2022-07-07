@@ -1,2 +1,4 @@
-export { signupHandler, loginHandler, verifyEmailHandler } from './auth';
+export {
+  signupHandler, loginHandler, verifyEmailHandler, userAuth, forgetPassword, resetPassword,
+} from './auth';
 export { notApprovedUsers, approveUser } from './users';

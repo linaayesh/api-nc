@@ -3,7 +3,7 @@ import cors from 'cors';
 import compression from 'compression';
 import cookieParser from 'cookie-parser';
 import router from './routes';
-import { notFound, serverError } from './middlewares';
+import { notFound, serverError } from './middleware';
 
 const app: Application = express();
 app.disable('x-powered-by');

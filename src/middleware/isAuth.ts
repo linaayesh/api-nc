@@ -5,9 +5,8 @@ import { verifyToken } from '../utilities/jwt';
 
 export default async (req: UserAuth, res: Response, next: NextFunction):Promise<void> => {
   const { accessToken } = req.cookies;
-
   try {
-    if (!accessToken) throw new CustomError('Unauthorized', 401);
+    if (!accessToken) throw new CustomError('Unauthorized User', 401);
     const user: any = await verifyToken(accessToken);
     req.user = user;
     next();

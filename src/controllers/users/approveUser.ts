@@ -10,7 +10,6 @@ export default async (req: Request, res: Response)
   const { userId } = req.params;
 
   try {
-    // create system admin middleware
     await idValidation.validateAsync({ userId });
     const user = await Users.findOne({ where: { id: userId } });
     if (!user) return res.json({ message: 'User does not exist.' });

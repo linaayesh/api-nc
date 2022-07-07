@@ -25,7 +25,8 @@ interface IDatabase{
 url:string
 }
 interface UserAuth extends Request {
-  user: { id: number, email: string, role: string },
+  user?: { id: number, email: string, role: string },
+  admin?: { id: number, email: string, role: string },
 }
 
 interface ApprovedUser {
