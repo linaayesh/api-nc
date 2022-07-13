@@ -7,9 +7,11 @@ import {
 
 export default async ({ body }: Request, res: Response, next: NextFunction):
 Promise<void> => {
-  const { email, password } = body;
+  const { email, password, rememberMe } = body;
   try {
     await loginSchema.validateAsync(body);
+    let expiresIn;
+    if (rememberMe) { expiresIn = '30d'; } else { expiresIn = '1h'; }
     const user = await Users.findOne({ where: { email } });
     if (!user) throw new CustomError('User does not exist. please SignUp', 400);
     if (!user.isApproved) throw new CustomError('Unauthorized To log in', 401);
@@ -18,7 +20,7 @@ Promise<void> => {
     const { id, username, roleId } = user;
     const token = await signToken({
       id: Number(id), username, email, roleId,
-    });
+    }, { expiresIn });
     res.cookie('accessToken', token).json({ message: 'Logged in successfully' });
   } catch (err) {
     next(validateError(err as Error));

@@ -23,7 +23,7 @@ export default async (req: Request, res: Response)
       username,
       email,
       roleId,
-    });
+    }, {});
     await sendEmail(email, 'Welcome to NextUp Comedy', `<h1>Welcome, ${username}!</h1><p>Your account have been approved click <a href="http://localhost:5000/api/v1/auth/verify-email/${token}">this link</a> to log in.</p>`);
     return res
       .cookie('accessToken', token)

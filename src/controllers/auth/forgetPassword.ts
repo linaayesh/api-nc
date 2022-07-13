@@ -18,10 +18,18 @@ export default async ({ body }: Request, res: Response)
       username,
       email,
       roleId,
-    });
-    await sendEmail(email, 'Forget Password', `<h1>Welcome, ${username}!</h1><p>Your can reset your password by clicking <a href="http://localhost:5000/api/v1/auth/reset-password/${token}">this link</a>.</p>`);
+    }, { expiresIn: '1h' });
+    await sendEmail(email, 'Forget Password', `<h1>Welcome, ${username}!</h1><p>
+    To change your password , click here:
+    <a href="http://localhost:5000/api/v1/auth/reset-password/${token}">Change Password</a>
+    Verification codes expire after 1 hour.
+    If you did not request this change, please ignore this message.
+    <br />
+    Best Regards,
+    <br />
+    NextUp Comedy team</p>`);
     return res
-      .cookie('resetToken', token)
+      .cookie('resetPasswordToken', token)
       .status(201)
       .json({ message: 'Check email to Reset password' });
   } catch (err) {

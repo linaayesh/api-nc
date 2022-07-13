@@ -1,17 +1,24 @@
 import { Request, Response, NextFunction } from 'express';
+import { hash } from 'bcrypt';
+import {
+  CustomError,
+  validateError,
+  verifyToken,
+} from '../../utilities';
 import { Users } from '../../database/models';
-import { verifyToken } from '../../utilities/jwt';
 
-export default async (req: Request, res: Response, next: NextFunction)
-:Promise<void> => {
-  const token: string = req.params?.token;
+export default async (req: Request, res: Response, next: NextFunction):Promise<void> => {
+  const { password } = req.body;
   try {
-    const { id: userId } = await verifyToken(token);
-    const userExists = await Users.findOne({ where: { id: userId } });
-    if (!userExists) res.json({ message: 'No Data' });
-    res.status(302).redirect('http://localhost:3000/resetPassword');
-    res.json({ message: 'User already verified' });
+    const { resetPasswordToken } = req.cookies;
+    if (!resetPasswordToken) throw new CustomError('Unauthorized User', 401);
+    const user: any = await verifyToken(resetPasswordToken);
+    const userData: any = await Users.findOne({ where: { email: user.email } });
+    const hashedPassword = await hash(password, 10);
+    userData.password = hashedPassword;
+    await userData.save();
+    res.status(201).redirect('http://localhost:3000/');
   } catch (err) {
-    next(err);
+    next(validateError(err as Error));
   }
 };
