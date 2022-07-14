@@ -14,7 +14,7 @@ export default async (req: Request, res: Response, next: NextFunction)
           ],
         },
         attributes: {
-          exclude: ['password', 'updatedAt', 'createdAt'],
+          exclude: ['password', 'updatedAt'],
           include: [[col('role.name'), 'roleName']],
         },
         include: {
