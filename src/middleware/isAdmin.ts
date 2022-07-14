@@ -7,8 +7,7 @@ export default async (req: UserAuth, res: Response, next: NextFunction):Promise<
   try {
     if (!accessToken) throw new CustomError('Unauthorized', 401);
     const admin: any = await verifyToken(accessToken);
-    if (!(admin.roleId === 1)) throw new CustomError('Unauthorized', 401);
-    req.admin = admin;
+    if (admin.roleId !== 1) throw new CustomError('Unauthorized Role', 401);
     next();
   } catch (err: any) {
     if (err.details) { next(new CustomError(err.details[0].message, 401)); }
