@@ -7,4 +7,4 @@ export {
   resetPasswordEmail,
   resetPassword,
 } from './auth';
-export { notApprovedUsers, approveUser } from './users';
+export { notApprovedUsers, approveUser, approvedUser } from './users';

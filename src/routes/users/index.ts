@@ -1,6 +1,6 @@
 import { Router } from 'express';
 
-import { notApprovedUsers, approveUser } from '../../controllers';
+import { notApprovedUsers, approveUser, approvedUser } from '../../controllers';
 import { isAdmin } from '../../middleware';
 
 const router = Router();
@@ -9,5 +9,6 @@ const router = Router();
 router.use(isAdmin);
 router.get('/notApprovedUsers', notApprovedUsers);
 router.get('/approveUser/:userId', approveUser);
+router.get('/approvedUsers', approvedUser);
 
 export default router;
