@@ -18,7 +18,7 @@ export default async (req: Request, res: Response, next: NextFunction):Promise<v
     const hashedPassword = await hash(password, 10);
     userData.password = hashedPassword;
     await userData.save();
-    res.status(201).redirect(config.server.clientURL);
+    res.status(201).clearCookie('resetPasswordToken').redirect(config.server.clientURL);
   } catch (err) {
     next(validateError(err as Error));
   }

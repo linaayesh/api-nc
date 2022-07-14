@@ -28,7 +28,6 @@ export default async (req: Request, res: Response)
     }, {});
     await sendEmail(email, 'Welcome to NextUp Comedy', `<h1>Welcome, ${username}!</h1><p>Your account have been approved click <a href="${config.server.serverURL}auth/verify-email/${token}">this link</a> to log in.</p>`);
     return res
-      .cookie('accessToken', token)
       .status(201)
       .json({ message: 'Confirmation email sent successfully' });
   } catch (err) {
