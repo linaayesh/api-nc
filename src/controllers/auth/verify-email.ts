@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { Users } from '../../database/models';
 import { verifyToken } from '../../utilities/jwt';
+import config from '../../config';
 
 export default async (req: Request, res: Response, next: NextFunction)
 :Promise<void> => {
@@ -13,7 +14,7 @@ export default async (req: Request, res: Response, next: NextFunction)
     if (!userExists) res.json({ message: 'No data' });
     const [userVerified] = await Users.update({ isApproved: true }, { where: { id: userId } });
     if (userVerified) {
-      res.status(302).redirect('http://localhost:3000');
+      res.status(302).redirect(config.server.clientURL);
     } else {
       res.json({ message: 'User already verified' });
     }

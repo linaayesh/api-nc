@@ -20,6 +20,8 @@ interface IServer{
   appMail: string;
   mailPassword: string;
   port: string;
+  clientURL: string;
+  serverURL: string;
 }
 interface IDatabase{
 url:string

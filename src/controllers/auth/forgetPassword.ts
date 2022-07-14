@@ -3,6 +3,7 @@ import { Users } from '../../database/models';
 import {
   emailValidation, validateError, signToken, sendEmail,
 } from '../../utilities';
+import config from '../../config';
 
 export default async ({ body }: Request, res: Response)
 :Promise<Record<any, any>> => {
@@ -21,7 +22,7 @@ export default async ({ body }: Request, res: Response)
     }, { expiresIn: '1h' });
     await sendEmail(email, 'Forget Password', `<h1>Welcome, ${username}!</h1><p>
     To change your password , click here:
-    <a href="http://localhost:5000/api/v1/auth/reset-password/${token}">Change Password</a>
+    <a href="${config.server.serverURL}auth/reset-password/${token}">Change Password</a>
     Verification codes expire after 1 hour.
     If you did not request this change, please ignore this message.
     <br />

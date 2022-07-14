@@ -6,6 +6,7 @@ import {
   verifyToken,
 } from '../../utilities';
 import { Users } from '../../database/models';
+import config from '../../config';
 
 export default async (req: Request, res: Response, next: NextFunction):Promise<void> => {
   const { password } = req.body;
@@ -17,7 +18,7 @@ export default async (req: Request, res: Response, next: NextFunction):Promise<v
     const hashedPassword = await hash(password, 10);
     userData.password = hashedPassword;
     await userData.save();
-    res.status(201).redirect('http://localhost:3000/');
+    res.status(201).redirect(config.server.clientURL);
   } catch (err) {
     next(validateError(err as Error));
   }

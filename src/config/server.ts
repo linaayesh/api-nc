@@ -6,6 +6,8 @@ const envVarsSchema = Joi.object({
   APP_MAIL: Joi.string().required(),
   MAIL_PASSWORD: Joi.string().required(),
   PORT: Joi.number().required(),
+  CLIENT_BASE_URL: Joi.string().required(),
+  SERVER_BASE_URL: Joi.string().required(),
 }).unknown().required();
 
 const config = (): IServer => {
@@ -20,6 +22,8 @@ const config = (): IServer => {
     appMail: envVars.APP_MAIL,
     mailPassword: envVars.MAIL_PASSWORD,
     port: envVars.PORT,
+    clientURL: envVars.CLIENT_BASE_URL,
+    serverURL: envVars.SERVER_BASE_URL,
   };
 };
 
