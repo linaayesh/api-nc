@@ -19,7 +19,7 @@ export default async (req: Request, res: Response)
     await user.save();
 
     const { username, email } = user;
-    await sendEmail(email, 'Welcome to NextUp Comedy', `<h1>Welcome, ${username}!</h1><p>Sorry to form you that your application has been rejected, if you need more information  <a href="mailto:support@nextupcomedy.com" >contact us</a>.</p>`);
+    await sendEmail(email, 'NextUp Comedy', `<h1>Welcome, ${username}!</h1><p>Sorry to form you that your application has been rejected, if you need more information  <a href="mailto:support@nextupcomedy.com" >contact us</a>.</p>`);
     return res
       .status(201)
       .json({ message: 'Rejected account successfully' });

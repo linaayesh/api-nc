@@ -22,6 +22,8 @@ export default async ({ body }: Request, res: Response, next: NextFunction):Prom
       roleId: 2,
       password: hashedPassword,
       createdBy: 1, // 1 refer to the system => he create his own account
+      // createdBy => 2 || 1 when the system admin sig up user
+      // is approve => it suppose to be true when the admin add user
     });
 
     await sendEmail(email, 'Welcome to NextUp Comedy Dashboard', `<h1>Welcome, ${username}!</h1>
