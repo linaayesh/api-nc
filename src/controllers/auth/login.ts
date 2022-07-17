@@ -21,7 +21,7 @@ Promise<void> => {
     const token = await signToken({
       id: Number(id), username, email, roleId,
     }, { expiresIn });
-    res.cookie('accessToken', token).json({ message: 'Logged in successfully' });
+    res.cookie('accessToken', token).json({ message: 'Logged in successfully', payload: {  id: Number(id), username, email, roleId, } });
   } catch (err) {
     next(validateError(err as Error));
   }
