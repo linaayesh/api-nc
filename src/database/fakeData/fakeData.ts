@@ -1,10 +1,24 @@
 const users = [
   {
+    username: 'system',
+    email: 'system@nextupcomidey.com',
+    password: '$2b$10$O2cKyz8IAgx0jI2OO89j0uZWX9avosPQQ3xWZzcQn7fP/Y3OeFfXG',
+    isApproved: true,
+  },
+  {
+    username: 'admin',
+    email: 'admin@gmail.com',
+    password: '$2b$10$O2cKyz8IAgx0jI2OO89j0uZWX9avosPQQ3xWZzcQn7fP/Y3OeFfXG',
+    roleId: 1,
+    isApproved: true,
+  },
+  {
     username: 'zaher',
     email: 'zaherabuamro@gmail.com',
     password: '$2b$10$O2cKyz8IAgx0jI2OO89j0uZWX9avosPQQ3xWZzcQn7fP/Y3OeFfXG',
     roleId: 2,
     isApproved: true,
+    isRejected: true,
   },
   {
     username: 'ibrahim',
@@ -26,13 +40,6 @@ const users = [
     password: '$2b$10$O2cKyz8IAgx0jI2OO89j0uZWX9avosPQQ3xWZzcQn7fP/Y3OeFfXG',
     roleId: 2,
     isApproved: false,
-  },
-  {
-    username: 'admin',
-    email: 'admin@gmail.com',
-    password: '$2b$10$O2cKyz8IAgx0jI2OO89j0uZWX9avosPQQ3xWZzcQn7fP/Y3OeFfXG',
-    roleId: 1,
-    isApproved: true,
   },
 ];
 

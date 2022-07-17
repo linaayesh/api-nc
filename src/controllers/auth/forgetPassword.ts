@@ -18,7 +18,7 @@ export default async ({ body }: Request, res: Response)
       id: Number(id),
       username,
       email,
-      roleId,
+      roleId: roleId || 0,
     }, { expiresIn: '1h' });
     await sendEmail(email, 'Forget Password', `<h1>Welcome, ${username}!</h1><p>
     To change your password , click here:

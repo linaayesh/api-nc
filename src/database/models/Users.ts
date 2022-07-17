@@ -1,6 +1,7 @@
 import {
   InferAttributes, InferCreationAttributes, Model, DataTypes,
 } from 'sequelize';
+import Role from './Roles';
 import sequelize from '../config/connections';
 
 interface IUsers extends Model<
@@ -10,8 +11,14 @@ interface IUsers extends Model<
   username: string;
   email: string;
   password: string;
-  roleId: number;
+  googleId?: string;
+  roleId?: number;
+  accPaidRevenue?: number;
+  freeToBePaidRevenue?: number;
+  createdBy?: number;
+  updatedBy?: number;
   isApproved?: boolean;
+  isRejected?: boolean;
 }
 
 const Users = sequelize.define<IUsers>(
@@ -37,12 +44,41 @@ const Users = sequelize.define<IUsers>(
     },
     roleId: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      // allowNull: false,
+      references: {
+        model: Role,
+        key: 'id',
+      },
+    },
+    googleId: {
+      type: DataTypes.STRING,
+    },
+    accPaidRevenue: {
+      type: DataTypes.DECIMAL,
+      defaultValue: 0,
+    },
+    freeToBePaidRevenue: {
+      type: DataTypes.DECIMAL,
+      defaultValue: 0,
+    },
+    createdBy: {
+      type: DataTypes.INTEGER,
+      defaultValue: 1,
+    },
+    updatedBy: {
+      type: DataTypes.INTEGER,
     },
     isApproved: {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
     },
+    isRejected: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
+  },
+  {
+    paranoid: true,
   },
 );
 

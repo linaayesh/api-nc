@@ -21,6 +21,7 @@ export default async ({ body }: Request, res: Response, next: NextFunction):Prom
       email,
       roleId: 2,
       password: hashedPassword,
+      createdBy: 1, // 1 refer to the system => he create his own account
     });
 
     await sendEmail(email, 'Welcome to NextUp Comedy Dashboard', `<h1>Welcome, ${username}!</h1>

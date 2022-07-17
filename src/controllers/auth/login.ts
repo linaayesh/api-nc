@@ -15,13 +15,20 @@ Promise<void> => {
     const user = await Users.findOne({ where: { email } });
     if (!user) throw new CustomError('User does not exist. please SignUp', 400);
     if (!user.isApproved) throw new CustomError('Unauthorized To log in', 401);
+    if (user.isRejected) throw new CustomError('Your Account has been disabled', 401);
     const isValid = await compare(password, user.password);
     if (!isValid) throw new CustomError('Incorrect email or password => password wrong', 400);
     const { id, username, roleId } = user;
+    console.log(roleId);
     const token = await signToken({
-      id: Number(id), username, email, roleId,
+      id: Number(id), username, email, roleId: roleId || 0,
     }, { expiresIn });
-    res.cookie('accessToken', token).json({ message: 'Logged in successfully', payload: {  id: Number(id), username, email, roleId, } });
+    res.cookie('accessToken', token).json({
+      message: 'Logged in successfully',
+      payload: {
+        id: Number(id), username, email, roleId,
+      },
+    });
   } catch (err) {
     next(validateError(err as Error));
   }
