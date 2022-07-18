@@ -34,7 +34,7 @@ interface UserAuth extends Request {
 interface ApprovedUser {
   id: number,
   email: string,
-  role: string,
+  roleId: number,
   username: string,
 }
 

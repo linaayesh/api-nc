@@ -6,7 +6,9 @@ import {
   sendEmail,
   signupSchema,
   validateError,
+  signToken,
 } from '../../utilities';
+import config from '../../config';
 
 export default async ({ body }: Request, res: Response, next: NextFunction):Promise<void> => {
   const { username, email, password } = body;
@@ -16,23 +18,27 @@ export default async ({ body }: Request, res: Response, next: NextFunction):Prom
     const userExists = await Users.findOne({ where: { email } });
     if (userExists) throw new CustomError('User already exists', 409);
     const hashedPassword = await hash(password, 10);
-    await Users.create({
+    const user = await Users.create({
       username,
       email,
       roleId: 2,
       password: hashedPassword,
-      createdBy: 1, // 1 refer to the system => he create his own account
-      // createdBy => 2 || 1 when the system admin sig up user
-      // is approve => it suppose to be true when the admin add user
+      createdBy: 1,
     });
-
-    await sendEmail(email, 'Welcome to NextUp Comedy Dashboard', `<h1>Welcome, ${username}!</h1>
-    <p>Wait for Our NextUp Comedy Stuff to approve your account. We will send you an email when your account is approved. </p>
+    const token = await signToken({
+      id: Number(user.id),
+      username,
+      email,
+      roleId: user.roleId || 0,
+    }, { expiresIn: '1h' });
+    await sendEmail(email, 'NextUp Comedy Email verification', `<h1>Welcome, ${username}!</h1>
+    <p>Please verify your email by clicking this <a href="${config.server.serverURL}auth/verify-email/${token}">link</a> </p>
     <br/>
     <p> Stay tuned.</p>`);
     res
+      .cookie('verifyEmailToken', token)
       .status(201)
-      .json({ message: 'Sign up successfully. Please Check your email.' });
+      .json({ message: 'Check your email.' });
   } catch (err) {
     next(validateError(err as Error));
   }

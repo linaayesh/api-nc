@@ -23,7 +23,7 @@ Promise<void> => {
     const token = await signToken({
       id: Number(id), username, email, roleId: roleId || 0,
     }, { expiresIn });
-    res.cookie('accessToken', token).json({
+    res.cookie('accessToken', token, { httpOnly: true }).json({
       message: 'Logged in successfully',
       payload: {
         id: Number(id), username, email, roleId,

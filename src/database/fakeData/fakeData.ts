@@ -27,13 +27,13 @@ const users = [
     roleId: 2,
     isApproved: true,
   },
-  {
-    username: 'rand',
-    email: 'randsohail98@gmail.com',
-    password: '$2b$10$O2cKyz8IAgx0jI2OO89j0uZWX9avosPQQ3xWZzcQn7fP/Y3OeFfXG',
-    roleId: 2,
-    isApproved: false,
-  },
+  // {
+  //   username: 'rand',
+  //   email: 'randsohail98@gmail.com',
+  //   password: '$2b$10$O2cKyz8IAgx0jI2OO89j0uZWX9avosPQQ3xWZzcQn7fP/Y3OeFfXG',
+  //   roleId: 2,
+  //   isApproved: false,
+  // },
   {
     username: 'ayman',
     email: 'ayman@gmail.com',

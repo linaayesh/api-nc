@@ -19,6 +19,7 @@ interface IUsers extends Model<
   updatedBy?: number;
   isApproved?: boolean;
   isRejected?: boolean;
+  isVerified?: boolean;
 }
 
 const Users = sequelize.define<IUsers>(
@@ -73,6 +74,10 @@ const Users = sequelize.define<IUsers>(
       defaultValue: false,
     },
     isRejected: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
+    isVerified: {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
     },
