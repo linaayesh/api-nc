@@ -2,7 +2,7 @@
 import { Request, Response } from 'express';
 import { Users } from '../../database/models';
 import {
-  idValidation, validateError, signToken, sendEmail,
+  idValidation, validateError, sendEmail,
 } from '../../utilities';
 import config from '../../config';
 
@@ -12,21 +12,13 @@ export default async (req: Request, res: Response)
 
   try {
     await idValidation.validateAsync({ userId });
-    console.log(userId);
-    const user = await Users.findOne({ where: { id: userId } });
+    const user = await Users.findOne({ where: { id: userId, isVerified: true } });
     if (!user) return res.json({ message: 'User does not exist.' });
     if (user.isApproved) return res.json({ message: 'User is Already approved.' });
     user.isApproved = true;
     await user.save();
-
-    const { username, email, roleId } = user;
-    const token = await signToken({
-      id: Number(userId),
-      username,
-      email,
-      roleId: roleId || 0,
-    }, {});
-    await sendEmail(email, 'Welcome to NextUp Comedy', `<h1>Welcome, ${username}!</h1><p>Your account have been approved click <a href="${config.server.serverURL}auth/verify-email/${token}">this link</a> to log in.</p>`);
+    const { username, email } = user;
+    await sendEmail(email, 'Welcome to NextUp Comedy', `<h1>Welcome, ${username}!</h1><p>Your account has been approved you are free to log in <a href="${config.server.clientURL}/">this link</a> to log in.</p>`);
     return res
       .status(201)
       .json({ message: 'Confirmation email sent successfully' });

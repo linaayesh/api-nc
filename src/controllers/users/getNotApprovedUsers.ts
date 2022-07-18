@@ -8,8 +8,8 @@ export default async (req: Request, res: Response, next: NextFunction)
     const NotApprovedUsers = await Users.findAll({
       where: {
         [Op.and]: [
-          { isApproved: false },
-          { roleId: { [Op.ne]: 1 } },
+          { isVerified: true, isApproved: false },
+          { roleId: { [Op.ne]: 1 } }, // roleId does not equal 1 => 1 is an admin
         ],
       },
       attributes: {
