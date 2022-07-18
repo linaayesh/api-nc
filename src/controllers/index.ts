@@ -9,5 +9,5 @@ export {
   logOut,
 } from './auth';
 export {
-  notApprovedUsers, approveUser, approvedUser, rejectUser,
+  notApprovedUsers, approveUser, approvedUser, rejectUser, rejectedUsers,
 } from './users';
