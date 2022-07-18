@@ -15,7 +15,7 @@ Promise<void> => {
     const user = await Users.findOne({ where: { email } });
     if (!user) throw new CustomError('User does not exist. please SignUp', 400);
     if (!user.isApproved) throw new CustomError('Unauthorized To log in', 401);
-    if (user.isRejected) throw new CustomError('Your Account has been disabled', 401);
+    if (user.isRejected) throw new CustomError('Sorry to form you that your Account has been Rejected', 401);
     const isValid = await compare(password, user.password);
     if (!isValid) throw new CustomError('Incorrect email or password => password wrong', 400);
     const { id, username, roleId } = user;

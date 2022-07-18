@@ -16,7 +16,9 @@ export default async ({ body }: Request, res: Response, next: NextFunction):Prom
   try {
     await signupSchema.validateAsync(body);
     const userExists = await Users.findOne({ where: { email } });
-    if (userExists) throw new CustomError('User already exists', 409);
+    if (userExists?.isApproved) throw new CustomError('This email is already used, and it is approved', 409);
+    if (userExists?.isRejected) throw new CustomError('This email is already used, and it is rejected', 409);
+    if (userExists) throw new CustomError('This email is already used, waiting for approval', 409);
     const hashedPassword = await hash(password, 10);
     const user = await Users.create({
       username,
