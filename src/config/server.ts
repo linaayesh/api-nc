@@ -8,6 +8,7 @@ const envVarsSchema = Joi.object({
   PORT: Joi.number().required(),
   CLIENT_BASE_URL: Joi.string().required(),
   SERVER_BASE_URL: Joi.string().required(),
+  CLIENT_ID: Joi.string().required(),
 }).unknown().required();
 
 const config = (): IServer => {
@@ -24,6 +25,7 @@ const config = (): IServer => {
     port: envVars.PORT,
     clientURL: envVars.CLIENT_BASE_URL,
     serverURL: envVars.SERVER_BASE_URL,
+    clientId: envVars.CLIENT_ID,
   };
 };
 

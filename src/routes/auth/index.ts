@@ -2,7 +2,7 @@ import { Router } from 'express';
 
 import {
   signupHandler, loginHandler, verifyEmailHandler, userAuth, forgetPassword, resetPasswordEmail,
-  resetPassword, logOut,
+  resetPassword, logOut, signUpGoogle,
 } from '../../controllers';
 
 const router = Router();
@@ -15,5 +15,6 @@ router.post('/login', loginHandler);
 router.get('/userAuth', userAuth);
 router.post('/forgetPassword', forgetPassword);
 router.post('/resetPassword', resetPassword);
+router.post('/sign/google', signUpGoogle);
 
 export default router;

@@ -22,6 +22,7 @@ interface IServer{
   port: string;
   clientURL: string;
   serverURL: string;
+  clientId: string;
 }
 interface IDatabase{
 url:string

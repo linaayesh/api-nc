@@ -7,6 +7,7 @@ export {
   resetPasswordEmail,
   resetPassword,
   logOut,
+  signUpGoogle,
 } from './auth';
 export {
   notApprovedUsers, approveUser, approvedUser, rejectUser, rejectedUsers,

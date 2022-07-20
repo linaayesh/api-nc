@@ -19,7 +19,6 @@ Promise<void> => {
     const isValid = await compare(password, user.password);
     if (!isValid) throw new CustomError('Incorrect email or password => password wrong', 400);
     const { id, username, roleId } = user;
-    console.log(roleId);
     const token = await signToken({
       id: Number(id), username, email, roleId: roleId || 0,
     }, { expiresIn });
