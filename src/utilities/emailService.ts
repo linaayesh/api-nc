@@ -40,9 +40,7 @@ export default async ({
     };
 
     await sgMail.send(message);
-  } catch (error) {
-    if (error instanceof Error) {
-      throw new Error(error.message);
-    }
+  } catch (error: any) { // TODO: get rid of `any` & use EmailError class
+    throw new CustomError(error.response.body.errors[0].message, error.code);
   }
 };
