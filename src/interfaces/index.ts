@@ -32,6 +32,14 @@ interface UserAuth extends Request {
   admin?: { id: number, email: string, role: string },
 }
 
+interface GoogleUserRequest extends Request {
+  googleUserData: { sub: string,
+    email: string,
+    isVerified: string,
+    name: string,
+    image: string, },
+}
+
 interface ApprovedUser {
   id: number,
   email: string,
@@ -40,5 +48,5 @@ interface ApprovedUser {
 }
 
 export {
-  IServerAddress, IUser, IServer, IDatabase, UserAuth, ApprovedUser,
+  IServerAddress, IUser, IServer, IDatabase, UserAuth, ApprovedUser, GoogleUserRequest,
 };
