@@ -22,7 +22,30 @@ interface IServer{
   port: string;
   clientURL: string;
   serverURL: string;
+  SENDGRID_ADMIN_EMAIL: string,
+  SENDGRID_API_KEY: string,
+  SENDGRID_VERIFICATION_TEMPLATE_ID: string,
+  SENDGRID_RESET_PASSWORD_TEMPLATE_ID: string,
+  SENDGRID_APPROVAL_TEMPLATE_ID: string,
+  SENDGRID_REJECTION_TEMPLATE_ID: string,
+  NEXTUP_COMEDY_SUPPORT_EMAIL: string
 }
+
+enum EmailType{
+  verify = 'Verification Email',
+  reset = 'Reset Password',
+  approve = 'Approval Email',
+  reject='Rejection Email'
+}
+
+interface IEmailService{
+  email: string,
+  type: string,
+  username: string,
+  redirectURL?: string,
+  contactUs?: string
+}
+
 interface IDatabase{
 url:string
 }
@@ -38,6 +61,8 @@ interface ApprovedUser {
   username: string,
 }
 
+export type EmailTypes = EmailType
+
 export {
-  IServerAddress, IUser, IServer, IDatabase, UserAuth, ApprovedUser,
+  IServerAddress, IUser, IServer, IDatabase, UserAuth, ApprovedUser, IEmailService, EmailType,
 };
