@@ -10,7 +10,7 @@ export default async (req: Request, res: Response)
 :Promise<Record<any, any>> => {
   const { userId } = req.params;
   const redirectURL = `${config.server.clientURL}/faq`; // TODO: to be modified with FAQ page
-  const contactUs = config.server.NEXTUP_COMEDY_SUPPORT_EMAIL;
+  const contactUs = config.email.NEXTUP_COMEDY_SUPPORT_EMAIL;
 
   try {
     await idValidation.validateAsync({ userId });

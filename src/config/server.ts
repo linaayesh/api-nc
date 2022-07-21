@@ -8,13 +8,6 @@ const envVarsSchema = Joi.object({
   PORT: Joi.number().required(),
   CLIENT_BASE_URL: Joi.string().required(),
   SERVER_BASE_URL: Joi.string().required(),
-  SENDGRID_ADMIN_EMAIL: Joi.string().required(),
-  SENDGRID_API_KEY: Joi.string().required(),
-  SENDGRID_VERIFICATION_TEMPLATE_ID: Joi.string().required(),
-  SENDGRID_RESET_PASSWORD_TEMPLATE_ID: Joi.string().required(),
-  SENDGRID_APPROVAL_TEMPLATE_ID: Joi.string().required(),
-  SENDGRID_REJECTION_TEMPLATE_ID: Joi.string().required(),
-  NEXTUP_COMEDY_SUPPORT_EMAIL: Joi.string().required(),
 }).unknown().required();
 
 const config = (): IServer => {
@@ -31,13 +24,6 @@ const config = (): IServer => {
     port: envVars.PORT,
     clientURL: envVars.CLIENT_BASE_URL,
     serverURL: envVars.SERVER_BASE_URL,
-    SENDGRID_ADMIN_EMAIL: envVars.SENDGRID_ADMIN_EMAIL,
-    SENDGRID_API_KEY: envVars.SENDGRID_API_KEY,
-    SENDGRID_VERIFICATION_TEMPLATE_ID: envVars.SENDGRID_VERIFICATION_TEMPLATE_ID,
-    SENDGRID_RESET_PASSWORD_TEMPLATE_ID: envVars.SENDGRID_RESET_PASSWORD_TEMPLATE_ID,
-    SENDGRID_APPROVAL_TEMPLATE_ID: envVars.SENDGRID_APPROVAL_TEMPLATE_ID,
-    SENDGRID_REJECTION_TEMPLATE_ID: envVars.SENDGRID_REJECTION_TEMPLATE_ID,
-    NEXTUP_COMEDY_SUPPORT_EMAIL: envVars.NEXTUP_COMEDY_SUPPORT_EMAIL,
   };
 };
 

@@ -1,8 +1,16 @@
 import sgMail from '@sendgrid/mail';
 import config from '../config';
-import { IEmailService, EmailType } from '../interfaces';
+import {
+  IEmailService,
+  EmailType,
+  ClientResponse,
+  MailJSON,
+  EmailTypes,
+} from '../interfaces/email';
+import EmailError from './CustomEmailError';
+import CustomError from './CustomError';
 
-sgMail.setApiKey(config.server.SENDGRID_API_KEY);
+sgMail.setApiKey(config.email.SENDGRID_API_KEY);
 
 export default async ({
   email,
@@ -10,18 +18,18 @@ export default async ({
   username,
   redirectURL,
   contactUs,
-}: IEmailService): Promise<any> => {
+}: IEmailService): Promise<[ClientResponse, {}] | void> => {
   try {
-    const templateType: {[key: string]: string} = {
-      verify: config.server.SENDGRID_VERIFICATION_TEMPLATE_ID,
-      reset: config.server.SENDGRID_RESET_PASSWORD_TEMPLATE_ID,
-      approve: config.server.SENDGRID_APPROVAL_TEMPLATE_ID,
-      reject: config.server.SENDGRID_REJECTION_TEMPLATE_ID,
+    const templateType: EmailTypes = {
+      verify: config.email.SENDGRID_VERIFICATION_TEMPLATE_ID,
+      approve: config.email.SENDGRID_APPROVAL_TEMPLATE_ID,
+      reject: config.email.SENDGRID_REJECTION_TEMPLATE_ID,
+      reset: config.email.SENDGRID_RESET_PASSWORD_TEMPLATE_ID,
     };
 
-    const message = {
+    const message: MailJSON = {
       to: email,
-      from: `${config.server.SENDGRID_ADMIN_EMAIL}`,
+      from: `${config.email.SENDGRID_ADMIN_EMAIL}`,
       templateId: templateType[type],
       dynamicTemplateData: {
         subject: EmailType[type as keyof typeof EmailType],
@@ -32,9 +40,9 @@ export default async ({
     };
 
     await sgMail.send(message);
-  } catch (error: any) {
-    if (error.response) {
-      throw new Error(error.response.body);
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(error.message);
     }
   }
 };
