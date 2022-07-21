@@ -9,6 +9,7 @@ import config from '../../config';
 export default async (req: Request, res: Response)
 :Promise<Record<any, any>> => {
   const { userId } = req.params;
+  const redirectURL = `${config.server.clientURL}/`;
 
   try {
     await idValidation.validateAsync({ userId });
@@ -18,7 +19,11 @@ export default async (req: Request, res: Response)
     user.isApproved = true;
     await user.save();
     const { username, email } = user;
-    await sendEmail(email, 'Welcome to NextUp Comedy', `<h1>Welcome, ${username}!</h1><p>Your account has been approved you are free to log in <a href="${config.server.clientURL}/">this link</a> to log in.</p>`);
+
+    await sendEmail({
+      email, type: 'approve', username, redirectURL,
+    });
+
     return res
       .status(201)
       .json({ message: 'Confirmation email sent successfully' });

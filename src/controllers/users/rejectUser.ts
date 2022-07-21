@@ -4,10 +4,13 @@ import { Users } from '../../database/models';
 import {
   idValidation, validateError, sendEmail,
 } from '../../utilities';
+import config from '../../config';
 
 export default async (req: Request, res: Response)
 :Promise<Record<any, any>> => {
   const { userId } = req.params;
+  const redirectURL = `${config.server.clientURL}/faq`; // TODO: to be modified with FAQ page
+  const contactUs = config.server.NEXTUP_COMEDY_SUPPORT_EMAIL;
 
   try {
     await idValidation.validateAsync({ userId });
@@ -17,7 +20,11 @@ export default async (req: Request, res: Response)
     user.isRejected = true;
     await user.save();
     const { username, email } = user;
-    await sendEmail(email, 'NextUp Comedy', `<h1>Welcome, ${username}!</h1><p>Sorry to form you that your application has been rejected, if you need more information  <a href="mailto:support@nextupcomedy.com" >contact us</a>.</p>`);
+
+    await sendEmail({
+      email, type: 'reject', username, redirectURL, contactUs,
+    });
+
     return res
       .status(201)
       .json({ message: 'Rejected account successfully' });
