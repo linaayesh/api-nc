@@ -6,3 +6,4 @@ export { default as forgetPassword } from './forgetPassword';
 export { default as resetPasswordEmail } from './resetPasswordEmail';
 export { default as resetPassword } from './resetPassword';
 export { default as logOut } from './logOut';
+export { default as signUpGoogle } from './signUpGoogle';

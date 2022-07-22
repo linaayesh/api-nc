@@ -4,14 +4,17 @@ import {
   emailValidation, validateError, signToken, sendEmail,
 } from '../../utilities';
 import config from '../../config';
+import { constants } from '../../helpers';
 
 export default async ({ body }: Request, res: Response)
-:Promise<Record<any, any>> => {
+:Promise<Record<string, any>> => {
+  const { notExist } = constants.messages.authResponse;
+  const { resetToken } = constants.messages.token;
+  const { emailCheck } = constants.messages.check;
   try {
     await emailValidation.validateAsync(body);
     const user = await Users.findOne({ where: { email: body.email } });
-    if (!user) return res.json({ message: 'User does not exist.' });
-
+    if (!user) return res.json({ message: notExist });
     const {
       username, email, roleId, id,
     } = user;
@@ -19,7 +22,7 @@ export default async ({ body }: Request, res: Response)
       id: Number(id),
       username,
       email,
-      roleId: roleId || 0,
+      roleId,
     }, { expiresIn: '1h' });
 
     const redirectURL = `${config.server.serverURL}/api/v1/auth/reset-password/${token}`;
@@ -32,9 +35,9 @@ export default async ({ body }: Request, res: Response)
     });
 
     return res
-      .cookie('resetPasswordToken', token)
+      .cookie(resetToken, token)
       .status(201)
-      .json({ message: 'Check email to Reset password' });
+      .json({ message: emailCheck });
   } catch (err) {
     return validateError(err as Error);
   }

@@ -5,7 +5,6 @@ import { Users, Roles } from '../../database/models';
 export default async (req: Request, res: Response, next: NextFunction)
 :Promise<void> => {
   try {
-    // if (req.admin) {
     const ApprovedUsers = await Users.findAll(
       {
         where: {
@@ -24,7 +23,6 @@ export default async (req: Request, res: Response, next: NextFunction)
         },
       },
     );
-    // }
     res.json({ message: 'List of all approved users', data: ApprovedUsers });
   } catch (err) {
     next(err);

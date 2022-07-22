@@ -5,21 +5,28 @@ import {
   validateError,
   verifyToken,
 } from '../../utilities';
-import { Users } from '../../database/models';
 import config from '../../config';
+import { constants, CheckUserExistence } from '../../helpers';
 
 export default async (req: Request, res: Response, next: NextFunction):Promise<void> => {
   const { password } = req.body;
+  const { resetPasswordToken } = req.cookies;
+  const { resetToken } = constants.messages.token;
+  const { unAuthUser } = constants.messages.authResponse;
+  const { logInCheck } = constants.messages.check;
+
   try {
-    const { resetPasswordToken } = req.cookies;
-    if (!resetPasswordToken) throw new CustomError('Unauthorized User', 401);
-    const user: any = await verifyToken(resetPasswordToken);
-    const userData: any = await Users.findOne({ where: { email: user.email } });
+    if (!resetPasswordToken) throw new CustomError(unAuthUser, 401);
+
+    const { email } = await verifyToken(resetPasswordToken);
+
+    const userData = await CheckUserExistence(email, logInCheck);
+
     const hashedPassword = await hash(password, 10);
     userData.password = hashedPassword;
     await userData.save();
 
-    return res.status(201).clearCookie('resetPasswordToken').redirect(302, `${config.server.clientURL}`);
+    return res.status(201).clearCookie(resetToken).redirect(config.server.clientURL);
   } catch (err) {
     return next(validateError(err as Error));
   }

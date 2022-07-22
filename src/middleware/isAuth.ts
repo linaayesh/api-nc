@@ -1,7 +1,6 @@
 import { Response, NextFunction } from 'express';
 import { UserAuth } from '../interfaces';
-import { CustomError } from '../utilities';
-import { verifyToken } from '../utilities/jwt';
+import { CustomError, verifyToken } from '../utilities';
 
 export default async (req: UserAuth, res: Response, next: NextFunction):Promise<void> => {
   const { accessToken } = req.cookies;
@@ -11,7 +10,7 @@ export default async (req: UserAuth, res: Response, next: NextFunction):Promise<
     req.user = user;
     next();
   } catch (err: any) {
-    if (err.details) { next(new CustomError(err.details[0].message, 401)); }
+    if (err?.details) { next(new CustomError(err?.details[0].message, 401)); }
     next(err);
   }
 };

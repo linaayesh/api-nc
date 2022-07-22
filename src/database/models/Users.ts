@@ -11,8 +11,8 @@ interface IUsers extends Model<
   username: string;
   email: string;
   password: string;
+  roleId: number;
   googleId?: string;
-  roleId?: number;
   accPaidRevenue?: number;
   freeToBePaidRevenue?: number;
   createdBy?: number;
@@ -20,6 +20,7 @@ interface IUsers extends Model<
   isApproved?: boolean;
   isRejected?: boolean;
   isVerified?: boolean;
+  image?: string;
 }
 
 const Users = sequelize.define<IUsers>(
@@ -45,7 +46,7 @@ const Users = sequelize.define<IUsers>(
     },
     roleId: {
       type: DataTypes.INTEGER,
-      // allowNull: false,
+      allowNull: false,
       references: {
         model: Role,
         key: 'id',
@@ -80,6 +81,10 @@ const Users = sequelize.define<IUsers>(
     isVerified: {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
+    },
+    image: {
+      type: DataTypes.STRING,
+      allowNull: true,
     },
   },
   {

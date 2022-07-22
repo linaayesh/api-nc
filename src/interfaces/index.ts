@@ -22,7 +22,7 @@ interface IServer{
   port: string;
   clientURL: string;
   serverURL: string;
-
+  clientId: string;
 }
 
 interface IDatabase{
@@ -31,6 +31,14 @@ url:string
 interface UserAuth extends Request {
   user?: { id: number, email: string, role: string },
   admin?: { id: number, email: string, role: string },
+}
+
+interface GoogleUserRequest extends Request {
+  googleUserData: { sub: string,
+    email: string,
+    isVerified: string,
+    name: string,
+    image: string, },
 }
 
 interface ApprovedUser {
@@ -47,4 +55,5 @@ export {
   IDatabase,
   UserAuth,
   ApprovedUser,
+  GoogleUserRequest
 };
