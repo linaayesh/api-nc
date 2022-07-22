@@ -1,4 +1,6 @@
 import sgMail from '@sendgrid/mail';
+import { ResponseError } from '@sendgrid/helpers/classes';
+
 import config from '../config';
 import {
   IEmailService,
@@ -7,7 +9,6 @@ import {
   MailJSON,
   EmailTypes,
 } from '../interfaces/email';
-import EmailError from './CustomEmailError';
 import CustomError from './CustomError';
 
 sgMail.setApiKey(config.email.SENDGRID_API_KEY);
@@ -40,7 +41,9 @@ export default async ({
     };
 
     await sgMail.send(message);
-  } catch (error: any) { // TODO: get rid of `any` & use EmailError class
-    throw new CustomError(error.response.body.errors[0].message, error.code);
+  } catch (error) {
+    if (error instanceof ResponseError) {
+      throw new CustomError(error.toString()?.split('\n ')[1], error.code);
+    }
   }
 };
