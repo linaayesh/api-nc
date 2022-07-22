@@ -10,9 +10,9 @@ export default async (req: Request, res: Response, next: NextFunction)
     const { id: userId } = await verifyToken(token);
     const userExists = await Users.findOne({ where: { id: userId } });
     if (!userExists) res.json({ message: 'No Data' });
-    res.status(302).redirect(`${config.server.clientURL}/resetPassword`);
-    res.json({ message: 'You can reset password now' });
+
+    return res.redirect(`${config.server.clientURL}/resetPassword`);
   } catch (err) {
-    next(err);
+    return next(err);
   }
 };
