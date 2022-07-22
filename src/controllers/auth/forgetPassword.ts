@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { Users } from '../../database/models';
 import {
   emailValidation, validateError, signToken, sendEmail,
@@ -6,8 +6,8 @@ import {
 import config from '../../config';
 import { constants } from '../../helpers';
 
-export default async ({ body }: Request, res: Response)
-:Promise<Record<string, any>> => {
+export default async ({ body }: Request, res: Response, next: NextFunction)
+:Promise<Record<string, any>| void> => {
   const { notExist } = constants.messages.authResponse;
   const { resetToken } = constants.messages.token;
   const { emailCheck } = constants.messages.check;
@@ -39,6 +39,6 @@ export default async ({ body }: Request, res: Response)
       .status(201)
       .json({ message: emailCheck });
   } catch (err) {
-    return validateError(err as Error);
+    return next(validateError(err as Error));
   }
 };

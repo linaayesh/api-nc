@@ -12,7 +12,7 @@ export default async (req: Request, res: Response, next: NextFunction):Promise<v
   const { password } = req.body;
   const { resetPasswordToken } = req.cookies;
   const { resetToken } = constants.messages.token;
-  const { unAuthUser } = constants.messages.authResponse;
+  const { unAuthUser, resetPassword } = constants.messages.authResponse;
   const { logInCheck } = constants.messages.check;
 
   try {
@@ -26,8 +26,11 @@ export default async (req: Request, res: Response, next: NextFunction):Promise<v
     userData.password = hashedPassword;
     await userData.save();
 
-    return res.status(201).clearCookie(resetToken).redirect(config.server.clientURL);
+    res.status(200).clearCookie(resetToken).json({
+      message: { message: resetPassword },
+      redirect: `${config.server.clientURL}/login`,
+    });
   } catch (err) {
-    return next(validateError(err as Error));
+    next(validateError(err as Error));
   }
 };
