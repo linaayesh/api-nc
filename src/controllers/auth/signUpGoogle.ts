@@ -8,7 +8,7 @@ import {
   validateError,
 } from '../../utilities';
 import config from '../../config';
-import { CheckUserExistence } from '../../helpers';
+import { checkExistence } from '../../helpers';
 
 export default async ({ body }: Request, res: Response, next: NextFunction)
 :Promise<void> => {
@@ -36,7 +36,7 @@ export default async ({ body }: Request, res: Response, next: NextFunction)
       `https://oauth2.googleapis.com/tokeninfo?id_token=${tokenId}`,
     );
 
-    await CheckUserExistence(email, '');
+    await checkExistence.RegistrationCheck(email);
 
     const password = generatePassword.generate({
       length: 20, numbers: true, strict: true, lowercase: true, uppercase: true,

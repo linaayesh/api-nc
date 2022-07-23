@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { Op, col } from 'sequelize';
 import { Users, Roles } from '../../database/models';
+import { constants } from '../../helpers';
 
 export default async (req: Request, res: Response, next: NextFunction)
 :Promise<void> => {
@@ -23,7 +24,7 @@ export default async (req: Request, res: Response, next: NextFunction)
         },
       },
     );
-    res.json({ message: 'List of all approved users', data: ApprovedUsers });
+    res.json({ message: constants.messages.listOfUsers.approved, data: ApprovedUsers });
   } catch (err) {
     next(err);
   }

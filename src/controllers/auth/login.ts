@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { compare } from 'bcrypt';
-import { CheckUserExistence, constants } from '../../helpers';
+import { constants, checkExistence } from '../../helpers';
 import {
   loginSchema, signToken, validateError, CustomError,
 } from '../../utilities';
@@ -9,17 +9,16 @@ export default async ({ body }: Request, res: Response, next: NextFunction):
 Promise<void> => {
   const { email, password, rememberMe } = body;
   const { wrongEmailOrPassword, logIn } = constants.messages.authResponse;
-  const { logInCheck } = constants.messages.check;
   const { accessToken } = constants.messages.token;
   try {
     await loginSchema.validateAsync(body);
     let expiresIn;
     if (rememberMe) { expiresIn = '30d'; } else { expiresIn = '1h'; }
 
-    const user = await CheckUserExistence(email, logInCheck);
+    const user = await checkExistence.ApprovalChecks(email);
 
     const isValid = await compare(password, user.password);
-    if (!isValid) throw new CustomError(wrongEmailOrPassword, 400);
+    if (!isValid) throw new CustomError(wrongEmailOrPassword, 401);
 
     const { id, username, roleId } = user;
     const token = await signToken({

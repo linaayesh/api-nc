@@ -1,4 +1,8 @@
 import {
+  InferAttributes, InferCreationAttributes, Model,
+} from 'sequelize';
+
+import {
   Secret,
 } from 'jsonwebtoken';
 import { Request } from 'express';
@@ -13,6 +17,7 @@ interface IUser{
   roleId:number
   email:string
   username:string
+  role?:string
 }
 
 interface IServer{
@@ -28,7 +33,7 @@ interface IDatabase{
 url:string
 }
 interface UserAuth extends Request {
-  user?: { id: number, email: string, role: string },
+  user?: IUser,
   admin?: { id: number, email: string, role: string },
 }
 
@@ -47,6 +52,35 @@ interface ApprovedUser {
   username: string,
 }
 
+interface IUsers extends Model<
+  InferAttributes<IUsers>, InferCreationAttributes<IUsers>
+> {
+  id?: number;
+  username: string;
+  email: string;
+  password: string;
+  roleId: number;
+  googleId?: string;
+  accPaidRevenue?: number;
+  freeToBePaidRevenue?: number;
+  createdBy?: number;
+  updatedBy?: number;
+  isApproved?: boolean;
+  isRejected?: boolean;
+  isVerified?: boolean;
+  image?: string;
+}
+
+interface ErrorWithDetails extends Error {
+  details: [
+    {
+      message: string
+    }
+  ];
+ }
+
 export {
-  IServerAddress, IUser, IServer, IDatabase, UserAuth, ApprovedUser, GoogleUserRequest,
+  IServerAddress,
+  IUser,
+  IServer, IDatabase, UserAuth, ApprovedUser, GoogleUserRequest, IUsers, ErrorWithDetails,
 };

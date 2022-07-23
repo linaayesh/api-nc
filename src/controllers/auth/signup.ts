@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { hash } from 'bcrypt';
 import { Users } from '../../database/models';
-import { CheckUserExistence, constants } from '../../helpers';
+import { checkExistence, constants } from '../../helpers';
 import {
   sendEmail,
   signupSchema,
@@ -12,13 +12,13 @@ import config from '../../config';
 
 export default async ({ body }: Request, res: Response, next: NextFunction):Promise<void> => {
   const { username, email, password } = body;
-  const { signUpCheck, emailCheck } = constants.messages.check;
+  const { emailCheck } = constants.messages.check;
   const { verifyToken } = constants.messages.token;
 
   try {
     await signupSchema.validateAsync(body);
 
-    await CheckUserExistence(email, signUpCheck);
+    await checkExistence.RegistrationCheck(email);
 
     const hashedPassword = await hash(password, 10);
     const user = await Users.create({

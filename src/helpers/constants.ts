@@ -7,15 +7,18 @@ export const messages = {
     waitApprove: 'WAITING APPROVAL',
     wrongEmailOrPassword: 'Incorrect email or password',
     logIn: 'SUCCESS LOGIN',
-    logOut: 'LOGOUT',
+    logOut: 'SUCCESS LOGOUT',
+    reset: 'SUCCESS RESET',
     unAuthUser: 'UNAUTHORIZED',
     resetPassword: 'RESET PASSWORD',
   },
   check: {
     emailCheck: 'CHECK EMAIL',
-    logInCheck: 'logIn Check',
-    signUpCheck: 'signUp Check',
-    verifyCheck: 'Verify Account',
+  },
+  listOfUsers: {
+    approved: 'APPROVED USERS',
+    notApproved: 'NOT APPROVED USERS',
+    rejected: 'REJECTED USERS',
   },
   token: {
     accessToken: 'accessToken',
