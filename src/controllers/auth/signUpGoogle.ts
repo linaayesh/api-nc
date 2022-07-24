@@ -52,7 +52,7 @@ export default async ({ body }: Request, res: Response, next: NextFunction)
       image,
       googleId: sub,
     });
-    res.status(200).redirect(`${config.server.clientURL}/verifyEmail`);
+    res.status(2001).redirect(`${config.server.clientURL}/verifyEmail`);
   } catch (error) {
     next(validateError(error as Error));
   }

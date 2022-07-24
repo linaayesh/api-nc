@@ -5,7 +5,7 @@ import { checkExistence } from '../../helpers';
 
 export default async (req: Request, res: Response, next: NextFunction)
 :Promise<void> => {
-  const token: string | undefined = req.params?.token;
+  const { token } = req.params;
 
   try {
     const { email } = await verifyToken(token);

@@ -9,6 +9,7 @@ const envVarsSchema = Joi.object({
   CLIENT_BASE_URL: Joi.string().required(),
   SERVER_BASE_URL: Joi.string().required(),
   CLIENT_ID: Joi.string().required(),
+  GOOGLE_API: Joi.string().required(),
 }).unknown().required();
 
 const config = (): IServer => {
@@ -26,6 +27,7 @@ const config = (): IServer => {
     clientURL: envVars.CLIENT_BASE_URL,
     serverURL: envVars.SERVER_BASE_URL,
     clientId: envVars.CLIENT_ID,
+    googleAPI: envVars.GOOGLE_API,
   };
 };
 

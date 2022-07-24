@@ -49,15 +49,15 @@ export const RegistrationCheck = async (email: string):Promise<string | void> =>
 export const ApprovalChecks = async (email: string):Promise<IUsers> => {
   try {
     const userExists = await Users.findOne({ where: { email } });
-
+    console.log(1111);
     if (!userExists) throw new CustomError(notExist, 404);
-
+    console.log(2222);
     if (!userExists?.isVerified) throw new CustomError(verifiedUser, 401);
-
+    console.log(3333);
     if (userExists.status === rejected) throw new CustomError(rejectedUser, 401);
-
+    console.log(44444);
     if (userExists.status !== approved) throw new CustomError(approvedUser, 401);
-
+    console.log(5555);
     return userExists;
   } catch (error) {
     if (error instanceof CustomError) {

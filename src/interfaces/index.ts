@@ -28,6 +28,7 @@ interface IServer{
   clientURL: string;
   serverURL: string;
   clientId: string;
+  googleAPI: string;
 }
 interface IDatabase{
 url:string
