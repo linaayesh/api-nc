@@ -1,29 +1,8 @@
-import {
-  InferAttributes, InferCreationAttributes, Model, DataTypes,
-} from 'sequelize';
+import { DataTypes } from 'sequelize';
 import Role from './Roles';
-// import { IUsers } from '../../interfaces';
+import { IUsers } from '../../interfaces';
 import sequelize from '../config/connections';
 import { constants } from '../../helpers';
-
-interface IUsers extends Model<
-  InferAttributes<IUsers>, InferCreationAttributes<IUsers>
-> {
-  id?: number;
-  username: string;
-  email: string;
-  password: string;
-  roleId: number;
-  isVerified?: boolean,
-  status?: string;
-  googleId?: string;
-  accPaidRevenue?: number;
-  freeToBePaidRevenue?: number;
-  createdBy?: number;
-  updatedBy?: number;
-  image?: string;
-  reasonOfRejection?: string;
-}
 
 const {
   approved, rejected, pending, banned,

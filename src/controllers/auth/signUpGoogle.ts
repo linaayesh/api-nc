@@ -33,7 +33,7 @@ export default async ({ body }: Request, res: Response, next: NextFunction)
         picture: image,
       },
     } = await axios.get(
-      `https://oauth2.googleapis.com/tokeninfo?id_token=${tokenId}`,
+      `${config.server.googleAPI}tokeninfo?id_token=${tokenId}`,
     );
 
     await checkExistence.RegistrationCheck(email);
@@ -52,7 +52,7 @@ export default async ({ body }: Request, res: Response, next: NextFunction)
       image,
       googleId: sub,
     });
-    res.status(2001).redirect(`${config.server.clientURL}/verifyEmail`);
+    res.status(201).redirect(`${config.server.clientURL}/verifyEmail`);
   } catch (error) {
     next(validateError(error as Error));
   }
