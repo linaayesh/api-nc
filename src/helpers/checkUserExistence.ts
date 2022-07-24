@@ -7,7 +7,7 @@ const {
   approvedUser, rejectedUser, notExist, verifiedUser, waitApprove,
 } = messages.authResponse;
 
-const { approveStatus, rejectStatus } = userStatus;
+const { approved, rejected } = userStatus;
 
 /**
  * @description RegistrationCheck is a function  used to check user existence
@@ -22,9 +22,9 @@ export const RegistrationCheck = async (email: string):Promise<string | void> =>
 
     if (!userExists) return notExist;
 
-    if (userExists.status === approveStatus) throw new CustomError(approvedUser, 401);
+    if (userExists.status === approved) throw new CustomError(approvedUser, 401);
 
-    if (userExists.status === rejectStatus) throw new CustomError(rejectedUser, 401);
+    if (userExists.status === rejected) throw new CustomError(rejectedUser, 401);
 
     if (userExists.isVerified) throw new CustomError(verifiedUser, 401);
 
@@ -54,9 +54,9 @@ export const ApprovalChecks = async (email: string):Promise<IUsers> => {
 
     if (!userExists?.isVerified) throw new CustomError(verifiedUser, 401);
 
-    if (userExists.status === rejectStatus) throw new CustomError(rejectedUser, 401);
+    if (userExists.status === rejected) throw new CustomError(rejectedUser, 401);
 
-    if (userExists.status !== approveStatus) throw new CustomError(approvedUser, 401);
+    if (userExists.status !== approved) throw new CustomError(approvedUser, 401);
 
     return userExists;
   } catch (error) {
@@ -83,9 +83,9 @@ export const VerificationChecks = async (id: number):Promise<IUsers> => {
 
     if (!userExists.isVerified) throw new CustomError(verifiedUser, 401);
 
-    if (userExists.status === approveStatus) throw new CustomError(approvedUser, 401);
+    if (userExists.status === approved) throw new CustomError(approvedUser, 401);
 
-    if (userExists.status === rejectStatus) throw new CustomError(rejectedUser, 401);
+    if (userExists.status === rejected) throw new CustomError(rejectedUser, 401);
 
     return userExists;
   } catch (error) {
@@ -111,9 +111,9 @@ export const VerificationEmailCheck = async (email: string):Promise<IUsers> => {
 
     if (userExists.isVerified) throw new CustomError(verifiedUser, 401);
 
-    if (userExists.status === approveStatus) throw new CustomError(approvedUser, 401);
+    if (userExists.status === approved) throw new CustomError(approvedUser, 401);
 
-    if (userExists.status === rejectStatus) throw new CustomError(rejectedUser, 401);
+    if (userExists.status === rejected) throw new CustomError(rejectedUser, 401);
 
     return userExists;
   } catch (error) {

@@ -9,7 +9,7 @@ export default async (req: Request, res: Response, next: NextFunction)
     const pendingUsers = await Users.findAll({
       where: {
         [Op.and]: [
-          { isVerified: true, status: userStatus.pendingStatus },
+          { isVerified: true, status: userStatus.pending },
           { roleId: { [Op.ne]: 1 } },
         ],
       },

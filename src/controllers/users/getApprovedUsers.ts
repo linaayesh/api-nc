@@ -10,7 +10,7 @@ export default async (req: Request, res: Response, next: NextFunction)
       {
         where: {
           [Op.and]: [
-            { status: userStatus.approveStatus, isVerified: true },
+            { status: userStatus.approved, isVerified: true },
             { roleId: { [Op.ne]: 1 } },
           ],
         },

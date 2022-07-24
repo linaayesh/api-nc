@@ -26,7 +26,7 @@ interface IUsers extends Model<
 }
 
 const {
-  approveStatus, rejectStatus, pendingStatus, banStatus,
+  approved, rejected, pending, banned,
 } = constants.userStatus;
 
 const Users = sequelize.define<IUsers>(
@@ -77,8 +77,8 @@ const Users = sequelize.define<IUsers>(
       type: DataTypes.INTEGER,
     },
     status: {
-      type: DataTypes.ENUM(approveStatus, rejectStatus, pendingStatus, banStatus),
-      defaultValue: 'pending',
+      type: DataTypes.ENUM(approved, rejected, pending, banned),
+      defaultValue: pending,
     },
     isVerified: {
       type: DataTypes.BOOLEAN,

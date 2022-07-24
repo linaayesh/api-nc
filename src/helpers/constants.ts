@@ -27,10 +27,10 @@ export const messages = {
   },
 };
 export const userStatus = {
-  pendingStatus: 'PENDING',
-  rejectStatus: 'REJECTED',
-  approveStatus: 'APPROVED',
-  banStatus: 'BANNED',
+  pending: 'PENDING',
+  rejected: 'REJECTED',
+  approved: 'APPROVED',
+  banned: 'BANNED',
 };
 export const emailTemplates = {
   test: 'testMail',
