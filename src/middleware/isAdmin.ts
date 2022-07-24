@@ -1,6 +1,6 @@
 import { Response, NextFunction, Request } from 'express';
-import { IUser, ErrorWithDetails } from '../interfaces';
-import { CustomError, verifyToken } from '../utilities';
+import { IUser } from '../interfaces';
+import { CustomError, tokenError, verifyToken } from '../utilities';
 import { constants } from '../helpers';
 
 export default async (req: Request, res: Response, next: NextFunction):Promise<void> => {
@@ -14,11 +14,7 @@ export default async (req: Request, res: Response, next: NextFunction):Promise<v
     if (admin.roleId !== 1) throw new CustomError(unAuthMessage, 401);
 
     next();
-  } catch (err) {
-    const detailedError = (err as ErrorWithDetails).details;
-
-    if (detailedError) { next(new CustomError(detailedError[0].message, 401)); }
-
-    next(err);
+  } catch (error) {
+    next(tokenError(error as Error));
   }
 };

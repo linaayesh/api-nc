@@ -1,7 +1,7 @@
 import { Response, NextFunction, Request } from 'express';
-import { IUser, ErrorWithDetails } from '../../interfaces';
+import { IUser } from '../../interfaces';
 import {
-  verifyToken, CustomError,
+  verifyToken, CustomError, tokenError,
 } from '../../utilities';
 import { constants } from '../../helpers';
 
@@ -13,9 +13,7 @@ Promise<void> => {
     if (!accessToken) throw new CustomError(unAuthUser, 401);
     const user: IUser = await verifyToken(accessToken);
     res.json({ message: approvedUser, data: user });
-  } catch (err) {
-    const detailedError = (err as ErrorWithDetails).details;
-    if (detailedError) { next(new CustomError(detailedError[0].message, 401)); }
-    next(err);
+  } catch (error) {
+    next(tokenError(error as Error));
   }
 };

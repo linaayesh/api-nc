@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { Users } from '../../database/models';
-import { verifyToken } from '../../utilities/jwt';
+import { verifyToken, tokenError } from '../../utilities';
 import config from '../../config';
 import { constants } from '../../helpers';
 
@@ -17,7 +17,7 @@ export default async (req: Request, res: Response, next: NextFunction)
 
     res.status(302).redirect(`${config.server.clientURL}/resetPassword`);
     res.json({ message: resetPassword });
-  } catch (err) {
-    next(err);
+  } catch (error) {
+    next(tokenError(error as Error));
   }
 };

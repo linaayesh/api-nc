@@ -2,11 +2,11 @@ import { DataTypes } from 'sequelize';
 import Role from './Roles';
 import { IUsers } from '../../interfaces';
 import sequelize from '../config/connections';
-import { constants } from '../../helpers';
+import { userStatus } from '../../helpers/constants';
 
 const {
   approved, rejected, pending, banned,
-} = constants.userStatus;
+} = userStatus;
 
 const Users = sequelize.define<IUsers>(
   'users',

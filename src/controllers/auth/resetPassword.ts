@@ -2,8 +2,8 @@ import { Request, Response, NextFunction } from 'express';
 import { hash } from 'bcrypt';
 import {
   CustomError,
-  validateError,
   verifyToken,
+  tokenError,
 } from '../../utilities';
 import { constants, checkExistence } from '../../helpers';
 
@@ -26,6 +26,6 @@ export default async (req: Request, res: Response, next: NextFunction):Promise<v
 
     res.status(201).clearCookie(resetToken).json({ message: reset });
   } catch (err) {
-    next(validateError(err as Error));
+    next(tokenError(err as Error));
   }
 };
