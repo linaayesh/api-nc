@@ -19,20 +19,20 @@
     "strict": true,
     "noImplicitAny": true,
     "skipLibCheck": false,
-    "removeComments": true
+    "removeComments": true,
+    "paths": {
+      "app/*": ["src/*"],
+      "@controllers/*": ["src/controllers/*"],
+      "@services/*": ["src/services/*"],
+      "@helpers/*": ["src/helpers/*"],
+      "@middleware/*": ["src/middleware/*"],
+      "@routes/*": ["src/routes/*"],
+      "@validation": ["src/validation/*"],
+      "@interfaces/*": ["src/interfaces/*"],
+      "@types/*": ["src/types/*"],
+      "@config/*": ["src/config/*"],
+      "@models": ["src/database/models/index"],
+      "@bin/*": ["src/bin/*"]
+    }
   },
-  "paths": {
-    "app/*": ["src/*"],
-    "@controllers/*": ["src/controllers/*"],
-    "@services/*": ["src/services/*"],
-    "@helpers/*": ["src/helpers/*"],
-    "@middleware/*": ["src/middleware/*"],
-    "@routes/*": ["src/routes/*"],
-    "@validation": ["src/validation/*"],
-    "@interfaces/*": ["src/interfaces/*"],
-    "@types/*": ["src/types/*"],
-    "@config/*": ["src/config/*"],
-    "@models/*": ["src/models/*"],
-    "@bin/*": ["src/bin/*"]
-  }
 }
