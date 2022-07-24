@@ -1,15 +1,15 @@
 import { Request, Response, NextFunction } from 'express';
 import { Op, col } from 'sequelize';
 import { Users, Roles } from '../../database/models';
-import { constants } from '../../helpers';
+import { userStatus, messages } from '../../helpers/constants';
 
 export default async (req: Request, res: Response, next: NextFunction)
 :Promise<void> => {
   try {
-    const NotApprovedUsers = await Users.findAll({
+    const pendingUsers = await Users.findAll({
       where: {
         [Op.and]: [
-          { isVerified: true, isApproved: false },
+          { isVerified: true, status: userStatus.pendingStatus },
           { roleId: { [Op.ne]: 1 } },
         ],
       },
@@ -22,7 +22,7 @@ export default async (req: Request, res: Response, next: NextFunction)
         attributes: [],
       },
     });
-    res.json({ message: constants.messages.listOfUsers.notApproved, data: NotApprovedUsers });
+    res.json({ message: messages.listOfUsers.notApproved, data: pendingUsers });
   } catch (err) {
     next(err);
   }

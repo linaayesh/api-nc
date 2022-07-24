@@ -60,15 +60,15 @@ interface IUsers extends Model<
   email: string;
   password: string;
   roleId: number;
+  isVerified?: boolean,
+  status?: string;
   googleId?: string;
   accPaidRevenue?: number;
   freeToBePaidRevenue?: number;
   createdBy?: number;
   updatedBy?: number;
-  isApproved?: boolean;
-  isRejected?: boolean;
-  isVerified?: boolean;
   image?: string;
+  reasonOfRejection?: string;
 }
 
 interface ErrorWithDetails extends Error {

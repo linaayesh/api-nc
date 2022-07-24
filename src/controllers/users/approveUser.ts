@@ -14,8 +14,9 @@ export default async (req: Request, res: Response, next: NextFunction)
 
     const user = await checkExistence.VerificationChecks(+userId);
 
-    user.isApproved = true;
+    user.status = constants.userStatus.approveStatus;
     await user.save();
+
     const { username, email } = user;
     await sendEmail(email, 'Welcome to NextUp Comedy', `<h1>Welcome, ${username}!</h1><p>Your account has been approved you are free to log in <a href="${config.server.clientURL}/">this link</a> to log in.</p>`);
     res

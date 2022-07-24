@@ -13,7 +13,7 @@ export default async (req: Request, res: Response, next: NextFunction)
 
     const user = await checkExistence.VerificationChecks(+userId);
 
-    user.isRejected = true;
+    user.status = constants.userStatus.rejectStatus;
     await user.save();
 
     const { username, email } = user;

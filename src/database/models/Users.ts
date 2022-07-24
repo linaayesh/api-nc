@@ -2,7 +2,9 @@ import {
   InferAttributes, InferCreationAttributes, Model, DataTypes,
 } from 'sequelize';
 import Role from './Roles';
+// import { IUsers } from '../../interfaces';
 import sequelize from '../config/connections';
+import { constants } from '../../helpers';
 
 interface IUsers extends Model<
   InferAttributes<IUsers>, InferCreationAttributes<IUsers>
@@ -12,16 +14,20 @@ interface IUsers extends Model<
   email: string;
   password: string;
   roleId: number;
+  isVerified?: boolean,
+  status?: string;
   googleId?: string;
   accPaidRevenue?: number;
   freeToBePaidRevenue?: number;
   createdBy?: number;
   updatedBy?: number;
-  isApproved?: boolean;
-  isRejected?: boolean;
-  isVerified?: boolean;
   image?: string;
+  reasonOfRejection?: string;
 }
+
+const {
+  approveStatus, rejectStatus, pendingStatus, banStatus,
+} = constants.userStatus;
 
 const Users = sequelize.define<IUsers>(
   'users',
@@ -70,19 +76,19 @@ const Users = sequelize.define<IUsers>(
     updatedBy: {
       type: DataTypes.INTEGER,
     },
-    isApproved: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false,
-    },
-    isRejected: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false,
+    status: {
+      type: DataTypes.ENUM(approveStatus, rejectStatus, pendingStatus, banStatus),
+      defaultValue: 'pending',
     },
     isVerified: {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
     },
     image: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    reasonOfRejection: {
       type: DataTypes.STRING,
       allowNull: true,
     },

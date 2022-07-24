@@ -1,11 +1,13 @@
 import { Users } from '../database/models';
-import { CustomError } from '../utilities';
-import { messages } from './constants';
+import { CustomError, validateError } from '../utilities';
+import { messages, userStatus } from './constants';
 import { IUsers } from '../interfaces';
 
 const {
-  approve, reject, notExist, verify, waitApprove,
+  approvedUser, rejectedUser, notExist, verifiedUser, waitApprove,
 } = messages.authResponse;
+
+const { approveStatus, rejectStatus } = userStatus;
 
 /**
  * @description RegistrationCheck is a function  used to check user existence
@@ -20,24 +22,25 @@ export const RegistrationCheck = async (email: string):Promise<string | void> =>
 
     if (!userExists) return notExist;
 
-    if (userExists.isApproved) throw new CustomError(approve, 401);
+    if (userExists.status === approveStatus) throw new CustomError(approvedUser, 401);
 
-    if (userExists.isRejected) throw new CustomError(reject, 401);
+    if (userExists.status === rejectStatus) throw new CustomError(rejectedUser, 401);
 
-    if (userExists.isVerified) throw new CustomError(verify, 401);
+    if (userExists.isVerified) throw new CustomError(verifiedUser, 401);
 
     if (userExists) throw new CustomError(waitApprove, 401);
 
     return '';
   } catch (error) {
-    const msg = (error as CustomError).message;
-    const stat = (error as CustomError).status;
-    throw new CustomError(msg, stat);
+    if (error instanceof CustomError) {
+      throw error;
+    }
+    throw validateError(error as Error);
   }
 };
 
 /**
- * @description ApprovalChecks is a function  used to check user approve => true
+ * @description ApprovalChecks is a function used to check user approve => true LogIn, ResetPassword
  * @param {string} email user email
  * @returns {Promise<IUsers>}
  * if the user dose not exist return error, then check his status => if approved return User Object
@@ -49,22 +52,23 @@ export const ApprovalChecks = async (email: string):Promise<IUsers> => {
 
     if (!userExists) throw new CustomError(notExist, 404);
 
-    if (!userExists?.isVerified) throw new CustomError(verify, 401);
+    if (!userExists?.isVerified) throw new CustomError(verifiedUser, 401);
 
-    if (userExists?.isRejected) throw new CustomError(reject, 401);
+    if (userExists.status === rejectStatus) throw new CustomError(rejectedUser, 401);
 
-    if (!userExists?.isApproved) throw new CustomError(approve, 401);
+    if (userExists.status !== approveStatus) throw new CustomError(approvedUser, 401);
 
     return userExists;
   } catch (error) {
-    const msg = (error as CustomError).message;
-    const stat = (error as CustomError).status;
-    throw new CustomError(msg, stat);
+    if (error instanceof CustomError) {
+      throw error;
+    }
+    throw validateError(error as Error);
   }
 };
 
 /**
- * @description VerificationChecks is a function  used to check user verify => true
+ * @description VerificationChecks is a function  used to check user verify=> true|change his status
  * @param {number} id user id
  * @returns {Promise<IUsers>}
  * if the user dose not exist return error, then if [not verify, approve, reject ] => error
@@ -77,19 +81,27 @@ export const VerificationChecks = async (id: number):Promise<IUsers> => {
 
     if (!userExists) throw new CustomError(notExist, 404);
 
-    if (!userExists.isVerified) throw new CustomError(verify, 401);
+    if (!userExists.isVerified) throw new CustomError(verifiedUser, 401);
 
-    if (userExists.isApproved) throw new CustomError(approve, 401);
+    if (userExists.status === approveStatus) throw new CustomError(approvedUser, 401);
 
-    if (userExists.isRejected) throw new CustomError(reject, 401);
+    if (userExists.status === rejectStatus) throw new CustomError(rejectedUser, 401);
 
     return userExists;
   } catch (error) {
-    const msg = (error as CustomError).message;
-    const stat = (error as CustomError).status;
-    throw new CustomError(msg, stat);
+    if (error instanceof CustomError) {
+      throw error;
+    }
+    throw validateError(error as Error);
   }
 };
+
+/**
+ * @description VerificationEmailCheck is a function  used to check user verified email => false
+ * @param {string} email user email
+ * @returns {Promise<IUsers>}
+ * if the user not exist return error, if verified | approved | rejected => error
+ */
 
 export const VerificationEmailCheck = async (email: string):Promise<IUsers> => {
   try {
@@ -97,17 +109,17 @@ export const VerificationEmailCheck = async (email: string):Promise<IUsers> => {
 
     if (!userExists) throw new CustomError(notExist, 404);
 
-    if (userExists.isVerified) throw new CustomError(verify, 401);
+    if (userExists.isVerified) throw new CustomError(verifiedUser, 401);
 
-    if (userExists.isApproved) throw new CustomError(approve, 401);
+    if (userExists.status === approveStatus) throw new CustomError(approvedUser, 401);
 
-    if (userExists.isRejected) throw new CustomError(reject, 401);
+    if (userExists.status === rejectStatus) throw new CustomError(rejectedUser, 401);
 
     return userExists;
   } catch (error) {
-    const msg = (error as CustomError).message;
-    const stat = (error as CustomError).status;
-    throw new CustomError(msg, stat);
+    if (error instanceof CustomError) {
+      throw error;
+    }
+    throw validateError(error as Error);
   }
 };
-// export { RegistrationCheck, ApprovalChecks, VerificationChecks };

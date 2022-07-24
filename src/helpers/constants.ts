@@ -1,8 +1,8 @@
 export const messages = {
   authResponse: {
-    approve: 'APPROVED ACCOUNT',
-    reject: 'REJECTED ACCOUNT',
-    verify: 'VERIFY ACCOUNT',
+    approvedUser: 'APPROVED ACCOUNT',
+    rejectedUser: 'REJECTED ACCOUNT',
+    verifiedUser: 'VERIFY ACCOUNT',
     notExist: 'NOT EXIST USER',
     waitApprove: 'WAITING APPROVAL',
     wrongEmailOrPassword: 'Incorrect email or password',
@@ -26,7 +26,12 @@ export const messages = {
     verifyToken: 'verifyEmailToken',
   },
 };
-
+export const userStatus = {
+  pendingStatus: 'PENDING',
+  rejectStatus: 'REJECTED',
+  approveStatus: 'APPROVED',
+  banStatus: 'BANNED',
+};
 export const emailTemplates = {
   test: 'testMail',
 };
