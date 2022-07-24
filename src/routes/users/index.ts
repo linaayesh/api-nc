@@ -9,7 +9,7 @@ const router = Router();
 
 // Middleware to check Admin
 router.use(isAdmin);
-router.get('/notApprovedUsers', pendingUsers);
+router.get('/pendingUsers', pendingUsers);
 router.get('/approveUser/:userId', approveUser);
 router.get('/approvedUsers', approvedUser);
 router.get('/rejectUser/:userId', rejectUser);
