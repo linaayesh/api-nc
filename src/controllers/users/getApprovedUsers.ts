@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { Op, col } from 'sequelize';
 import { Users, Roles } from '../../database/models';
+import { userStatus, messages } from '../../helpers/constants';
 
 export default async (req: Request, res: Response, next: NextFunction)
 :Promise<void> => {
@@ -9,7 +10,7 @@ export default async (req: Request, res: Response, next: NextFunction)
       {
         where: {
           [Op.and]: [
-            { isApproved: true, isVerified: true },
+            { status: userStatus.approved, isVerified: true },
             { roleId: { [Op.ne]: 1 } },
           ],
         },
@@ -23,7 +24,7 @@ export default async (req: Request, res: Response, next: NextFunction)
         },
       },
     );
-    res.json({ message: 'List of all approved users', data: ApprovedUsers });
+    res.json({ message: messages.listOfUsers.approved, data: ApprovedUsers });
   } catch (err) {
     next(err);
   }

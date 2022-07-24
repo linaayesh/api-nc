@@ -8,7 +8,7 @@ import {
   validateError,
 } from '../../utilities';
 import config from '../../config';
-import { CheckUserExistence } from '../../helpers';
+import { checkExistence } from '../../helpers';
 
 export default async ({ body }: Request, res: Response, next: NextFunction)
 :Promise<void> => {
@@ -33,10 +33,10 @@ export default async ({ body }: Request, res: Response, next: NextFunction)
         picture: image,
       },
     } = await axios.get(
-      `https://oauth2.googleapis.com/tokeninfo?id_token=${tokenId}`,
+      `${config.server.googleAPI}tokeninfo?id_token=${tokenId}`,
     );
 
-    await CheckUserExistence(email, '');
+    await checkExistence.RegistrationCheck(email);
 
     const password = generatePassword.generate({
       length: 20, numbers: true, strict: true, lowercase: true, uppercase: true,
@@ -52,7 +52,7 @@ export default async ({ body }: Request, res: Response, next: NextFunction)
       image,
       googleId: sub,
     });
-    res.status(200).redirect(`${config.server.clientURL}/verifyEmail`);
+    res.status(201).redirect(`${config.server.clientURL}/verifyEmail`);
   } catch (error) {
     next(validateError(error as Error));
   }

@@ -1,20 +1,19 @@
-import { Response, NextFunction } from 'express';
-import { UserAuth, IUser } from '../../interfaces';
+import { Response, NextFunction, Request } from 'express';
+import { IUser } from '../../interfaces';
 import {
-  verifyToken, CustomError,
+  verifyToken, CustomError, tokenError,
 } from '../../utilities';
 import { constants } from '../../helpers';
 
-export default async (req: UserAuth, res: Response, next: NextFunction):
+export default async (req: Request, res: Response, next: NextFunction):
 Promise<void> => {
   const { accessToken } = req.cookies;
-  const { approve, unAuthUser } = constants.messages.authResponse;
+  const { approvedUser, unAuthUser } = constants.messages.authResponse;
   try {
     if (!accessToken) throw new CustomError(unAuthUser, 401);
     const user: IUser = await verifyToken(accessToken);
-    res.json({ message: approve, data: user });
-  } catch (err: Error | any) {
-    if (err.details) { next(new CustomError(err.details[0].message, 401)); }
-    next(err);
+    res.json({ message: approvedUser, data: user });
+  } catch (error) {
+    next(tokenError(error as Error));
   }
 };

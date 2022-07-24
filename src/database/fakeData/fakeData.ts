@@ -1,10 +1,13 @@
+import { userStatus } from '../../helpers/constants';
+
 const users = [
   {
     username: 'system',
     email: 'system@nextupcomedy.com',
     password: '$2b$10$O2cKyz8IAgx0jI2OO89j0uZWX9avosPQQ3xWZzcQn7fP/Y3OeFfXG',
     roleId: 1,
-    isApproved: true,
+    isVerified: true,
+    status: userStatus.approved,
   },
   {
     username: 'admin',
@@ -12,7 +15,7 @@ const users = [
     password: '$2b$10$O2cKyz8IAgx0jI2OO89j0uZWX9avosPQQ3xWZzcQn7fP/Y3OeFfXG',
     roleId: 1,
     isVerified: true,
-    isApproved: true,
+    status: userStatus.approved,
   },
   {
     username: 'zaher',
@@ -20,15 +23,15 @@ const users = [
     password: '$2b$10$O2cKyz8IAgx0jI2OO89j0uZWX9avosPQQ3xWZzcQn7fP/Y3OeFfXG',
     roleId: 2,
     isVerified: true,
-    isApproved: true,
+    status: userStatus.approved,
   },
   {
     username: 'ibrahim',
     email: 'ibrahim.jarada@gmail.com',
     password: '$2b$10$O2cKyz8IAgx0jI2OO89j0uZWX9avosPQQ3xWZzcQn7fP/Y3OeFfXG',
     roleId: 2,
-    isApproved: true,
     isVerified: true,
+    status: userStatus.rejected,
   },
   {
     username: 'ayman',
@@ -36,7 +39,7 @@ const users = [
     password: '$2b$10$O2cKyz8IAgx0jI2OO89j0uZWX9avosPQQ3xWZzcQn7fP/Y3OeFfXG',
     roleId: 2,
     isVerified: true,
-    isRejected: true,
+    status: userStatus.pending,
   },
 ];
 

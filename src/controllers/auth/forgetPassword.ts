@@ -1,20 +1,19 @@
 import { NextFunction, Request, Response } from 'express';
-import { Users } from '../../database/models';
 import {
   emailValidation, validateError, signToken, sendEmail,
 } from '../../utilities';
 import config from '../../config';
-import { constants } from '../../helpers';
+import { constants, checkExistence } from '../../helpers';
 
 export default async ({ body }: Request, res: Response, next: NextFunction)
-:Promise<Record<string, any>| void> => {
-  const { notExist } = constants.messages.authResponse;
+:Promise<void> => {
   const { resetToken } = constants.messages.token;
   const { emailCheck } = constants.messages.check;
   try {
     await emailValidation.validateAsync(body);
-    const user = await Users.findOne({ where: { email: body.email } });
-    if (!user) return res.json({ message: notExist });
+
+    const user = await checkExistence.ApprovalChecks(body.email);
+
     const {
       username, email, roleId, id,
     } = user;
@@ -34,11 +33,11 @@ export default async ({ body }: Request, res: Response, next: NextFunction)
       redirectURL,
     });
 
-    return res
+    res
       .cookie(resetToken, token)
       .status(201)
       .json({ message: emailCheck });
   } catch (err) {
-    return next(validateError(err as Error));
+    next(validateError(err as Error));
   }
 };

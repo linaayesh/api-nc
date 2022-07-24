@@ -1,16 +1,20 @@
-import { Response, NextFunction } from 'express';
-import { UserAuth } from '../interfaces';
-import { CustomError, verifyToken } from '../utilities';
+import { Response, NextFunction, Request } from 'express';
+import { IUser } from '../interfaces';
+import { CustomError, tokenError, verifyToken } from '../utilities';
+import { constants } from '../helpers';
 
-export default async (req: UserAuth, res: Response, next: NextFunction):Promise<void> => {
+export default async (req: Request, res: Response, next: NextFunction):Promise<void> => {
   const { accessToken } = req.cookies;
+  const unAuthMessage = constants.messages.authResponse.unAuthUser;
   try {
-    if (!accessToken) throw new CustomError('Unauthorized', 401);
-    const admin: any = await verifyToken(accessToken);
-    if (admin.roleId !== 1) throw new CustomError('Unauthorized Role', 401);
+    if (!accessToken) throw new CustomError(unAuthMessage, 401);
+
+    const admin: IUser = await verifyToken(accessToken);
+
+    if (admin.roleId !== 1) throw new CustomError(unAuthMessage, 401);
+
     next();
-  } catch (err: any) {
-    if (err.details) { next(new CustomError(err.details[0].message, 401)); }
-    next(err);
+  } catch (error) {
+    next(tokenError(error as Error));
   }
 };

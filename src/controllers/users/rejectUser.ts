@@ -1,34 +1,34 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { Request, Response } from 'express';
-import { Users } from '../../database/models';
+import { NextFunction, Request, Response } from 'express';
 import {
   idValidation, validateError, sendEmail,
 } from '../../utilities';
 import config from '../../config';
+import { checkExistence, constants } from '../../helpers';
 
-export default async (req: Request, res: Response)
-:Promise<Record<any, any>> => {
+export default async (req: Request, res: Response, next: NextFunction)
+:Promise<void> => {
   const { userId } = req.params;
   const redirectURL = `${config.server.clientURL}/faq`; // TODO: to be modified with FAQ page
   const contactUs = config.email.NEXTUP_COMEDY_SUPPORT_EMAIL;
 
   try {
     await idValidation.validateAsync({ userId });
-    const user = await Users.findOne({ where: { id: userId, isVerified: true } });
-    if (!user) return res.json({ message: 'User does not exist.' });
-    if (user.isRejected) return res.json({ message: 'User is Already rejected.' });
-    user.isRejected = true;
+
+    const user = await checkExistence.VerificationChecks(+userId);
+
+    user.status = constants.userStatus.rejected;
     await user.save();
+
     const { username, email } = user;
 
     await sendEmail({
       email, type: 'reject', username, redirectURL, contactUs,
     });
 
-    return res
+    res
       .status(201)
-      .json({ message: 'Rejected account successfully' });
+      .json({ message: constants.messages.check.emailCheck });
   } catch (err) {
-    return validateError(err as Error);
+    next(validateError(err as Error));
   }
 };
