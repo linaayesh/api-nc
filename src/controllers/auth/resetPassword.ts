@@ -5,7 +5,7 @@ import {
   verifyToken,
   tokenError,
 } from '../../utilities';
-import { constants,checkExistence } from '../../helpers';
+import { constants, checkExistence } from '../../helpers';
 import config from '../../config';
 
 export default async (req: Request, res: Response, next: NextFunction):Promise<void> => {
@@ -13,7 +13,6 @@ export default async (req: Request, res: Response, next: NextFunction):Promise<v
   const { resetPasswordToken } = req.cookies;
   const { resetToken } = constants.messages.token;
   const { unAuthUser, resetPassword } = constants.messages.authResponse;
-  const { emailCheck } = constants.messages.check;
 
   try {
     if (!resetPasswordToken) throw new CustomError(unAuthUser, 401);

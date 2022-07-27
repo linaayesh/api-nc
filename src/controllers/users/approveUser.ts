@@ -26,7 +26,7 @@ export default async (req: Request, res: Response, next: NextFunction)
 
     res
       .status(201)
-      .json({ message: constants.messages.check.emailCheck });
+      .json({ message: constants.messages.authResponse.adminApproval });
   } catch (err) {
     next(validateError(err as Error));
   }
