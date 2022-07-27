@@ -1,5 +1,5 @@
 import dotenv from 'dotenv';
-import logger from '../../helpers/logger';
+import Logger from '../../helpers/logger';
 import { sequelize } from '.';
 
 dotenv.config();
@@ -9,13 +9,12 @@ const { env: { NODE_ENV } } = process;
 const buildDB = async ():Promise<void> => {
   try {
     await sequelize.sync({ force: true });
-
-    logger.info('Database has been built');
+    Logger.info('Database has been built');
   } catch (err) {
-    logger.error('Error while connecting to DB - ', err);
+    Logger.error('Error while connecting to DB - ', err);
   } finally {
     await sequelize.close();
-    logger.info('Database Connection has been closed');
+    Logger.info('Database Connection has been closed');
   }
 };
 

@@ -1,4 +1,4 @@
-import logger from '../../helpers/logger';
+import Logger from '../../helpers/logger';
 import {
   sequelize,
   Users,
@@ -40,12 +40,12 @@ const buildFakeData = async (): Promise<void> => {
       await UploadsCategories.bulkCreate(uploadsCategories),
     ]);
 
-    logger.info('Fake data has been built');
+    Logger.info('Fake data has been built');
   } catch (error) {
-    logger.error('Failed to insert data to the Database - ', error);
+    Logger.error('Failed to insert data to the Database - ', error);
   } finally {
     await sequelize.close();
-    logger.info('Database Connection has been closed');
+    Logger.info('Database Connection has been closed');
   }
 };
 
