@@ -2,13 +2,13 @@ import Joi from 'joi';
 import { IEmailConfigs } from '../interfaces/email';
 
 const envVarsSchema = Joi.object({
-  SENDGRID_ADMIN_EMAIL: Joi.string().required(),
+  SENDGRID_ADMIN_EMAIL: Joi.string().email().required(),
   SENDGRID_API_KEY: Joi.string().required(),
   SENDGRID_VERIFICATION_TEMPLATE_ID: Joi.string().required(),
   SENDGRID_RESET_PASSWORD_TEMPLATE_ID: Joi.string().required(),
   SENDGRID_APPROVAL_TEMPLATE_ID: Joi.string().required(),
   SENDGRID_REJECTION_TEMPLATE_ID: Joi.string().required(),
-  NEXTUP_COMEDY_SUPPORT_EMAIL: Joi.string().required(),
+  NEXTUP_COMEDY_SUPPORT_EMAIL: Joi.string().email().required(),
 }).unknown().required();
 
 const config = (): IEmailConfigs => {
