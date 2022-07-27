@@ -28,19 +28,8 @@
         "argsIgnorePattern": "^_"
       }
     ],
-    "no-shadow": "off",
     "@typescript-eslint/no-shadow": ["error"],
-    "@typescript-eslint/ban-types":[
-      "error",
-      {
-        "types": {
-          "{}": false
-        },
-        "extendDefaults": true
-      }
-    ],
-    
-      "no-tabs": 0
+    "no-shadow": "off"
   
   },
   "settings": {
