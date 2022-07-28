@@ -33,11 +33,6 @@ interface IServer{
 interface IDatabase{
 url:string
 }
-interface UserAuth extends Request {
-  user?: IUser,
-  admin?: { id: number, email: string, role: string },
-}
-
 interface GoogleUserRequest extends Request {
   googleUserData: { sub: string,
     email: string,
@@ -72,6 +67,10 @@ interface IUsers extends Model<
   reasonOfRejection?: string;
 }
 
+interface UserAuth extends Request {
+  user?: IUsers,
+  admin?: { id: number, email: string, role: string },
+}
 interface ErrorWithDetails extends Error {
   details: [
     {
