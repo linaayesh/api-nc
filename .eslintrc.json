@@ -27,7 +27,10 @@
       {
         "argsIgnorePattern": "^_"
       }
-    ]
+    ],
+    "@typescript-eslint/no-shadow": ["error"],
+    "no-shadow": "off"
+  
   },
   "settings": {
     "import/resolver": {
