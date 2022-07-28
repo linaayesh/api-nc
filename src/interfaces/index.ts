@@ -21,14 +21,14 @@ interface IUser{
 }
 
 interface IServer{
-  secretKey: Secret;
-  appMail: string;
-  mailPassword: string;
-  port: string;
-  clientURL: string;
-  serverURL: string;
-  clientId: string;
-  googleAPI: string;
+  SECRET_KEY: Secret;
+  APP_MAIL: string;
+  MAIL_PASSWORD: string;
+  PORT: string;
+  CLIENT_URL: string;
+  SERVER_URL: string;
+  CLIENT_ID: string;
+  GOOGLE_API: string;
 }
 
 interface IDatabase{
@@ -89,5 +89,5 @@ export {
   ApprovedUser,
   GoogleUserRequest,
   IUsers,
-  ErrorWithDetails
+  ErrorWithDetails,
 };
