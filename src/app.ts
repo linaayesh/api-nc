@@ -10,7 +10,7 @@ const app: Application = express();
 app.disable('x-powered-by');
 
 app.use([
-  express.json(),
+  express.json({ limit: '3mb' }),
   express.urlencoded({ extended: true }),
   compression(),
   cookieParser(),
