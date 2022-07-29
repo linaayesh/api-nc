@@ -1,12 +1,5 @@
 import winston, { transports } from 'winston';
-
-const levels = {
-  error: 0,
-  warn: 1,
-  info: 2,
-  http: 3,
-  debug: 4,
-};
+import { LOGGER_COLORS, LOGGER_LEVELS } from './constants';
 
 const level = (): 'debug'| 'warn' => {
   const env = process.env.NODE_ENV || 'development';
@@ -14,15 +7,7 @@ const level = (): 'debug'| 'warn' => {
   return isDevelopment ? 'debug' : 'warn';
 };
 
-const colors = {
-  error: 'red',
-  warn: 'yellow',
-  info: 'green',
-  http: 'blue',
-  debug: 'white',
-};
-
-winston.addColors(colors);
+winston.addColors(LOGGER_COLORS);
 
 const format = winston.format.combine(
   winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss:ms' }),
@@ -34,7 +19,7 @@ const format = winston.format.combine(
 
 const Logger = winston.createLogger({
   level: level(),
-  levels,
+  levels: LOGGER_LEVELS,
   format,
   transports: [new transports.Console()],
 });

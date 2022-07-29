@@ -45,7 +45,7 @@ const onError = (error: NodeJS.ErrnoException): void => {
         : addr !== null
           ? `${addr.address}:${addr.port}`
           : `port ${addr}`;
-      Logger.http(`Listening on http://${bind}`);
+      Logger.info(`Listening on http://${bind}`);
     });
     server.on('error', onError);
   } catch (err) {
