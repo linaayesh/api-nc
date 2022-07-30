@@ -7,14 +7,14 @@ import {
 
 const router = Router();
 
-router.get('/user', userAuth);
+router.get('/userAuth', userAuth);
 router.post('/signup', signupHandler);
 router.get('/verify-email/:token', verifyEmailHandler);
 router.get('/reset-password/:token', resetPasswordEmail);
 router.post('/login', loginHandler);
 router.post('/sign/google', signUpGoogle);
-router.post('/forget-password', forgetPassword);
-router.post('/reset-password', resetPassword);
+router.post('/forgetPassword', forgetPassword);
+router.post('/resetPassword', resetPassword);
 
 router.use(isAuth);
 router.get('/logout', logOut);

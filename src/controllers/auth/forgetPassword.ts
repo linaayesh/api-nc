@@ -23,16 +23,15 @@ export default async ({ body }: Request, res: Response, next: NextFunction)
       email,
       roleId,
     }, { expiresIn: '1h' });
-
-    const redirectURL = `${config.server.serverURL}/api/v1/auth/reset-password/${token}`;
-
-    await sendEmail({
-      email,
-      type: 'reset',
-      username,
-      redirectURL,
-    });
-
+    await sendEmail(email, 'Forget Password', `<h1>Welcome, ${username}!</h1><p>
+    To change your password , click here:
+    <a href="${config.server.serverURL}/auth/reset-password/${token}">Change Password</a>
+    Verification codes expire after 1 hour.
+    If you did not request this change, please ignore this message.
+    <br />
+    Best Regards,
+    <br />
+    NextUp Comedy team</p>`);
     res
       .cookie(resetToken, token)
       .status(201)

@@ -1,4 +1,4 @@
-import Logger from '../helpers/logger';
+/* eslint-disable no-console */
 import app from '../app';
 import { sequelize } from '../database/config';
 import config from '../config';
@@ -45,7 +45,7 @@ const onError = (error: NodeJS.ErrnoException): void => {
         : addr !== null
           ? `${addr.address}:${addr.port}`
           : `port ${addr}`;
-      Logger.info(`Listening on http://${bind}`);
+      console.log(`Listening on http://${bind}`);
     });
     server.on('error', onError);
   } catch (err) {
