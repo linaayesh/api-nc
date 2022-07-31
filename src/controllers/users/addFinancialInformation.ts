@@ -5,8 +5,7 @@ import { messages } from '../../helpers/constants';
 import { Payments } from '../../database/models';
 
 export default async (req: UserAuth, res: Response, next: NextFunction):Promise<void> => {
-  const { body } = req;
-  const { user } = req;
+  const { body, user } = req;
   try {
     const validationData = await financialInformation.validateAsync(body);
 
