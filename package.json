@@ -49,6 +49,7 @@
     "typescript": "^4.7.4"
   },
   "dependencies": {
+    "@types/morgan": "^1.9.3",
     "@sendgrid/helpers": "^7.7.0",
     "@sendgrid/mail": "^7.7.0",
     "axios": "^0.27.2",
@@ -63,10 +64,12 @@
     "google-auth-library": "^8.1.1",
     "joi": "^17.6.0",
     "jsonwebtoken": "^8.5.1",
+    "morgan": "^1.10.0",
     "nodemailer": "^6.7.5",
     "pg": "^8.7.3",
     "sequelize": "^6.21.1",
     "ts-jest": "^28.0.5",
-    "ts-node": "^10.8.1"
+    "ts-node": "^10.8.1",
+    "winston": "^3.8.1"
   }
 }
