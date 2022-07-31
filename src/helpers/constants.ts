@@ -8,6 +8,7 @@ export const messages = {
     adminApproval: 'SUCCESSFULLY APPROVED',
     wrongEmailOrPassword: 'Incorrect email or password',
     logIn: 'SUCCESS LOGIN',
+    SUCCESS: 'SUCCESS PROCESS',
     logOut: 'SUCCESS LOGOUT',
     reset: 'SUCCESS RESET',
     unAuthUser: 'UNAUTHORIZED',

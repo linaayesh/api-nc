@@ -1,11 +1,17 @@
 import { Router } from 'express';
 
 import {
-  pendingUsers, approveUser, approvedUser, rejectUser, rejectedUsers,
+  pendingUsers,
+  approveUser,
+  approvedUser,
+  rejectUser, rejectedUsers, addFinancialInformation, editFinancialInformation,
 } from '../../controllers';
-import { isAdmin } from '../../middleware';
+import { isAdmin, isAuth } from '../../middleware';
 
 const router = Router();
+
+router.use(isAuth);
+router.route('/financial_information').post(addFinancialInformation).patch(editFinancialInformation);
 
 // Middleware to check Admin
 router.use(isAdmin);

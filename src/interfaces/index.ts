@@ -90,5 +90,5 @@ export {
   ApprovedUser,
   GoogleUserRequest,
   IUsers,
-  ErrorWithDetails
+  ErrorWithDetails,
 };

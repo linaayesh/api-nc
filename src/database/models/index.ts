@@ -5,3 +5,5 @@ export { default as Tags } from './Tags';
 export { default as Categories } from './Categories';
 export { default as UploadsTags } from './UploadsTags';
 export { default as UploadsCategories } from './UploadsCategories';
+export { default as Payments } from './Payments';
+export { default as PaymentMethods } from './PaymentMethods';

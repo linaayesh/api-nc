@@ -6,6 +6,8 @@ import {
   UploadsCategories,
   Tags,
   Categories,
+  Payments,
+  PaymentMethods,
 } from '../models';
 import sequelize from './connections';
 
@@ -36,6 +38,15 @@ UploadsCategories.belongsTo(Uploads);
 Categories.hasMany(UploadsCategories);
 UploadsCategories.belongsTo(Categories);
 
+// Payments - Users
+Users.hasOne(Payments);
+Payments.belongsTo(Users);
+
+// PaymentMethods - Payments
+PaymentMethods.hasMany(Payments);
+Payments.belongsTo(PaymentMethods);
+PaymentMethods.belongsTo(Users);
+
 export {
   Users,
   Uploads,
@@ -44,5 +55,7 @@ export {
   UploadsCategories,
   Tags,
   Categories,
+  Payments,
+  PaymentMethods,
   sequelize,
 };
