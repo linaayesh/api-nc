@@ -1,7 +1,7 @@
 import { NextFunction, Response } from 'express';
 import { UserAuth } from '../../interfaces';
 import { CustomError, financialInformation } from '../../utilities';
-import { messages } from '../../helpers/constants';
+import { messages, HttpStatus } from '../../helpers/constants';
 import { addFinancialInformation } from '../../services';
 
 export default async (req: UserAuth, res: Response, next: NextFunction):Promise<void> => {
@@ -9,7 +9,7 @@ export default async (req: UserAuth, res: Response, next: NextFunction):Promise<
   try {
     const validationData = await financialInformation.validateAsync(body);
 
-    if (!user) throw new CustomError(messages.authResponse.notExist, 401);
+    if (!user) throw new CustomError(messages.authResponse.NOT_FOUND, HttpStatus.NOT_FOUND);
 
     const { name, address } = validationData;
     const { id } = user;
@@ -21,7 +21,7 @@ export default async (req: UserAuth, res: Response, next: NextFunction):Promise<
       userId: id,
     });
 
-    res.status(201).json({ message: messages.authResponse.SUCCESS });
+    res.status(HttpStatus.CREATED).json({ message: messages.authResponse.SUCCESS });
   } catch (error) {
     if (error instanceof Error) {
       next(new CustomError(error.message, 400));

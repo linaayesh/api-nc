@@ -1,5 +1,7 @@
 export const messages = {
   authResponse: {
+    UNAUTHORIZED: 'UNAUTHORIZED',
+    NOT_FOUND: 'NOT_FOUND',
     approvedUser: 'APPROVED ACCOUNT',
     rejectedUser: 'REJECTED ACCOUNT',
     verifiedUser: 'VERIFY ACCOUNT',
@@ -27,6 +29,12 @@ export const messages = {
     resetToken: 'resetPasswordToken',
     verifyToken: 'verifyEmailToken',
   },
+};
+export const HttpStatus = {
+  UNAUTHORIZED: 401,
+  CREATED: 201,
+  OK: 200,
+  NOT_FOUND: 404,
 };
 
 export const userStatus = {
