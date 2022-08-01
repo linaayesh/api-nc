@@ -2,7 +2,7 @@ import { NextFunction, Response } from 'express';
 import { UserAuth } from '../../interfaces';
 import { CustomError } from '../../utilities';
 import { messages } from '../../helpers/constants';
-import { Payments } from '../../database/models';
+import { getFinancialInformation } from '../../services';
 
 export default async (req: UserAuth, res: Response, next: NextFunction):Promise<void> => {
   const { user } = req;
@@ -11,10 +11,8 @@ export default async (req: UserAuth, res: Response, next: NextFunction):Promise<
 
     const { id } = user;
 
-    const paymentsInformation = await Payments.findOne({
-      where: { userId: id },
-    });
-    console.log(paymentsInformation);
+    const paymentsInformation = await getFinancialInformation(id);
+
     res.status(201).json({ message: messages.authResponse.SUCCESS, data: paymentsInformation });
   } catch (error) {
     if (error instanceof Error) {

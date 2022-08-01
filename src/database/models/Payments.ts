@@ -1,19 +1,6 @@
-import {
-  InferAttributes, InferCreationAttributes, Model, DataTypes,
-} from 'sequelize';
+import { DataTypes } from 'sequelize';
 import sequelize from '../config/connections';
-
-interface IPayments extends Model<
-  InferAttributes<IPayments>, InferCreationAttributes<IPayments>
-> {
-  id?: number;
-  userId?: number;
-  name: string;
-  address: string;
-  method_id?: number;
-  updatedBy?: number;
-  createdBy?: number;
-}
+import { IPayments } from '../../interfaces';
 
 const Payments = sequelize.define<IPayments>(
   'payments',

@@ -2,7 +2,7 @@ import { NextFunction, Response } from 'express';
 import { UserAuth } from '../../interfaces';
 import { CustomError, financialInformation } from '../../utilities';
 import { messages } from '../../helpers/constants';
-import { Payments } from '../../database/models';
+import { addFinancialInformation } from '../../services';
 
 export default async (req: UserAuth, res: Response, next: NextFunction):Promise<void> => {
   const { body, user } = req;
@@ -14,7 +14,7 @@ export default async (req: UserAuth, res: Response, next: NextFunction):Promise<
     const { name, address } = validationData;
     const { id } = user;
 
-    await Payments.create({
+    await addFinancialInformation({
       name,
       address,
       createdBy: id,

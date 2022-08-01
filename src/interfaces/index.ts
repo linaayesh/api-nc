@@ -72,6 +72,26 @@ interface IUsers extends Model<
   image?: string;
   reasonOfRejection?: string;
 }
+interface FinancialInformation {
+  id?: number,
+  userId: number,
+  name: string,
+  address: string,
+  createdBy: number,
+  updatedBy?: number,
+}
+
+interface IPayments extends Model<
+  InferAttributes<IPayments>, InferCreationAttributes<IPayments>
+> {
+  id?: number;
+  userId?: number;
+  name: string;
+  address: string;
+  method_id?: number;
+  updatedBy?: number;
+  createdBy?: number;
+}
 
 interface ErrorWithDetails extends Error {
   details: [
@@ -91,4 +111,6 @@ export {
   GoogleUserRequest,
   IUsers,
   ErrorWithDetails,
+  IPayments,
+  FinancialInformation,
 };

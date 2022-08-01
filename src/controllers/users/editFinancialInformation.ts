@@ -2,7 +2,7 @@ import { NextFunction, Response } from 'express';
 import { UserAuth } from '../../interfaces';
 import { CustomError, financialInformation } from '../../utilities';
 import { messages } from '../../helpers/constants';
-import { Payments } from '../../database/models';
+import { getFinancialInformation } from '../../services';
 
 export default async (req: UserAuth, res: Response, next: NextFunction):Promise<void> => {
   const { body, user } = req;
@@ -14,8 +14,9 @@ export default async (req: UserAuth, res: Response, next: NextFunction):Promise<
     const { name, address } = validationData;
     const { id } = user;
 
-    const financeData = await Payments.findOne({ where: { userId: id } });
-    if (!financeData) throw new CustomError('', 400);
+    const financeData = await getFinancialInformation(id);
+  
+    if (!financeData) throw new CustomError(messages.authResponse.notExist, 401);
 
     financeData.name = name;
     financeData.address = address;
