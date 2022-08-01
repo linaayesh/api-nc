@@ -13,5 +13,9 @@ export {
   pendingUsers,
   approveUser,
   approvedUser,
-  rejectUser, rejectedUsers, addFinancialInformation, editFinancialInformation,
+  rejectUser,
+  rejectedUsers,
+  addFinancialInformation,
+  editFinancialInformation,
+  getFinancialInformation,
 } from './users';

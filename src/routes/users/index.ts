@@ -4,14 +4,18 @@ import {
   pendingUsers,
   approveUser,
   approvedUser,
-  rejectUser, rejectedUsers, addFinancialInformation, editFinancialInformation,
+  rejectUser,
+  rejectedUsers,
+  addFinancialInformation,
+  editFinancialInformation,
+  getFinancialInformation,
 } from '../../controllers';
 import { isAdmin, isAuth } from '../../middleware';
 
 const router = Router();
 
 router.use(isAuth);
-router.route('/financial_information').post(addFinancialInformation).patch(editFinancialInformation);
+router.route('/financial_information').post(addFinancialInformation).patch(editFinancialInformation).get(getFinancialInformation);
 
 // Middleware to check Admin
 router.use(isAdmin);
