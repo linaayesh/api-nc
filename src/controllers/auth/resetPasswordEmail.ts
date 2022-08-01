@@ -15,8 +15,9 @@ export default async (req: Request, res: Response, next: NextFunction)
     const userExists = await Users.findOne({ where: { email } });
     if (!userExists) res.json({ message: notExist });
 
-    return res.redirect(`${config.server.clientURL}/resetPassword`);
+    res.status(302).redirect(`${config.server.clientURL}/resetPassword`);
+    res.json({ message: resetPassword });
   } catch (error) {
-    return next(tokenError(error as Error));
+    next(tokenError(error as Error));
   }
 };
