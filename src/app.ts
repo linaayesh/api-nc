@@ -9,8 +9,8 @@ const app: Application = express();
 app.disable('x-powered-by');
 
 app.use([
-  express.json(),
-  express.urlencoded({ extended: true }),
+  express.json({ limit: '2mb' }),
+  express.urlencoded({ extended: true, limit: '2mb' }),
   compression(),
   cookieParser(),
   cors(),

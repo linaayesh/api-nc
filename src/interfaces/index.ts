@@ -16,8 +16,9 @@ interface IUser{
   id:number
   roleId:number
   email:string
-  username:string
-  role?:string
+  username: string,
+  image?: string,
+  role?: string,
 }
 
 interface IServer{
@@ -29,6 +30,10 @@ interface IServer{
   SERVER_URL: string;
   CLIENT_ID: string;
   GOOGLE_API: string;
+  AWS_BUCKET_NAME: string;
+  AWS_BUCKET_REGION: string,
+  AWS_ACCESS_KEY_ID: string,
+  AWS_SECRET_ACCESS_KEY: string,
 }
 
 interface IDatabase{
