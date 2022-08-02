@@ -14,6 +14,7 @@ export const messages = {
     success: 'SUCCESS',
     unAuthUser: 'UNAUTHORIZED',
     resetPassword: 'RESET PASSWORD',
+    conflict: 'CONFLICT',
   },
   check: {
     emailCheck: 'CHECK EMAIL',
