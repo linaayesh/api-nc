@@ -1,14 +1,13 @@
 import { Router } from 'express';
 
 import {
-  pendingUsers, approveUser, approvedUser, rejectUser, rejectedUsers, editProfile,
+  pendingUsers, approveUser, approvedUser, rejectUser, rejectedUsers,
 } from '../../controllers';
 import { isAdmin, isAuth } from '../../middleware';
 
 const router = Router();
 
 router.use(isAuth);
-router.post('/edit-profile', editProfile);
 
 // Middleware to check Admin
 router.use(isAdmin);
