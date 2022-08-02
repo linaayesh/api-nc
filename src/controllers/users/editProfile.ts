@@ -1,4 +1,6 @@
 import { NextFunction, Response } from 'express';
+
+import upload from '../../middleware/uploadImage';
 import { Users } from '../../database/models';
 import { CustomError, editProfileValidation, validateError } from '../../utilities';
 import { UserAuth } from '../../interfaces';
@@ -17,6 +19,11 @@ export default async (req: UserAuth, res: Response, next: NextFunction)
 
     if (!currentUser) {
       throw new CustomError(messages.authResponse.notExist, 404);
+    }
+
+    if (image) {
+      const { Location } = await upload(image, id);
+      userUpdatedFields.image = Location;
     }
 
     const user : any = await currentUser.update({
