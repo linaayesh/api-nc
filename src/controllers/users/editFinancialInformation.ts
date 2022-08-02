@@ -15,7 +15,7 @@ export default async (req: UserAuth, res: Response, next: NextFunction):Promise<
     const { id } = user;
 
     const financeData = await getFinancialInformation(id);
-  
+
     if (!financeData) throw new CustomError(messages.authResponse.NOT_FOUND, HttpStatus.NOT_FOUND);
 
     financeData.name = name;

@@ -1,11 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
-import { hash } from 'bcrypt';
 import { OAuth2Client } from 'google-auth-library';
 import axios from 'axios';
-import generatePassword from 'generate-password';
-import { Users } from '../../database/models';
 import {
-  validateError,
+  validateError, signToken,
 } from '../../utilities';
 import config from '../../config';
 import { checkExistence, constants } from '../../helpers';
@@ -14,6 +11,9 @@ export default async ({ body }: Request, res: Response, next: NextFunction)
 :Promise<void> => {
   const { tokenId } = body;
   try {
+    const { logIn } = constants.messages.authResponse;
+    const { accessToken } = constants.messages.token;
+
     // TODO: separate signUp with Google steps
     const client = new OAuth2Client(config.server.clientId);
     const verify = async ():Promise<void> => {
@@ -23,36 +23,33 @@ export default async ({ body }: Request, res: Response, next: NextFunction)
       });
       ticket.getPayload();
     };
+
     verify().catch(console.error);
     const {
       data: {
         sub,
         email,
-        email_verified: isVerified,
-        name,
-        picture: image,
       },
     } = await axios.get(
       `${config.server.googleAPI}tokeninfo?id_token=${tokenId}`,
     );
 
-    await checkExistence.RegistrationCheck(email);
+    const user = await checkExistence.ApprovalChecks(email);
 
-    const password = generatePassword.generate({
-      length: 20, numbers: true, strict: true, lowercase: true, uppercase: true,
+    if (user.googleId !== sub) res.status(401).json({ message: 'unAuthorized test' });
+
+    const { id, username, roleId } = user;
+
+    const token = await signToken({
+      id: Number(id), username, email, roleId,
+    }, { expiresIn: '24h' });
+
+    res.status(200).cookie(accessToken, token, { httpOnly: true }).json({
+      message: logIn,
+      payload: {
+        id: Number(id), username, email, roleId,
+      },
     });
-    const hashedPassword = await hash(password, 10);
-    await Users.create({
-      username: name,
-      email,
-      roleId: 2,
-      password: hashedPassword,
-      createdBy: 1,
-      isVerified,
-      image,
-      googleId: sub,
-    });
-    res.status(constants.HttpStatus.CREATED).redirect(`${config.server.clientURL}/verifyEmail`);
   } catch (error) {
     next(validateError(error as Error));
   }

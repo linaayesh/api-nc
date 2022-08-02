@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { isAuth } from '../../middleware';
 import {
   signupHandler, loginHandler, verifyEmailHandler, userAuth, forgetPassword, resetPasswordEmail,
-  resetPassword, logOut, signUpGoogle,
+  resetPassword, logOut, signUpGoogle, logInGoogle,
 } from '../../controllers';
 
 const router = Router();
@@ -13,6 +13,7 @@ router.get('/verify-email/:token', verifyEmailHandler);
 router.get('/reset-password/:token', resetPasswordEmail);
 router.post('/login', loginHandler);
 router.post('/sign/google', signUpGoogle);
+router.post('/log/google', logInGoogle);
 router.post('/forget-password', forgetPassword);
 router.post('/reset-password', resetPassword);
 

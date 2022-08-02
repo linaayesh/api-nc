@@ -8,6 +8,7 @@ export {
   resetPassword,
   logOut,
   signUpGoogle,
+  logInGoogle,
 } from './auth';
 export {
   pendingUsers,
