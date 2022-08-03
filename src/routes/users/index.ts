@@ -3,9 +3,11 @@ import { Router } from 'express';
 import {
   pendingUsers, approveUser, approvedUser, rejectUser, rejectedUsers,
 } from '../../controllers';
-import { isAdmin } from '../../middleware';
+import { isAdmin, isAuth } from '../../middleware';
 
 const router = Router();
+
+router.use(isAuth);
 
 // Middleware to check Admin
 router.use(isAdmin);

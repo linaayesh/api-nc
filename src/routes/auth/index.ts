@@ -1,8 +1,9 @@
 import { Router } from 'express';
+
 import { isAuth } from '../../middleware';
 import {
   signupHandler, loginHandler, verifyEmailHandler, userAuth, forgetPassword, resetPasswordEmail,
-  resetPassword, logOut, signUpGoogle,
+  resetPassword, logOut, signUpGoogle, editProfile,
 } from '../../controllers';
 
 const router = Router();
@@ -15,6 +16,7 @@ router.post('/login', loginHandler);
 router.post('/sign/google', signUpGoogle);
 router.post('/forget-password', forgetPassword);
 router.post('/reset-password', resetPassword);
+router.patch('/edit-profile', editProfile);
 
 router.use(isAuth);
 router.get('/logout', logOut);

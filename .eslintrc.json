@@ -39,6 +39,7 @@
         "extendDefaults": true
       }
     ]
+  
   },
   "settings": {
     "import/resolver": {

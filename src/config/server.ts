@@ -10,6 +10,10 @@ const envVarsSchema = Joi.object({
   SERVER_BASE_URL: Joi.string().required(),
   CLIENT_ID: Joi.string().required(),
   GOOGLE_API: Joi.string().required(),
+  AWS_BUCKET_NAME: Joi.string().required(),
+  AWS_BUCKET_REGION: Joi.string().required(),
+  AWS_ACCESS_KEY_ID: Joi.string().required(),
+  AWS_SECRET_ACCESS_KEY: Joi.string().required(),
 }).unknown().required();
 
 const config = (): IServer => {
@@ -20,14 +24,18 @@ const config = (): IServer => {
   }
 
   return {
-    secretKey: envVars.JWT_SECRET,
-    appMail: envVars.APP_MAIL,
-    mailPassword: envVars.MAIL_PASSWORD,
-    port: envVars.PORT,
-    clientURL: envVars.CLIENT_BASE_URL,
-    serverURL: envVars.SERVER_BASE_URL,
-    clientId: envVars.CLIENT_ID,
-    googleAPI: envVars.GOOGLE_API,
+    SECRET_KEY: envVars.JWT_SECRET,
+    APP_MAIL: envVars.APP_MAIL,
+    MAIL_PASSWORD: envVars.MAIL_PASSWORD,
+    PORT: envVars.PORT,
+    CLIENT_URL: envVars.CLIENT_BASE_URL,
+    SERVER_URL: envVars.SERVER_BASE_URL,
+    CLIENT_ID: envVars.CLIENT_ID,
+    GOOGLE_API: envVars.GOOGLE_API,
+    AWS_BUCKET_NAME: envVars.AWS_BUCKET_NAME,
+    AWS_BUCKET_REGION: envVars.AWS_BUCKET_REGION,
+    AWS_ACCESS_KEY_ID: envVars.AWS_ACCESS_KEY_ID,
+    AWS_SECRET_ACCESS_KEY: envVars.AWS_SECRET_ACCESS_KEY,
   };
 };
 
