@@ -12,7 +12,7 @@ export default async (req: Request, res: Response, next: NextFunction)
 
     const user = await checkExistence.VerificationEmailCheck(email);
 
-    user.isVerified = true;
+    // user.isVerified = true;
     await user.save();
 
     res.status(302).redirect(`${config.server.CLIENT_URL}/verifyEmail`);

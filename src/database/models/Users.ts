@@ -59,10 +59,6 @@ const Users = sequelize.define<IUsers>(
         key: 'id',
       },
     },
-    isVerified: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false,
-    },
     image: {
       type: DataTypes.STRING,
       allowNull: true,

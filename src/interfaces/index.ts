@@ -42,7 +42,6 @@ url:string
 interface GoogleUserRequest extends Request {
   googleUserData: { sub: string,
     email: string,
-    isVerified: string,
     name: string,
     image: string, },
 }
@@ -62,7 +61,6 @@ interface IUsers extends Model<
   email: string;
   password: string;
   userRoleId: number;
-  isVerified?: boolean,
   userStatusId?: number;
   googleId?: string;
   accPaidRevenue?: number;

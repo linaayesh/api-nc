@@ -6,7 +6,6 @@ const users = [
     email: 'system@nextupcomedy.com',
     password: '$2b$10$O2cKyz8IAgx0jI2OO89j0uZWX9avosPQQ3xWZzcQn7fP/Y3OeFfXG',
     roleId: 1,
-    isVerified: true,
     status: userStatus.approved,
   },
   {
@@ -14,7 +13,6 @@ const users = [
     email: 'admin@gmail.com',
     password: '$2b$10$O2cKyz8IAgx0jI2OO89j0uZWX9avosPQQ3xWZzcQn7fP/Y3OeFfXG',
     roleId: 1,
-    isVerified: true,
     status: userStatus.approved,
   },
   {
@@ -22,7 +20,6 @@ const users = [
     email: 'zaherabuamro@gmail.com',
     password: '$2b$10$O2cKyz8IAgx0jI2OO89j0uZWX9avosPQQ3xWZzcQn7fP/Y3OeFfXG',
     roleId: 2,
-    isVerified: true,
     status: userStatus.approved,
   },
   {
@@ -30,7 +27,6 @@ const users = [
     email: 'ibrahim.jarada@gmail.com',
     password: '$2b$10$O2cKyz8IAgx0jI2OO89j0uZWX9avosPQQ3xWZzcQn7fP/Y3OeFfXG',
     roleId: 2,
-    isVerified: true,
     status: userStatus.rejected,
   },
   {
@@ -38,7 +34,6 @@ const users = [
     email: 'ayman@gmail.com',
     password: '$2b$10$O2cKyz8IAgx0jI2OO89j0uZWX9avosPQQ3xWZzcQn7fP/Y3OeFfXG',
     roleId: 2,
-    isVerified: true,
     status: userStatus.pending,
   },
 ];

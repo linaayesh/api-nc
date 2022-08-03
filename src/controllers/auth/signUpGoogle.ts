@@ -8,7 +8,7 @@ import {
   validateError,
 } from '../../utilities';
 import config from '../../config';
-import { checkExistence, constants } from '../../helpers';
+import { checkExistence } from '../../helpers';
 
 export default async ({ body }: Request, res: Response, next: NextFunction)
 :Promise<void> => {
@@ -28,7 +28,6 @@ export default async ({ body }: Request, res: Response, next: NextFunction)
       data: {
         sub,
         email,
-        email_verified: isVerified,
         name,
         picture: image,
       },
@@ -48,7 +47,6 @@ export default async ({ body }: Request, res: Response, next: NextFunction)
       userRoleId: 2,
       password: hashedPassword,
       createdBy: 1,
-      isVerified,
       image,
       googleId: sub,
     });

@@ -4,7 +4,7 @@ import { messages, HttpStatus } from './constants';
 import { IUsers } from '../interfaces';
 
 const {
-  notExist, UNVERIFIED, ALREADY_APPROVED, ALREADY_REJECTED, PENDING,
+  notExist, ALREADY_APPROVED, ALREADY_REJECTED,
 } = messages.authResponse;
 const { CONFLICT, UNAUTHORIZED } = HttpStatus;
 
@@ -26,7 +26,7 @@ export const RegistrationCheck = async (email: string):Promise<string | void> =>
     if (userExists.userStatusId === 3) throw new CustomError(ALREADY_REJECTED, UNAUTHORIZED);
 
     // TODO: isVerified => isPending
-    if (userExists.isVerified) throw new CustomError(PENDING, UNAUTHORIZED);
+    // if (userExists.isVerified) throw new CustomError(PENDING, UNAUTHORIZED);
 
     return '';
   } catch (error) {
@@ -50,7 +50,7 @@ export const ApprovalChecks = async (email: string):Promise<IUsers> => {
 
     if (!userExists) throw new CustomError(notExist, UNAUTHORIZED);
 
-    if (!userExists.isVerified) throw new CustomError(UNVERIFIED, UNAUTHORIZED);
+    // if (!userExists.isVerified) throw new CustomError(UNVERIFIED, UNAUTHORIZED);
 
     if (userExists.userStatusId === 3) throw new CustomError(ALREADY_REJECTED, UNAUTHORIZED);
 
@@ -77,7 +77,7 @@ export const VerificationChecks = async (id: number):Promise<IUsers> => {
 
     if (!userExists) throw new CustomError(notExist, UNAUTHORIZED);
 
-    if (!userExists.isVerified) throw new CustomError(UNVERIFIED, UNAUTHORIZED);
+    // if (!userExists.isVerified) throw new CustomError(UNVERIFIED, UNAUTHORIZED);
 
     if (userExists.userStatusId === 2) throw new CustomError(ALREADY_APPROVED, CONFLICT);
 
@@ -105,7 +105,7 @@ export const VerificationEmailCheck = async (email: string):Promise<IUsers> => {
 
     if (!userExists) throw new CustomError(notExist, UNAUTHORIZED);
 
-    if (userExists.isVerified) throw new CustomError(UNVERIFIED, UNAUTHORIZED);
+    // if (userExists.isVerified) throw new CustomError(UNVERIFIED, UNAUTHORIZED);
 
     return userExists;
   } catch (error) {
