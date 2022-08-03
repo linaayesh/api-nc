@@ -19,4 +19,5 @@ export {
   addFinancialInformation,
   editFinancialInformation,
   getFinancialInformation,
+  editProfile,
 } from './users';

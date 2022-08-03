@@ -15,7 +15,10 @@ import { isAdmin, isAuth } from '../../middleware';
 const router = Router();
 
 router.use(isAuth);
+<<<<<<< HEAD
 router.route('/financial-information').post(addFinancialInformation).patch(editFinancialInformation).get(getFinancialInformation);
+=======
+>>>>>>> d3e33f80fbaf1c533fd515315da3e8c4838e1791
 
 // Middleware to check Admin
 router.use(isAdmin);
