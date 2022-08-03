@@ -10,8 +10,11 @@ export const messages = {
     logIn: 'SUCCESS LOGIN',
     logOut: 'SUCCESS LOGOUT',
     reset: 'SUCCESS RESET',
+    edit: 'SUCCESS EDIT',
+    success: 'SUCCESS',
     unAuthUser: 'UNAUTHORIZED',
     resetPassword: 'RESET PASSWORD',
+    conflict: 'CONFLICT',
   },
   check: {
     emailCheck: 'CHECK EMAIL',

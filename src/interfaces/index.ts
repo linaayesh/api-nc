@@ -16,29 +16,29 @@ interface IUser{
   id:number
   roleId:number
   email:string
-  username:string
-  role?:string
+  username: string,
+  image?: string,
+  role?: string,
 }
 
 interface IServer{
-  secretKey: Secret;
-  appMail: string;
-  mailPassword: string;
-  port: string;
-  clientURL: string;
-  serverURL: string;
-  clientId: string;
-  googleAPI: string;
+  SECRET_KEY: Secret;
+  APP_MAIL: string;
+  MAIL_PASSWORD: string;
+  PORT: string;
+  CLIENT_URL: string;
+  SERVER_URL: string;
+  CLIENT_ID: string;
+  GOOGLE_API: string;
+  AWS_BUCKET_NAME: string;
+  AWS_BUCKET_REGION: string,
+  AWS_ACCESS_KEY_ID: string,
+  AWS_SECRET_ACCESS_KEY: string,
 }
 
 interface IDatabase{
 url:string
 }
-interface UserAuth extends Request {
-  user?: IUser,
-  admin?: { id: number, email: string, role: string },
-}
-
 interface GoogleUserRequest extends Request {
   googleUserData: { sub: string,
     email: string,
@@ -73,6 +73,10 @@ interface IUsers extends Model<
   reasonOfRejection?: string;
 }
 
+interface UserAuth extends Request {
+  user?: IUsers,
+  admin?: { id: number, email: string, role: string },
+}
 interface ErrorWithDetails extends Error {
   details: [
     {
@@ -90,5 +94,5 @@ export {
   ApprovedUser,
   GoogleUserRequest,
   IUsers,
-  ErrorWithDetails
+  ErrorWithDetails,
 };
