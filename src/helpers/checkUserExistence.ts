@@ -1,16 +1,16 @@
 import { Users } from '../database/models';
 import { CustomError, validateError } from '../utilities';
-import { messages, userStatus } from './constants';
+import { messages, userStatus, HttpStatus } from './constants';
 import { IUsers } from '../interfaces';
 
 const {
-  approvedUser, rejectedUser, notExist, verifiedUser, waitApprove,
+  notExist, UNVERIFIED, ALREADY_APPROVED, ALREADY_REJECTED, PENDING,
 } = messages.authResponse;
-
+const { CONFLICT, UNAUTHORIZED } = HttpStatus;
 const { approved, rejected } = userStatus;
 
 /**
- * @description RegistrationCheck is a function  used to check user existence
+ * @description RegistrationCheck is a function  used to check user existence sign up
  * @param {string} email user email
  * @returns {Promise<string | void>}
  * if the user exist return his status, if not exist continue registration
@@ -22,13 +22,12 @@ export const RegistrationCheck = async (email: string):Promise<string | void> =>
 
     if (!userExists) return notExist;
 
-    if (userExists.status === approved) throw new CustomError(approvedUser, 401);
+    if (userExists.status === approved) throw new CustomError(ALREADY_APPROVED, CONFLICT);
 
-    if (userExists.status === rejected) throw new CustomError(rejectedUser, 401);
+    if (userExists.status === rejected) throw new CustomError(ALREADY_REJECTED, UNAUTHORIZED);
 
-    if (userExists.isVerified) throw new CustomError(verifiedUser, 401);
-
-    if (userExists) throw new CustomError(waitApprove, 401);
+    // TODO: isVerified => isPending
+    if (userExists.isVerified) throw new CustomError(PENDING, UNAUTHORIZED);
 
     return '';
   } catch (error) {
@@ -50,13 +49,11 @@ export const ApprovalChecks = async (email: string):Promise<IUsers> => {
   try {
     const userExists = await Users.findOne({ where: { email } });
 
-    if (!userExists) throw new CustomError(notExist, 404);
+    if (!userExists) throw new CustomError(notExist, UNAUTHORIZED);
 
-    if (!userExists?.isVerified) throw new CustomError(verifiedUser, 401);
+    if (!userExists.isVerified) throw new CustomError(UNVERIFIED, UNAUTHORIZED);
 
-    if (userExists.status === rejected) throw new CustomError(rejectedUser, 401);
-
-    if (userExists.status !== approved) throw new CustomError(approvedUser, 401);
+    if (userExists.status === rejected) throw new CustomError(ALREADY_REJECTED, UNAUTHORIZED);
 
     return userExists;
   } catch (error) {
@@ -71,7 +68,7 @@ export const ApprovalChecks = async (email: string):Promise<IUsers> => {
  * @description VerificationChecks is a function  used to check user verify=> true|change his status
  * @param {number} id user id
  * @returns {Promise<IUsers>}
- * if the user dose not exist return error, then if [not verify, approve, reject ] => error
+ * if the user dose not exist return error, then if [not verified, approved, rejected ] => error
  * if verify return User Object
  */
 
@@ -79,13 +76,13 @@ export const VerificationChecks = async (id: number):Promise<IUsers> => {
   try {
     const userExists = await Users.findOne({ where: { id } });
 
-    if (!userExists) throw new CustomError(notExist, 404);
+    if (!userExists) throw new CustomError(notExist, UNAUTHORIZED);
 
-    if (!userExists.isVerified) throw new CustomError(verifiedUser, 401);
+    if (!userExists.isVerified) throw new CustomError(UNVERIFIED, UNAUTHORIZED);
 
-    if (userExists.status === approved) throw new CustomError(approvedUser, 401);
+    if (userExists.status === approved) throw new CustomError(ALREADY_APPROVED, CONFLICT);
 
-    if (userExists.status === rejected) throw new CustomError(rejectedUser, 401);
+    if (userExists.status === rejected) throw new CustomError(ALREADY_REJECTED, UNAUTHORIZED);
 
     return userExists;
   } catch (error) {
@@ -107,13 +104,9 @@ export const VerificationEmailCheck = async (email: string):Promise<IUsers> => {
   try {
     const userExists = await Users.findOne({ where: { email } });
 
-    if (!userExists) throw new CustomError(notExist, 404);
+    if (!userExists) throw new CustomError(notExist, UNAUTHORIZED);
 
-    if (userExists.isVerified) throw new CustomError(verifiedUser, 401);
-
-    if (userExists.status === approved) throw new CustomError(approvedUser, 401);
-
-    if (userExists.status === rejected) throw new CustomError(rejectedUser, 401);
+    if (userExists.isVerified) throw new CustomError(UNVERIFIED, UNAUTHORIZED);
 
     return userExists;
   } catch (error) {

@@ -1,10 +1,14 @@
 export const messages = {
   authResponse: {
+    ALREADY_APPROVED: 'ALREADY APPROVED',
+    ALREADY_REJECTED: 'ALREADY REJECTED',
+    PENDING: 'PENDING ACCOUNT',
     UNAUTHORIZED: 'UNAUTHORIZED',
     NOT_FOUND: 'NOT_FOUND',
     approvedUser: 'APPROVED ACCOUNT',
     rejectedUser: 'REJECTED ACCOUNT',
-    verifiedUser: 'VERIFY ACCOUNT',
+    // UNVERIFIED
+    UNVERIFIED: 'NOT VERIFIED ACCOUNT',
     notExist: 'NOT EXIST USER',
     waitApprove: 'WAITING APPROVAL',
     adminApproval: 'SUCCESSFULLY APPROVED',
@@ -35,6 +39,7 @@ export const HttpStatus = {
   CREATED: 201,
   OK: 200,
   NOT_FOUND: 404,
+  CONFLICT: 409,
 };
 
 export const userStatus = {
