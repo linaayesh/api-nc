@@ -3,18 +3,17 @@ import {
 } from 'sequelize';
 import sequelize from '../config/connections';
 
-interface IPaymentMethods extends Model<
-  InferAttributes<IPaymentMethods>, InferCreationAttributes<IPaymentMethods>
+interface IUserStatus extends Model<
+  InferAttributes<IUserStatus>, InferCreationAttributes<IUserStatus>
 > {
   id?: number;
   name: string;
-  updatedBy?: number;
   createdBy?: number;
-  userId?: number;
+  updatedBy?: number;
 }
 
-const PaymentMethods = sequelize.define<IPaymentMethods>(
-  'paymentMethods',
+const UserStatus = sequelize.define<IUserStatus>(
+  'user_status',
   {
     id: {
       type: DataTypes.INTEGER,
@@ -23,17 +22,18 @@ const PaymentMethods = sequelize.define<IPaymentMethods>(
     },
     name: {
       type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+    },
+    createdBy: {
+      type: DataTypes.INTEGER,
       allowNull: true,
     },
     updatedBy: {
       type: DataTypes.INTEGER,
       allowNull: true,
     },
-    createdBy: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-    },
   },
 );
 
-export default PaymentMethods;
+export default UserStatus;

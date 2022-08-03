@@ -24,17 +24,17 @@ export default async ({ body }: Request, res: Response, next: NextFunction):Prom
     const user = await Users.create({
       username,
       email,
-      roleId: 2,
+      userRoleId: 2,
       password: hashedPassword,
       createdBy: 1,
     });
 
-    const { id, roleId } = user;
+    const { id, userRoleId } = user;
     const token = await signToken({
       id: Number(id),
       username,
       email,
-      roleId,
+      userRoleId,
     }, { expiresIn: '1h' });
 
     const redirectURL = `${config.server.SERVER_URL}/api/v1/auth/verify-email/${token}`;

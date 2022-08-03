@@ -14,8 +14,8 @@ export default async (req: Request, res: Response, next: NextFunction)
     await idValidation.validateAsync({ userId });
 
     const user = await checkExistence.VerificationChecks(+userId);
-
-    user.status = constants.userStatus.approved;
+    // TODO: edit status id
+    user.userStatusId = 1;
     await user.save();
 
     const { username, email } = user;

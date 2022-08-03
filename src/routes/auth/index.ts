@@ -3,11 +3,7 @@ import { Router } from 'express';
 import { isAuth } from '../../middleware';
 import {
   signupHandler, loginHandler, verifyEmailHandler, userAuth, forgetPassword, resetPasswordEmail,
-<<<<<<< HEAD
-  resetPassword, logOut, signUpGoogle, logInGoogle,
-=======
-  resetPassword, logOut, signUpGoogle, editProfile,
->>>>>>> d3e33f80fbaf1c533fd515315da3e8c4838e1791
+  logInGoogle, resetPassword, logOut, signUpGoogle, editProfile,
 } from '../../controllers';
 
 const router = Router();

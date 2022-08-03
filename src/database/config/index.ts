@@ -6,8 +6,7 @@ import {
   UploadsCategories,
   Tags,
   Categories,
-  Payments,
-  PaymentMethods,
+  UserStatus,
 } from '../models';
 import sequelize from './connections';
 
@@ -38,14 +37,9 @@ UploadsCategories.belongsTo(Uploads);
 Categories.hasMany(UploadsCategories);
 UploadsCategories.belongsTo(Categories);
 
-// Payments - Users
-Users.hasOne(Payments);
-Payments.belongsTo(Users);
-
-// PaymentMethods - Payments
-PaymentMethods.hasMany(Payments);
-Payments.belongsTo(PaymentMethods);
-PaymentMethods.belongsTo(Users);
+// Users - UserStatus relationship
+UserStatus.hasMany(Users);
+Users.belongsTo(UserStatus);
 
 export {
   Users,
@@ -55,7 +49,5 @@ export {
   UploadsCategories,
   Tags,
   Categories,
-  Payments,
-  PaymentMethods,
   sequelize,
 };

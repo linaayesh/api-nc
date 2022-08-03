@@ -14,7 +14,7 @@ interface IServerAddress{
 
 interface IUser{
   id:number
-  roleId:number
+  userRoleId:number
   email:string
   username: string,
   image?: string,
@@ -61,9 +61,9 @@ interface IUsers extends Model<
   username: string;
   email: string;
   password: string;
-  roleId: number;
+  userRoleId: number;
   isVerified?: boolean,
-  status?: string;
+  userStatusId?: number;
   googleId?: string;
   accPaidRevenue?: number;
   freeToBePaidRevenue?: number;
@@ -77,7 +77,7 @@ interface FinancialInformation {
   userId: number,
   name: string,
   address: string,
-  createdBy: number,
+  createdBy?: number,
   updatedBy?: number,
 }
 
@@ -115,9 +115,6 @@ export {
   GoogleUserRequest,
   IUsers,
   ErrorWithDetails,
-<<<<<<< HEAD
   IPayments,
   FinancialInformation,
-=======
->>>>>>> d3e33f80fbaf1c533fd515315da3e8c4838e1791
 };

@@ -45,7 +45,7 @@ export default async ({ body }: Request, res: Response, next: NextFunction)
     await Users.create({
       username: name,
       email,
-      roleId: 2,
+      userRoleId: 2,
       password: hashedPassword,
       createdBy: 1,
       isVerified,

@@ -1,16 +1,17 @@
 import { Request, Response, NextFunction } from 'express';
 import { Op, col } from 'sequelize';
 import { Users, Roles } from '../../database/models';
-import { userStatus, messages } from '../../helpers/constants';
+import { messages } from '../../helpers/constants';
 
 export default async (req: Request, res: Response, next: NextFunction)
 :Promise<void> => {
   try {
+    // TODO: edit user status id
     const pendingUsers = await Users.findAll({
       where: {
         [Op.and]: [
-          { isVerified: true, status: userStatus.pending },
-          { roleId: { [Op.ne]: 1 } },
+          { isVerified: true, userStatusId: 1 },
+          { userRoleId: { [Op.ne]: 1 } },
         ],
       },
       attributes: {

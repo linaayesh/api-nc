@@ -16,7 +16,7 @@ export default async (req: Request, res: Response, next: NextFunction)
 
     const user = await checkExistence.VerificationChecks(+userId);
 
-    user.status = constants.userStatus.rejected;
+    user.userStatusId = 3;
     await user.save();
 
     const { username, email } = user;

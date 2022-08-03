@@ -16,8 +16,5 @@ export {
   approvedUser,
   rejectUser,
   rejectedUsers,
-  addFinancialInformation,
-  editFinancialInformation,
-  getFinancialInformation,
   editProfile,
 } from './users';

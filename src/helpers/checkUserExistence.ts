@@ -1,13 +1,12 @@
 import { Users } from '../database/models';
 import { CustomError, validateError } from '../utilities';
-import { messages, userStatus, HttpStatus } from './constants';
+import { messages, HttpStatus } from './constants';
 import { IUsers } from '../interfaces';
 
 const {
   notExist, UNVERIFIED, ALREADY_APPROVED, ALREADY_REJECTED, PENDING,
 } = messages.authResponse;
 const { CONFLICT, UNAUTHORIZED } = HttpStatus;
-const { approved, rejected } = userStatus;
 
 /**
  * @description RegistrationCheck is a function  used to check user existence sign up
@@ -22,9 +21,9 @@ export const RegistrationCheck = async (email: string):Promise<string | void> =>
 
     if (!userExists) return notExist;
 
-    if (userExists.status === approved) throw new CustomError(ALREADY_APPROVED, CONFLICT);
+    if (userExists.userStatusId === 2) throw new CustomError(ALREADY_APPROVED, CONFLICT);
 
-    if (userExists.status === rejected) throw new CustomError(ALREADY_REJECTED, UNAUTHORIZED);
+    if (userExists.userStatusId === 3) throw new CustomError(ALREADY_REJECTED, UNAUTHORIZED);
 
     // TODO: isVerified => isPending
     if (userExists.isVerified) throw new CustomError(PENDING, UNAUTHORIZED);
@@ -53,7 +52,7 @@ export const ApprovalChecks = async (email: string):Promise<IUsers> => {
 
     if (!userExists.isVerified) throw new CustomError(UNVERIFIED, UNAUTHORIZED);
 
-    if (userExists.status === rejected) throw new CustomError(ALREADY_REJECTED, UNAUTHORIZED);
+    if (userExists.userStatusId === 3) throw new CustomError(ALREADY_REJECTED, UNAUTHORIZED);
 
     return userExists;
   } catch (error) {
@@ -80,9 +79,9 @@ export const VerificationChecks = async (id: number):Promise<IUsers> => {
 
     if (!userExists.isVerified) throw new CustomError(UNVERIFIED, UNAUTHORIZED);
 
-    if (userExists.status === approved) throw new CustomError(ALREADY_APPROVED, CONFLICT);
+    if (userExists.userStatusId === 2) throw new CustomError(ALREADY_APPROVED, CONFLICT);
 
-    if (userExists.status === rejected) throw new CustomError(ALREADY_REJECTED, UNAUTHORIZED);
+    if (userExists.userStatusId === 3) throw new CustomError(ALREADY_REJECTED, UNAUTHORIZED);
 
     return userExists;
   } catch (error) {

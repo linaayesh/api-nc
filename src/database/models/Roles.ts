@@ -7,7 +7,9 @@ interface IRoles extends Model<
   InferAttributes<IRoles>, InferCreationAttributes<IRoles>
 > {
   id?: number;
-  name: string
+  name: string;
+  createdBy: number;
+  updatedBy: number;
 }
 
 const Roles = sequelize.define<IRoles>(
@@ -19,11 +21,18 @@ const Roles = sequelize.define<IRoles>(
       autoIncrement: true,
     },
     name: {
-      type: DataTypes.ENUM('comedian', 'system-admin'),
+      type: DataTypes.STRING,
       allowNull: false,
     },
+    createdBy: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
+    updatedBy: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
   },
-  { timestamps: false },
 );
 
 export default Roles;

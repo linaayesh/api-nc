@@ -15,11 +15,11 @@ export default async ({ body }: Request, res: Response, next: NextFunction)
     const { accessToken } = constants.messages.token;
 
     // TODO: separate signUp with Google steps
-    const client = new OAuth2Client(config.server.clientId);
+    const client = new OAuth2Client(config.server.CLIENT_ID);
     const verify = async ():Promise<void> => {
       const ticket = await client.verifyIdToken({
         idToken: tokenId,
-        audience: config.server.clientId,
+        audience: config.server.CLIENT_ID,
       });
       ticket.getPayload();
     };
@@ -31,23 +31,23 @@ export default async ({ body }: Request, res: Response, next: NextFunction)
         email,
       },
     } = await axios.get(
-      `${config.server.googleAPI}tokeninfo?id_token=${tokenId}`,
+      `${config.server.GOOGLE_API}tokeninfo?id_token=${tokenId}`,
     );
 
     const user = await checkExistence.ApprovalChecks(email);
 
     if (user.googleId !== sub) res.status(401).json({ message: 'unAuthorized test' });
 
-    const { id, username, roleId } = user;
+    const { id, username, userRoleId } = user;
 
     const token = await signToken({
-      id: Number(id), username, email, roleId,
+      id: Number(id), username, email, userRoleId,
     }, { expiresIn: '24h' });
 
     res.status(200).cookie(accessToken, token, { httpOnly: true }).json({
       message: logIn,
       payload: {
-        id: Number(id), username, email, roleId,
+        id: Number(id), username, email, userRoleId,
       },
     });
   } catch (error) {

@@ -15,13 +15,13 @@ export default async ({ body }: Request, res: Response, next: NextFunction)
     const user = await checkExistence.ApprovalChecks(body.email);
 
     const {
-      username, email, roleId, id,
+      username, email, userRoleId, id,
     } = user;
     const token = await signToken({
       id: Number(id),
       username,
       email,
-      roleId,
+      userRoleId,
     }, { expiresIn: '1h' });
 
     const redirectURL = `${config.server.SERVER_URL}/api/v1/auth/reset-password/${token}`;

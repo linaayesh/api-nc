@@ -9,8 +9,8 @@ export default async (req: Request, res: Response, next: NextFunction)
     const RejectedUsers = await Users.findAll({
       where: {
         [Op.and]: [
-          { isVerified: true, status: constants.userStatus.rejected },
-          { roleId: { [Op.ne]: 1 } },
+          { isVerified: true, userStatusId: 2 },
+          { userRoleId: { [Op.ne]: 1 } },
         ],
       },
       attributes: {

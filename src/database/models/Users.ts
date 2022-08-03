@@ -1,12 +1,8 @@
 import { DataTypes } from 'sequelize';
 import Role from './Roles';
+import UserStatus from './Status';
 import { IUsers } from '../../interfaces';
 import sequelize from '../config/connections';
-import { userStatus } from '../../helpers/constants';
-
-const {
-  approved, rejected, pending, banned,
-} = userStatus;
 
 const Users = sequelize.define<IUsers>(
   'users',
@@ -29,7 +25,7 @@ const Users = sequelize.define<IUsers>(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    roleId: {
+    userRoleId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
@@ -55,9 +51,13 @@ const Users = sequelize.define<IUsers>(
     updatedBy: {
       type: DataTypes.INTEGER,
     },
-    status: {
-      type: DataTypes.ENUM(approved, rejected, pending, banned),
-      defaultValue: pending,
+    userStatusId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: UserStatus,
+        key: 'id',
+      },
     },
     isVerified: {
       type: DataTypes.BOOLEAN,

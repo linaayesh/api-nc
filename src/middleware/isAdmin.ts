@@ -11,7 +11,7 @@ export default async (req: Request, res: Response, next: NextFunction):Promise<v
 
     const admin: IUser = await verifyToken(accessToken);
 
-    if (admin.roleId !== 1) throw new CustomError(unAuthMessage, 401);
+    if (admin.userRoleId !== 1) throw new CustomError(unAuthMessage, 401);
 
     next();
   } catch (error) {

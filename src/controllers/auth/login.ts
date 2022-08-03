@@ -20,15 +20,15 @@ Promise<void> => {
     const isValid = await compare(password, user.password);
     if (!isValid) throw new CustomError(wrongEmailOrPassword, 401);
 
-    const { id, username, roleId } = user;
+    const { id, username, userRoleId } = user;
     const token = await signToken({
-      id: Number(id), username, email, roleId,
+      id: Number(id), username, email, userRoleId,
     }, { expiresIn });
 
     res.cookie(accessToken, token, { httpOnly: true }).json({
       message: logIn,
       payload: {
-        id: Number(id), username, email, roleId,
+        id: Number(id), username, email, userRoleId,
       },
     });
   } catch (err) {
