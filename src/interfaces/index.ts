@@ -61,7 +61,7 @@ interface IUsers extends Model<
   email: string;
   password: string;
   userRoleId: number;
-  userStatusId?: number;
+  userStatusId: number;
   googleId?: string;
   accPaidRevenue?: number;
   freeToBePaidRevenue?: number;

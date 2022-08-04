@@ -35,6 +35,7 @@ const Users = sequelize.define<IUsers>(
     },
     googleId: {
       type: DataTypes.STRING,
+      allowNull: true,
     },
     accPaidRevenue: {
       type: DataTypes.DECIMAL,
@@ -53,7 +54,7 @@ const Users = sequelize.define<IUsers>(
     },
     userStatusId: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      defaultValue: 1,
       references: {
         model: UserStatus,
         key: 'id',

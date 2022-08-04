@@ -1,52 +1,72 @@
-import { userStatus } from '../../helpers/constants';
+import { USER_STATUS, USER_ROLES } from '../../helpers/constants';
 
 const users = [
   {
     username: 'system',
     email: 'system@nextupcomedy.com',
     password: '$2b$10$O2cKyz8IAgx0jI2OO89j0uZWX9avosPQQ3xWZzcQn7fP/Y3OeFfXG',
-    roleId: 1,
-    status: userStatus.approved,
+    userRoleId: USER_ROLES.SYSTEM_ADMIN,
+    userStatusId: USER_STATUS.APPROVED,
   },
   {
     username: 'admin',
     email: 'admin@gmail.com',
     password: '$2b$10$O2cKyz8IAgx0jI2OO89j0uZWX9avosPQQ3xWZzcQn7fP/Y3OeFfXG',
-    roleId: 1,
-    status: userStatus.approved,
+    userRoleId: USER_ROLES.SYSTEM_ADMIN,
+    userStatusId: USER_STATUS.APPROVED,
   },
   {
     username: 'zaher',
     email: 'zaherabuamro@gmail.com',
     password: '$2b$10$O2cKyz8IAgx0jI2OO89j0uZWX9avosPQQ3xWZzcQn7fP/Y3OeFfXG',
-    roleId: 2,
-    status: userStatus.approved,
+    userRoleId: USER_ROLES.COMEDIAN,
+    userStatusId: USER_STATUS.APPROVED,
   },
   {
     username: 'ibrahim',
     email: 'ibrahim.jarada@gmail.com',
     password: '$2b$10$O2cKyz8IAgx0jI2OO89j0uZWX9avosPQQ3xWZzcQn7fP/Y3OeFfXG',
-    roleId: 2,
-    status: userStatus.rejected,
+    userRoleId: USER_ROLES.COMEDIAN,
+    userStatusId: USER_STATUS.REJECTED,
   },
   {
     username: 'ayman',
     email: 'ayman@gmail.com',
     password: '$2b$10$O2cKyz8IAgx0jI2OO89j0uZWX9avosPQQ3xWZzcQn7fP/Y3OeFfXG',
-    roleId: 2,
-    status: userStatus.pending,
+    userRoleId: USER_ROLES.COMEDIAN,
+    userStatusId: USER_STATUS.PENDING,
   },
 ];
 
 const roles = [
   {
-    name: 'system-admin',
+    name: 'SYSTEM_ADMIN',
+    createdBy: USER_ROLES.SYSTEM_ADMIN,
   },
   {
-    name: 'comedian',
+    name: 'COMEDIAN',
+    createdBy: USER_ROLES.SYSTEM_ADMIN,
   },
 ];
 
+const userStatus = [
+  {
+    name: 'PENDING',
+    createdBy: 1,
+  },
+  {
+    name: 'APPROVED',
+    createdBy: 1,
+  },
+  {
+    name: 'REJECTED',
+    createdBy: 1,
+  },
+  {
+    name: 'BANNED',
+    createdBy: 1,
+  },
+];
 const uploads = [
   {
     userId: 1,
@@ -329,4 +349,5 @@ export {
   categories,
   uploadsTags,
   uploadsCategories,
+  userStatus,
 };

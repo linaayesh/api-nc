@@ -8,6 +8,7 @@ import {
   UploadsCategories,
   Uploads,
   UploadsTags,
+  UserStatus,
 } from '../config';
 
 import {
@@ -18,6 +19,7 @@ import {
   uploadsCategories,
   uploadsTags,
   roles,
+  userStatus,
 } from './fakeData';
 
 const { NODE_ENV } = process.env;
@@ -28,6 +30,7 @@ const buildFakeData = async (): Promise<void> => {
 
     await Promise.all([
       await Roles.bulkCreate(roles),
+      await UserStatus.bulkCreate(userStatus),
       await Tags.bulkCreate(tags),
       await Categories.bulkCreate(categories),
     ]);

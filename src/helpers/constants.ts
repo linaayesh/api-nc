@@ -45,11 +45,16 @@ export const HttpStatus = {
   CONFLICT: 409,
 };
 
-export const userStatus = {
-  pending: 'PENDING',
-  rejected: 'REJECTED',
-  approved: 'APPROVED',
-  banned: 'BANNED',
+export const USER_STATUS = {
+  PENDING: 1,
+  APPROVED: 2,
+  REJECTED: 3,
+  BANNED: 4,
+};
+
+export const USER_ROLES = {
+  SYSTEM_ADMIN: 1,
+  COMEDIAN: 2,
 };
 
 export const emailTemplates = {

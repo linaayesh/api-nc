@@ -49,5 +49,6 @@ export {
   UploadsCategories,
   Tags,
   Categories,
+  UserStatus,
   sequelize,
 };

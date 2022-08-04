@@ -8,8 +8,8 @@ interface IRoles extends Model<
 > {
   id?: number;
   name: string;
-  createdBy: number;
-  updatedBy: number;
+  createdBy?: number;
+  updatedBy?: number;
 }
 
 const Roles = sequelize.define<IRoles>(
