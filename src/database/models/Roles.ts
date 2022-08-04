@@ -13,7 +13,7 @@ interface IRoles extends Model<
 }
 
 const Roles = sequelize.define<IRoles>(
-  'roles',
+  'user_roles',
   {
     id: {
       type: DataTypes.INTEGER,

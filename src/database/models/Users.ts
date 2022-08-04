@@ -1,5 +1,5 @@
 import { DataTypes } from 'sequelize';
-import Role from './Roles';
+import Roles from './Roles';
 import UserStatus from './Status';
 import { IUsers } from '../../interfaces';
 import sequelize from '../config/connections';
@@ -29,7 +29,7 @@ const Users = sequelize.define<IUsers>(
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: Role,
+        model: Roles,
         key: 'id',
       },
     },

@@ -7,6 +7,7 @@ export default async (req: Request, res: Response, next: NextFunction)
 :Promise<void> => {
   try {
     // TODO: status Id
+    console.log('first');
     const ApprovedUsers = await Users.findAll(
       {
         where: {

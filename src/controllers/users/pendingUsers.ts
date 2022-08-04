@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from 'express';
+import { Response, NextFunction, Request } from 'express';
 import { Op, col } from 'sequelize';
 import { Users, Roles } from '../../database/models';
 import { messages } from '../../helpers/constants';
@@ -10,7 +10,7 @@ export default async (req: Request, res: Response, next: NextFunction)
     const pendingUsers = await Users.findAll({
       where: {
         [Op.and]: [
-          { isVerified: true, userStatusId: 1 },
+          { userStatusId: 1 },
           { userRoleId: { [Op.ne]: 1 } },
         ],
       },

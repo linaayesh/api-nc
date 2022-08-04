@@ -7,18 +7,16 @@ import {
   rejectUser,
   rejectedUsers,
 } from '../../controllers';
-import { isAdmin, isAuth } from '../../middleware';
+import { USER_ROLES } from '../../helpers/constants';
+import { checkUserRole } from '../../middleware';
 
 const router = Router();
 
-router.use(isAuth);
-
-// Middleware to check Admin
-router.use(isAdmin);
-router.get('/waiting-list', pendingUsers);
+router.use(checkUserRole([USER_ROLES.SYSTEM_ADMIN]));
+router.patch('/reject/:userId', rejectUser);
 router.patch('/approve/:userId', approveUser);
 router.get('/approved-list', approvedUser);
-router.patch('/reject/:userId', rejectUser);
 router.get('/rejected-list', rejectedUsers);
+router.get('/waiting-list', pendingUsers);
 
 export default router;
