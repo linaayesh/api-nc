@@ -49,6 +49,7 @@ export default async ({ body }: Request, res: Response, next: NextFunction)
       createdBy: 1,
       image,
       googleId: sub,
+      // userStatusId: 1,
     });
     res.status(201).redirect(`${config.server.CLIENT_URL}/verifyEmail`);
   } catch (error) {

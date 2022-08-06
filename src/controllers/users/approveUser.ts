@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import {
-  idValidation, validateError, sendEmail,
+  sendEmail,
 } from '../../utilities';
 import config from '../../config';
 import { checkExistence, constants } from '../../helpers';
@@ -11,8 +11,6 @@ export default async (req: Request, res: Response, next: NextFunction)
   const redirectURL = `${config.server.CLIENT_URL}`;
 
   try {
-    await idValidation.validateAsync({ userId });
-
     const user = await checkExistence.VerificationChecks(+userId);
     // TODO: edit status id
     user.userStatusId = 1;
@@ -28,6 +26,6 @@ export default async (req: Request, res: Response, next: NextFunction)
       .status(201)
       .json({ message: constants.messages.authResponse.adminApproval });
   } catch (err) {
-    next(validateError(err as Error));
+    next(err);
   }
 };

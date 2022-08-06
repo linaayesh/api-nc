@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import { compare } from 'bcrypt';
 import { constants, checkExistence } from '../../helpers';
 import {
-  loginSchema, signToken, validateError, CustomError,
+  signToken, CustomError,
 } from '../../utilities';
 
 export default async ({ body }: Request, res: Response, next: NextFunction):
@@ -11,9 +11,8 @@ Promise<void> => {
   const { wrongEmailOrPassword, logIn } = constants.messages.authResponse;
   const { accessToken } = constants.messages.token;
   try {
-    await loginSchema.validateAsync(body);
     let expiresIn;
-    if (rememberMe) { expiresIn = '30d'; } else { expiresIn = '1h'; }
+    if (rememberMe) { expiresIn = '30d'; } else { expiresIn = '24h'; }
 
     const user = await checkExistence.ApprovalChecks(email);
 
@@ -31,7 +30,7 @@ Promise<void> => {
         id: Number(id), username, email, userRoleId,
       },
     });
-  } catch (err) {
-    next(validateError(err as Error));
+  } catch (error) {
+    next(error);
   }
 };

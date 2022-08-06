@@ -4,8 +4,6 @@ import { Users } from '../../database/models';
 import { checkExistence, constants } from '../../helpers';
 import {
   sendEmail,
-  signupSchema,
-  validateError,
   signToken,
 } from '../../utilities';
 import config from '../../config';
@@ -16,8 +14,6 @@ export default async ({ body }: Request, res: Response, next: NextFunction):Prom
   const { verifyToken } = constants.messages.token;
 
   try {
-    await signupSchema.validateAsync(body);
-
     await checkExistence.RegistrationCheck(email);
 
     const hashedPassword = await hash(password, 10);
@@ -48,6 +44,6 @@ export default async ({ body }: Request, res: Response, next: NextFunction):Prom
       .status(201)
       .json({ message: emailCheck });
   } catch (err) {
-    next(validateError(err as Error)); // TODO: handle internal server error
+    next(err); // TODO: handle internal server error
   }
 };

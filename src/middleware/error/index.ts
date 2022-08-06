@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 
-const notFound = (req: Request, res: Response):void => {
+const notFound = (_req: Request, res: Response):void => {
   res.status(400).json({ message: 'Page Not Found' });
 };
 

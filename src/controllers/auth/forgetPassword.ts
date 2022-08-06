@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import {
-  emailValidation, validateError, signToken, sendEmail,
+  signToken, sendEmail,
 } from '../../utilities';
 import config from '../../config';
 import { constants, checkExistence } from '../../helpers';
@@ -10,8 +10,6 @@ export default async ({ body }: Request, res: Response, next: NextFunction)
   const { resetToken } = constants.messages.token;
   const { emailCheck } = constants.messages.check;
   try {
-    await emailValidation.validateAsync(body);
-
     const user = await checkExistence.ApprovalChecks(body.email);
 
     const {
@@ -38,6 +36,6 @@ export default async ({ body }: Request, res: Response, next: NextFunction)
       .status(201)
       .json({ message: emailCheck });
   } catch (err) {
-    next(validateError(err as Error));
+    next(err);
   }
 };

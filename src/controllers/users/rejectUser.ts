@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import {
-  idValidation, validateError, sendEmail,
+  sendEmail,
 } from '../../utilities';
 import config from '../../config';
 import { checkExistence, constants } from '../../helpers';
@@ -12,8 +12,6 @@ export default async (req: Request, res: Response, next: NextFunction)
   const contactUs = `mailto:${config.email.NEXTUP_COMEDY_SUPPORT_EMAIL}`;
 
   try {
-    await idValidation.validateAsync({ userId });
-
     const user = await checkExistence.VerificationChecks(+userId);
 
     user.userStatusId = 3;
@@ -29,6 +27,6 @@ export default async (req: Request, res: Response, next: NextFunction)
       .status(201)
       .json({ message: constants.messages.check.emailCheck });
   } catch (err) {
-    next(validateError(err as Error));
+    next(err);
   }
 };
