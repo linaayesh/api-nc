@@ -10,7 +10,9 @@ export default async (req: Request, res: Response, next: NextFunction)
   try {
     const { email } = await verifyToken(token);
 
-    const user = await checkExistence.VerificationEmailCheck(email);
+    const lowerCaseEmail = email.toLowerCase();
+
+    const user = await checkExistence.VerificationEmailCheck(lowerCaseEmail);
 
     await user.save();
 

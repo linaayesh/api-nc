@@ -12,10 +12,12 @@ Promise<void> => {
       id, userRoleId, email, username, image,
     } = user;
 
+    const lowerCaseEmail = email.toLowerCase();
+
     res.json({
       message: approvedUser,
       data: {
-        id, userRoleId, email, username, image,
+        id, userRoleId, email: lowerCaseEmail, username, image,
       },
     });
   } catch (error) {

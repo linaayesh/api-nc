@@ -11,7 +11,9 @@ export default async (req: Request, res: Response, next: NextFunction)
   try {
     const { email } = await verifyToken(token);
 
-    const userExists = await getUserByEmail(email);
+    const lowerCaseEmail = email.toLowerCase();
+
+    const userExists = await getUserByEmail(lowerCaseEmail);
     if (!userExists) res.json({ message: notExist });
 
     return res.redirect(`${config.server.CLIENT_URL}/resetPassword`);

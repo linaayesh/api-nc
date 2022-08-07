@@ -8,23 +8,26 @@ export default async ({ body }: Request, res: Response, next: NextFunction)
 :Promise<void> => {
   const { resetToken } = constants.messages.token;
   const { emailCheck } = constants.messages.check;
+  const { email } = body;
+  const lowerCaseEmail = email.toLowerCase();
+
   try {
-    const user = await checkExistence.ApprovalChecks(body.email);
+    const user = await checkExistence.ApprovalChecks(lowerCaseEmail);
 
     const {
-      username, email, userRoleId, id,
+      username, userRoleId, id,
     } = user;
     const token = await signToken({
       id: Number(id),
       username,
-      email,
+      email: lowerCaseEmail,
       userRoleId,
     }, { expiresIn: '1h' });
 
     const redirectURL = `${config.server.SERVER_URL}/api/v1/auth/reset-password/${token}`;
 
     await sendEmail({
-      email,
+      email: lowerCaseEmail,
       type: 'reset',
       username,
       redirectURL,

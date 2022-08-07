@@ -16,9 +16,11 @@ export default async ({ body }: Request, res: Response, next: NextFunction):Prom
 
     const hashedPassword = await hash(password, 10);
 
+    const lowerCaseEmail = email.toLowerCase();
+
     const user = await addUser({
       username,
-      email,
+      email: lowerCaseEmail,
       userRoleId: 2,
       password: hashedPassword,
       createdBy: 1,

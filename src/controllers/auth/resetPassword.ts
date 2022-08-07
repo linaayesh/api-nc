@@ -18,7 +18,9 @@ export default async (req: Request, res: Response, next: NextFunction):Promise<v
 
     const { email } = await verifyToken(resetPasswordToken);
 
-    const userData = await checkExistence.ApprovalChecks(email);
+    const lowerCaseEmail = email.toLowerCase();
+
+    const userData = await checkExistence.ApprovalChecks(lowerCaseEmail);
 
     const hashedPassword = await hash(password, 10);
     userData.password = hashedPassword;

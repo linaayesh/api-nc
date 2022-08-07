@@ -33,20 +33,21 @@ export default async ({ body }: Request, res: Response, next: NextFunction)
       `${config.server.GOOGLE_API}tokeninfo?id_token=${tokenId}`,
     );
 
-    const user = await checkExistence.ApprovalChecks(email);
+    const lowerCaseEmail = email.toLowerCase();
+    const user = await checkExistence.ApprovalChecks(lowerCaseEmail);
 
     if (user.googleId !== sub) res.status(401).json({ message: 'unAuthorized test' });
 
     const { id, username, userRoleId } = user;
 
     const token = await signToken({
-      id: Number(id), username, email, userRoleId,
+      id: Number(id), username, email: lowerCaseEmail, userRoleId,
     }, { expiresIn: '24h' });
 
     res.status(200).cookie(accessToken, token, { httpOnly: true }).json({
       message: logIn,
       payload: {
-        id: Number(id), username, email, userRoleId,
+        id: Number(id), username, email: lowerCaseEmail, userRoleId,
       },
     });
   } catch (error) {

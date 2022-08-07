@@ -16,8 +16,10 @@ export default async (req: Request, res: Response, next: NextFunction)
 
     const { username, email } = user;
 
+    const lowerCaseEmail = email.toLowerCase();
+
     await sendEmail({
-      email, type: 'reject', username, redirectURL, contactUs,
+      email: lowerCaseEmail, type: 'reject', username, redirectURL, contactUs,
     });
 
     res

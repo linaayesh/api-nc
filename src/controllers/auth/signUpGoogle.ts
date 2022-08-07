@@ -31,8 +31,9 @@ export default async ({ body }: Request, res: Response, next: NextFunction)
     } = await axios.get(
       `${config.server.GOOGLE_API}tokeninfo?id_token=${tokenId}`,
     );
+    const lowerCaseEmail = email.toLowerCase();
 
-    await checkExistence.RegistrationCheck(email);
+    await checkExistence.RegistrationCheck(lowerCaseEmail);
 
     const password = generatePassword.generate({
       length: 20, numbers: true, strict: true, lowercase: true, uppercase: true,
@@ -41,7 +42,7 @@ export default async ({ body }: Request, res: Response, next: NextFunction)
 
     await addUser({
       username: name,
-      email,
+      email: lowerCaseEmail,
       userRoleId: 2,
       password: hashedPassword,
       createdBy: 1,
