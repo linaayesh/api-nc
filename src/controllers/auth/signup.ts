@@ -1,12 +1,12 @@
 import { Request, Response, NextFunction } from 'express';
 import { hash } from 'bcrypt';
-import { Users } from '../../database/models';
 import { checkExistence, constants } from '../../helpers';
 import {
   sendEmail,
   signToken,
 } from '../../utilities';
 import config from '../../config';
+import { addUser } from '../../services';
 
 export default async ({ body }: Request, res: Response, next: NextFunction):Promise<void> => {
   const { username, email, password } = body;
@@ -17,7 +17,8 @@ export default async ({ body }: Request, res: Response, next: NextFunction):Prom
     await checkExistence.RegistrationCheck(email);
 
     const hashedPassword = await hash(password, 10);
-    const user = await Users.create({
+
+    const user = await addUser({
       username,
       email,
       userRoleId: 2,

@@ -1,10 +1,9 @@
 import { NextFunction, Response } from 'express';
-
 import upload from '../../middleware/uploadImage';
-import { Users } from '../../database/models';
 import { CustomError } from '../../utilities';
 import { UserAuth, IUsers } from '../../interfaces';
 import { messages } from '../../helpers/constants';
+import { getUserById } from '../../services';
 
 export default async (req: UserAuth, res: Response, next: NextFunction)
 :Promise<void> => {
@@ -13,7 +12,7 @@ export default async (req: UserAuth, res: Response, next: NextFunction)
   } = req.body;
 
   try {
-    const currentUser = await Users.findOne({ where: { id }, attributes: ['id'] });
+    const currentUser = await getUserById(id);
 
     if (!currentUser) {
       throw new CustomError(messages.authResponse.notExist, 404);

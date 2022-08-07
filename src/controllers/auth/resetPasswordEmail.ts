@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
-import { Users } from '../../database/models';
 import { verifyToken, tokenError } from '../../utilities';
 import config from '../../config';
 import { constants } from '../../helpers';
+import { getUserByEmail } from '../../services';
 
 export default async (req: Request, res: Response, next: NextFunction)
 :Promise<void> => {
@@ -12,7 +12,7 @@ export default async (req: Request, res: Response, next: NextFunction)
   try {
     const { email } = await verifyToken(token);
 
-    const userExists = await Users.findOne({ where: { email } });
+    const userExists = await getUserByEmail(email);
     if (!userExists) res.json({ message: notExist });
 
     return res.redirect(`${config.server.CLIENT_URL}/resetPassword`);

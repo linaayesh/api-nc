@@ -1,1 +1,3 @@
-export { addFinancialInformation, getFinancialInformation } from './user/financialInformation';
+export {
+  getUserByEmail, getUserById, getUsersStatus, addUser,
+} from './user';

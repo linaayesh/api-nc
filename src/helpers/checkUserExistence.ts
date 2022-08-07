@@ -1,7 +1,7 @@
-import { Users } from '../database/models';
 import { CustomError, validateError } from '../utilities';
 import { messages, HttpStatus } from './constants';
 import { IUsers } from '../interfaces';
+import { getUserByEmail, getUserById } from '../services';
 
 const {
   notExist, ALREADY_APPROVED, ALREADY_REJECTED,
@@ -17,7 +17,7 @@ const { CONFLICT, UNAUTHORIZED } = HttpStatus;
 
 export const RegistrationCheck = async (email: string):Promise<string | void> => {
   try {
-    const userExists = await Users.findOne({ where: { email } });
+    const userExists = await getUserByEmail(email);
 
     if (!userExists) return notExist;
 
@@ -46,7 +46,7 @@ export const RegistrationCheck = async (email: string):Promise<string | void> =>
 
 export const ApprovalChecks = async (email: string):Promise<IUsers> => {
   try {
-    const userExists = await Users.findOne({ where: { email } });
+    const userExists = await getUserByEmail(email);
 
     if (!userExists) throw new CustomError(notExist, UNAUTHORIZED);
 
@@ -73,7 +73,7 @@ export const ApprovalChecks = async (email: string):Promise<IUsers> => {
 
 export const VerificationChecks = async (id: number):Promise<IUsers> => {
   try {
-    const userExists = await Users.findOne({ where: { id } });
+    const userExists = await getUserById(id);
 
     if (!userExists) throw new CustomError(notExist, UNAUTHORIZED);
 
@@ -101,7 +101,7 @@ export const VerificationChecks = async (id: number):Promise<IUsers> => {
 
 export const VerificationEmailCheck = async (email: string):Promise<IUsers> => {
   try {
-    const userExists = await Users.findOne({ where: { email } });
+    const userExists = await getUserByEmail(email);
 
     if (!userExists) throw new CustomError(notExist, UNAUTHORIZED);
 

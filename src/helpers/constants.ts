@@ -28,7 +28,7 @@ export const messages = {
   },
   listOfUsers: {
     approved: 'APPROVED USERS',
-    notApproved: 'NOT APPROVED USERS',
+    notApproved: 'PENDING USERS',
     rejected: 'REJECTED USERS',
   },
   token: {

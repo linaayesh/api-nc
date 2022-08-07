@@ -3,12 +3,12 @@ import { hash } from 'bcrypt';
 import { OAuth2Client } from 'google-auth-library';
 import axios from 'axios';
 import generatePassword from 'generate-password';
-import { Users } from '../../database/models';
 import {
   validateError,
 } from '../../utilities';
 import config from '../../config';
 import { checkExistence } from '../../helpers';
+import { addUser } from '../../services';
 
 export default async ({ body }: Request, res: Response, next: NextFunction)
 :Promise<void> => {
@@ -41,7 +41,8 @@ export default async ({ body }: Request, res: Response, next: NextFunction)
       length: 20, numbers: true, strict: true, lowercase: true, uppercase: true,
     });
     const hashedPassword = await hash(password, 10);
-    await Users.create({
+
+    await addUser({
       username: name,
       email,
       userRoleId: 2,
@@ -49,8 +50,8 @@ export default async ({ body }: Request, res: Response, next: NextFunction)
       createdBy: 1,
       image,
       googleId: sub,
-      // userStatusId: 1,
     });
+
     res.status(201).redirect(`${config.server.CLIENT_URL}/verifyEmail`);
   } catch (error) {
     next(validateError(error as Error));

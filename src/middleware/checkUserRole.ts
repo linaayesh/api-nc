@@ -1,8 +1,8 @@
 import { Response, NextFunction } from 'express';
 import { CustomError, verifyToken, tokenError } from '../utilities';
 import { UserAuth } from '../interfaces';
-import { Users } from '../database/models';
 import { constants } from '../helpers';
+import { getUserById } from '../services';
 
 export default (userTypes: number[]) => async (
   req: UserAuth,
@@ -20,7 +20,7 @@ export default (userTypes: number[]) => async (
 
     const { id } = userPayload;
 
-    const userData = await Users.findOne({ where: { id } });
+    const userData = await getUserById(id);
 
     if (!userData) throw new CustomError(notExist, 404);
 
