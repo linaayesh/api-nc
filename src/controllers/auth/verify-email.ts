@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { verifyToken } from '../../utilities/jwt';
+import { verifyToken } from '../../helpers/jwt';
 import config from '../../config';
 import { checkExistence } from '../../helpers';
 

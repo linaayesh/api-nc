@@ -1,12 +1,12 @@
 import { NextFunction, Response } from 'express';
 import upload from '../../middleware/uploadImage';
-import { CustomError } from '../../utilities';
 import { UserAuth, IUsers } from '../../interfaces';
-import { messages } from '../../helpers/constants';
+import { constants, CustomError } from '../../helpers';
 import { getUserById } from '../../services';
 
 export default async (req: UserAuth, res: Response, next: NextFunction)
 :Promise<void> => {
+  const { messages } = constants;
   const {
     id, image, ...userUpdatedFields
   } = req.body;

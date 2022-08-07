@@ -1,9 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
-import {
-  signToken, sendEmail,
-} from '../../utilities';
 import config from '../../config';
-import { constants, checkExistence } from '../../helpers';
+import {
+  constants, checkExistence, signToken, sendEmail,
+} from '../../helpers';
 
 export default async ({ body }: Request, res: Response, next: NextFunction)
 :Promise<void> => {

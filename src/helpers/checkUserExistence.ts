@@ -1,5 +1,6 @@
-import { CustomError, validateError } from '../utilities';
+import CustomError from './CustomError';
 import { messages, HttpStatus } from './constants';
+import validateError from './validationError';
 import { IUsers } from '../interfaces';
 import { getUserByEmail, getUserById } from '../services';
 

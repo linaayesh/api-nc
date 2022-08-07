@@ -1,10 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
 import { hash } from 'bcrypt';
-import { checkExistence, constants } from '../../helpers';
 import {
-  sendEmail,
-  signToken,
-} from '../../utilities';
+  checkExistence, constants, sendEmail, signToken,
+} from '../../helpers';
 import config from '../../config';
 import { addUser } from '../../services';
 

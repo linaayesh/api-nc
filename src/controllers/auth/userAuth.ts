@@ -1,7 +1,6 @@
 import { Response, NextFunction } from 'express';
 import { UserAuth } from '../../interfaces';
-import { CustomError } from '../../utilities';
-import { constants } from '../../helpers';
+import { constants, CustomError } from '../../helpers';
 
 export default async ({ user }: UserAuth, res: Response, next: NextFunction):
 Promise<void> => {

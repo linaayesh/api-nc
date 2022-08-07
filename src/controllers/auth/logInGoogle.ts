@@ -1,11 +1,10 @@
 import { Request, Response, NextFunction } from 'express';
 import { OAuth2Client } from 'google-auth-library';
 import axios from 'axios';
-import {
-  validateError, signToken,
-} from '../../utilities';
 import config from '../../config';
-import { checkExistence, constants } from '../../helpers';
+import {
+  checkExistence, constants, validateError, signToken,
+} from '../../helpers';
 
 export default async ({ body }: Request, res: Response, next: NextFunction)
 :Promise<void> => {

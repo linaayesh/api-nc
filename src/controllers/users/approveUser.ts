@@ -1,9 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
-import {
-  sendEmail,
-} from '../../utilities';
 import config from '../../config';
-import { checkExistence, constants } from '../../helpers';
+import { checkExistence, constants, sendEmail } from '../../helpers';
 
 export default async (req: Request, res: Response, next: NextFunction)
 :Promise<void> => {

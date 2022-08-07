@@ -1,7 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
-import { verifyToken, tokenError } from '../../utilities';
 import config from '../../config';
-import { constants } from '../../helpers';
+import { constants, verifyToken, tokenError } from '../../helpers';
 import { getUserByEmail } from '../../services';
 
 export default async (req: Request, res: Response, next: NextFunction)

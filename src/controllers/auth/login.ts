@@ -1,9 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
 import { compare } from 'bcrypt';
-import { constants, checkExistence } from '../../helpers';
 import {
-  signToken, CustomError,
-} from '../../utilities';
+  constants, checkExistence, signToken, CustomError,
+} from '../../helpers';
 
 export default async ({ body }: Request, res: Response, next: NextFunction):
 Promise<void> => {

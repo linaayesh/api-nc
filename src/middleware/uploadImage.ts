@@ -1,7 +1,7 @@
 import S3 from 'aws-sdk/clients/s3';
 
 import config from '../config';
-import { CustomError } from '../utilities';
+import { CustomError } from '../helpers';
 
 const {
   AWS_BUCKET_NAME, AWS_BUCKET_REGION, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY,

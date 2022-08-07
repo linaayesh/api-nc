@@ -1,11 +1,10 @@
 import { Request, Response, NextFunction } from 'express';
 import { hash } from 'bcrypt';
+
 import {
-  CustomError,
-  verifyToken,
-  tokenError,
-} from '../../utilities';
-import { constants, checkExistence } from '../../helpers';
+  constants, checkExistence, CustomError,
+  verifyToken, tokenError,
+} from '../../helpers';
 import config from '../../config';
 
 export default async (req: Request, res: Response, next: NextFunction):Promise<void> => {

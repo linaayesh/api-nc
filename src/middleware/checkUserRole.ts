@@ -1,7 +1,8 @@
 import { Response, NextFunction } from 'express';
-import { CustomError, verifyToken, tokenError } from '../utilities';
 import { UserAuth } from '../interfaces';
-import { constants } from '../helpers';
+import {
+  constants, CustomError, verifyToken, tokenError,
+} from '../helpers';
 import { getUserById } from '../services';
 
 export default (userTypes: number[]) => async (

@@ -3,11 +3,8 @@ import { hash } from 'bcrypt';
 import { OAuth2Client } from 'google-auth-library';
 import axios from 'axios';
 import generatePassword from 'generate-password';
-import {
-  validateError,
-} from '../../utilities';
 import config from '../../config';
-import { checkExistence } from '../../helpers';
+import { checkExistence, validateError } from '../../helpers';
 import { addUser } from '../../services';
 
 export default async ({ body }: Request, res: Response, next: NextFunction)
