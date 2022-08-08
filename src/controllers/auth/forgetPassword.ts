@@ -8,6 +8,7 @@ export default async ({ body }: Request, res: Response, next: NextFunction)
 :Promise<void> => {
   const { resetToken } = constants.messages.token;
   const { emailCheck } = constants.messages.check;
+  const { OK } = constants.HttpStatus;
   const { email } = body;
   const lowerCaseEmail = email.toLowerCase();
 
@@ -35,7 +36,7 @@ export default async ({ body }: Request, res: Response, next: NextFunction)
 
     res
       .cookie(resetToken, token)
-      .status(201)
+      .status(OK)
       .json({ message: emailCheck });
   } catch (err) {
     next(err);

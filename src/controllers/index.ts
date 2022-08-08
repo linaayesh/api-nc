@@ -1,7 +1,6 @@
 export {
   signupHandler,
   loginHandler,
-  verifyEmailHandler,
   userAuth,
   forgetPassword,
   resetPasswordEmail,

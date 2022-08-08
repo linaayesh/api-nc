@@ -15,7 +15,7 @@ export const messages = {
     wrongEmailOrPassword: 'Incorrect email or password',
     logIn: 'SUCCESS LOGIN',
     SUCCESS: 'SUCCESS PROCESS',
-    logOut: 'SUCCESS LOGOUT',
+    LOGOUT: 'SUCCESS LOGOUT',
     reset: 'SUCCESS RESET',
     edit: 'SUCCESS EDIT',
     success: 'SUCCESS',
@@ -43,6 +43,8 @@ export const HttpStatus = {
   OK: 200,
   NOT_FOUND: 404,
   CONFLICT: 409,
+  INTERNAL_SERVER_ERROR: 500,
+  REDIRECT: 302,
 };
 
 export const USER_STATUS = {

@@ -1,50 +1,35 @@
 import { Request, Response, NextFunction } from 'express';
 import { hash } from 'bcrypt';
 import {
-  checkExistence, constants, sendEmail, signToken,
+  checkExistence, constants,
 } from '../../helpers';
 import config from '../../config';
 import { addUser } from '../../services';
 
 export default async ({ body }: Request, res: Response, next: NextFunction):Promise<void> => {
   const { username, email, password } = body;
-  const { emailCheck } = constants.messages.check;
-  const { verifyToken } = constants.messages.token;
+  const { REDIRECT } = constants.HttpStatus;
 
   try {
-    await checkExistence.RegistrationCheck(email);
+    const lowercaseEmail = email.toLowerCase();
+
+    await checkExistence.RegistrationCheck(lowercaseEmail);
 
     const hashedPassword = await hash(password, 10);
-
-    const lowerCaseEmail = email.toLowerCase();
-
-    const user = await addUser({
+    // TODO: userRoleId from the body, Created by Whom
+    await addUser({
       username,
-      email: lowerCaseEmail,
-      userRoleId: 2,
+      email: email.toLowerCase(),
+      userRoleId: constants.USER_ROLES.COMEDIAN,
       password: hashedPassword,
-      createdBy: 1,
+      createdBy: constants.USER_ROLES.SYSTEM_ADMIN,
     });
-
-    const { id, userRoleId } = user;
-    const token = await signToken({
-      id: Number(id),
-      username,
-      email,
-      userRoleId,
-    }, { expiresIn: '1h' });
-
-    const redirectURL = `${config.server.SERVER_URL}/api/v1/auth/verify-email/${token}`;
-
-    await sendEmail({
-      email, type: 'verify', username, redirectURL,
-    });
-
+    // ! new end point to FrontEnd
+    const redirectURL = `${config.server.CLIENT_URL}/waitingApproval`;
     res
-      .cookie(verifyToken, token)
-      .status(201)
-      .json({ message: emailCheck });
+      .status(REDIRECT)
+      .redirect(redirectURL);
   } catch (err) {
-    next(err); // TODO: handle internal server error
+    next(err);
   }
 };

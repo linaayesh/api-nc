@@ -9,8 +9,9 @@ export default async (req: Request, res: Response, next: NextFunction)
 
   try {
     const user = await checkExistence.VerificationChecks(+userId);
-    // TODO: edit status id
-    user.userStatusId = 1;
+
+    user.userStatusId = constants.USER_STATUS.APPROVED;
+    user.updatedBy = constants.USER_ROLES.SYSTEM_ADMIN;
     await user.save();
 
     const { username, email } = user;
@@ -22,7 +23,7 @@ export default async (req: Request, res: Response, next: NextFunction)
     });
 
     res
-      .status(201)
+      .status(constants.HttpStatus.OK)
       .json({ message: constants.messages.authResponse.adminApproval });
   } catch (err) {
     next(err);

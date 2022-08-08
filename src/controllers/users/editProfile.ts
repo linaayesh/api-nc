@@ -1,7 +1,6 @@
 import { NextFunction, Response } from 'express';
-import upload from '../../middleware/uploadImage';
 import { UserAuth, IUsers } from '../../interfaces';
-import { constants, CustomError } from '../../helpers';
+import { constants, CustomError, upload } from '../../helpers';
 import { getUserById } from '../../services';
 
 export default async (req: UserAuth, res: Response, next: NextFunction)

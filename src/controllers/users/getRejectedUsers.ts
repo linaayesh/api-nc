@@ -1,14 +1,16 @@
 import { Request, Response, NextFunction } from 'express';
-import { constants } from '../../helpers';
+import { USER_STATUS, messages, HttpStatus } from '../../helpers/constants';
 import { getUsersStatus } from '../../services';
 
 export default async (req: Request, res: Response, next: NextFunction)
 :Promise<void> => {
   try {
-    const RejectedUsers = await getUsersStatus(constants.USER_STATUS.REJECTED);
+    const RejectedUsers = await getUsersStatus(USER_STATUS.REJECTED);
 
-    res.json({ message: constants.messages.listOfUsers.rejected, data: RejectedUsers });
-  } catch (err) {
-    next(err);
+    res
+      .status(HttpStatus.OK)
+      .json({ message: messages.listOfUsers.rejected, data: RejectedUsers });
+  } catch (error) {
+    next(error);
   }
 };

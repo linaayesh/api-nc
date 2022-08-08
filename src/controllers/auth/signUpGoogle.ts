@@ -4,11 +4,12 @@ import { OAuth2Client } from 'google-auth-library';
 import axios from 'axios';
 import generatePassword from 'generate-password';
 import config from '../../config';
-import { checkExistence, validateError } from '../../helpers';
+import { checkExistence, constants } from '../../helpers';
 import { addUser } from '../../services';
 
 export default async ({ body }: Request, res: Response, next: NextFunction)
 :Promise<void> => {
+  const { REDIRECT } = constants.HttpStatus;
   const { tokenId } = body;
   try {
     // TODO: separate signUp with Google steps
@@ -50,8 +51,11 @@ export default async ({ body }: Request, res: Response, next: NextFunction)
       googleId: sub,
     });
 
-    res.status(201).redirect(`${config.server.CLIENT_URL}/verifyEmail`);
+    const redirectURL = `${config.server.CLIENT_URL}/waitingApproval`;
+    res
+      .status(REDIRECT)
+      .redirect(redirectURL);
   } catch (error) {
-    next(validateError(error as Error));
+    next(error);
   }
 };

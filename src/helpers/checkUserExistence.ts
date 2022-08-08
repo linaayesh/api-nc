@@ -1,14 +1,14 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import CustomError from './CustomError';
-import { messages, HttpStatus } from './constants';
-import validateError from './validationError';
+import { messages, HttpStatus, USER_STATUS } from './constants';
 import { IUsers } from '../interfaces';
 import { getUserByEmail, getUserById } from '../services';
 
 const {
   notExist, ALREADY_APPROVED, ALREADY_REJECTED,
 } = messages.authResponse;
-const { CONFLICT, UNAUTHORIZED } = HttpStatus;
-
+const { CONFLICT, UNAUTHORIZED, INTERNAL_SERVER_ERROR } = HttpStatus;
+const { APPROVED, REJECTED, PENDING } = USER_STATUS;
 /**
  * @description RegistrationCheck is a function  used to check user existence sign up
  * @param {string} email user email
@@ -19,22 +19,22 @@ const { CONFLICT, UNAUTHORIZED } = HttpStatus;
 export const RegistrationCheck = async (email: string):Promise<string | void> => {
   try {
     const userExists = await getUserByEmail(email);
-
     if (!userExists) return notExist;
 
-    if (userExists.userStatusId === 2) throw new CustomError(ALREADY_APPROVED, CONFLICT);
+    const userStatus = userExists.userStatusId;
 
-    if (userExists.userStatusId === 3) throw new CustomError(ALREADY_REJECTED, UNAUTHORIZED);
+    if (userStatus === APPROVED) throw new CustomError(ALREADY_APPROVED, CONFLICT);
 
-    // TODO: isVerified => isPending
-    // if (userExists.isVerified) throw new CustomError(PENDING, UNAUTHORIZED);
+    if (userStatus === REJECTED) throw new CustomError(ALREADY_REJECTED, UNAUTHORIZED);
+
+    if (userStatus === PENDING) throw new CustomError(messages.authResponse.PENDING, UNAUTHORIZED);
 
     return '';
-  } catch (error) {
+  } catch (error: any) {
     if (error instanceof CustomError) {
       throw error;
     }
-    throw validateError(error as Error);
+    throw new CustomError(error, INTERNAL_SERVER_ERROR);
   }
 };
 
@@ -51,16 +51,18 @@ export const ApprovalChecks = async (email: string):Promise<IUsers> => {
 
     if (!userExists) throw new CustomError(notExist, UNAUTHORIZED);
 
-    // if (!userExists.isVerified) throw new CustomError(UNVERIFIED, UNAUTHORIZED);
+    const userStatus = userExists.userStatusId;
 
-    if (userExists.userStatusId === 3) throw new CustomError(ALREADY_REJECTED, UNAUTHORIZED);
+    if (userStatus === REJECTED) throw new CustomError(ALREADY_REJECTED, UNAUTHORIZED);
+
+    if (userStatus === PENDING) throw new CustomError(messages.authResponse.PENDING, UNAUTHORIZED);
 
     return userExists;
-  } catch (error) {
+  } catch (error: any) {
     if (error instanceof CustomError) {
       throw error;
     }
-    throw validateError(error as Error);
+    throw new CustomError(error, INTERNAL_SERVER_ERROR);
   }
 };
 
@@ -78,41 +80,15 @@ export const VerificationChecks = async (id: number):Promise<IUsers> => {
 
     if (!userExists) throw new CustomError(notExist, UNAUTHORIZED);
 
-    // if (!userExists.isVerified) throw new CustomError(UNVERIFIED, UNAUTHORIZED);
+    if (userExists.userStatusId === APPROVED) throw new CustomError(ALREADY_APPROVED, CONFLICT);
 
-    if (userExists.userStatusId === 2) throw new CustomError(ALREADY_APPROVED, CONFLICT);
-
-    if (userExists.userStatusId === 3) throw new CustomError(ALREADY_REJECTED, UNAUTHORIZED);
+    if (userExists.userStatusId === REJECTED) throw new CustomError(ALREADY_REJECTED, UNAUTHORIZED);
 
     return userExists;
-  } catch (error) {
+  } catch (error: any) {
     if (error instanceof CustomError) {
       throw error;
     }
-    throw validateError(error as Error);
-  }
-};
-
-/**
- * @description VerificationEmailCheck is a function  used to check user verified email => false
- * @param {string} email user email
- * @returns {Promise<IUsers>}
- * if the user not exist return error, if verified | approved | rejected => error
- */
-
-export const VerificationEmailCheck = async (email: string):Promise<IUsers> => {
-  try {
-    const userExists = await getUserByEmail(email);
-
-    if (!userExists) throw new CustomError(notExist, UNAUTHORIZED);
-
-    // if (userExists.isVerified) throw new CustomError(UNVERIFIED, UNAUTHORIZED);
-
-    return userExists;
-  } catch (error) {
-    if (error instanceof CustomError) {
-      throw error;
-    }
-    throw validateError(error as Error);
+    throw new CustomError(error, INTERNAL_SERVER_ERROR);
   }
 };

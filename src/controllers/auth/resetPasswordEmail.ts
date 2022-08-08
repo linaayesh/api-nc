@@ -6,6 +6,7 @@ import { getUserByEmail } from '../../services';
 export default async (req: Request, res: Response, next: NextFunction)
 :Promise<void> => {
   const { notExist } = constants.messages.authResponse;
+  const { REDIRECT } = constants.HttpStatus;
   const token: string = req.params?.token;
 
   try {
@@ -16,7 +17,7 @@ export default async (req: Request, res: Response, next: NextFunction)
     const userExists = await getUserByEmail(lowerCaseEmail);
     if (!userExists) res.json({ message: notExist });
 
-    return res.redirect(`${config.server.CLIENT_URL}/resetPassword`);
+    return res.status(REDIRECT).redirect(`${config.server.CLIENT_URL}/resetPassword`);
   } catch (error) {
     return next(tokenError(error as Error));
   }

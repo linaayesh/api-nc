@@ -27,7 +27,7 @@ export default (userTypes: number[]) => async (
 
     const { userRoleId, userStatusId } = userData;
 
-    if (!userTypes.includes(userRoleId) && userStatusId !== USER_STATUS.APPROVED) throw new CustomError('UnAuthorized', 401);
+    if (!userTypes.includes(userRoleId) || userStatusId !== USER_STATUS.APPROVED) throw new CustomError('UnAuthorized', 401);
 
     req.user = userData;
 

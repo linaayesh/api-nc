@@ -12,6 +12,7 @@ export default async (req: Request, res: Response, next: NextFunction):Promise<v
   const { resetPasswordToken } = req.cookies;
   const { resetToken } = constants.messages.token;
   const { unAuthUser, resetPassword } = constants.messages.authResponse;
+  const { OK } = constants.HttpStatus;
 
   try {
     if (!resetPasswordToken) throw new CustomError(unAuthUser, 401);
@@ -26,7 +27,7 @@ export default async (req: Request, res: Response, next: NextFunction):Promise<v
     userData.password = hashedPassword;
     await userData.save();
 
-    res.status(200).clearCookie(resetToken).json({
+    res.status(OK).clearCookie(resetToken).json({
       message: { message: resetPassword },
       redirect: `${config.server.CLIENT_URL}/login`,
     });

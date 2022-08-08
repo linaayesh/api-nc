@@ -9,6 +9,7 @@ Promise<void> => {
   const { email, password, rememberMe } = body;
   const { wrongEmailOrPassword, logIn } = constants.messages.authResponse;
   const { accessToken } = constants.messages.token;
+  const { OK, UNAUTHORIZED } = constants.HttpStatus;
   try {
     let expiresIn;
     if (rememberMe) { expiresIn = '30d'; } else { expiresIn = '24h'; }
@@ -18,19 +19,22 @@ Promise<void> => {
     const user = await checkExistence.ApprovalChecks(lowerCaseEmail);
 
     const isValid = await compare(password, user.password);
-    if (!isValid) throw new CustomError(wrongEmailOrPassword, 401);
+    if (!isValid) throw new CustomError(wrongEmailOrPassword, UNAUTHORIZED);
 
     const { id, username, userRoleId } = user;
     const token = await signToken({
       id: Number(id), username, email: lowerCaseEmail, userRoleId,
     }, { expiresIn });
 
-    res.cookie(accessToken, token, { httpOnly: true }).json({
-      message: logIn,
-      payload: {
-        id: Number(id), username, email: lowerCaseEmail, userRoleId,
-      },
-    });
+    res
+      .status(OK)
+      .cookie(accessToken, token, { httpOnly: true })
+      .json({
+        message: logIn,
+        payload: {
+          id: Number(id), username, email: lowerCaseEmail, userRoleId,
+        },
+      });
   } catch (error) {
     next(error);
   }

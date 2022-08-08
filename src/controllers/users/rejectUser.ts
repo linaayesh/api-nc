@@ -11,7 +11,8 @@ export default async (req: Request, res: Response, next: NextFunction)
   try {
     const user = await checkExistence.VerificationChecks(+userId);
 
-    user.userStatusId = 3;
+    user.userStatusId = constants.USER_STATUS.REJECTED;
+    user.updatedBy = constants.USER_ROLES.SYSTEM_ADMIN;
     await user.save();
 
     const { username, email } = user;
@@ -23,7 +24,7 @@ export default async (req: Request, res: Response, next: NextFunction)
     });
 
     res
-      .status(201)
+      .status(constants.HttpStatus.OK)
       .json({ message: constants.messages.check.emailCheck });
   } catch (err) {
     next(err);
