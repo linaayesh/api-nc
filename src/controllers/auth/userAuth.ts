@@ -10,7 +10,11 @@ Promise<void> => {
     if (!user) throw new CustomError(UNAUTHORIZED, 401);
 
     const {
-      id, userRoleId, email, username, image,
+      id,
+      userRoleId,
+      email,
+      name,
+      image,
     } = user;
 
     const lowerCaseEmail = email.toLowerCase();
@@ -20,7 +24,7 @@ Promise<void> => {
       .json({
         message: approvedUser,
         data: {
-          id, userRoleId, email: lowerCaseEmail, username, image,
+          id, userRoleId, email: lowerCaseEmail, name, image,
         },
       });
   } catch (error) {

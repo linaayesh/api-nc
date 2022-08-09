@@ -16,7 +16,7 @@ sgMail.setApiKey(config.email.SENDGRID_API_KEY);
 export default async ({
   email,
   type,
-  username,
+  name,
   redirectURL,
   contactUs,
 }: IEmailService): Promise<[ClientResponse, {}] | void> => {
@@ -34,7 +34,7 @@ export default async ({
       templateId: templateType[type],
       dynamicTemplateData: {
         subject: EmailType[type as keyof typeof EmailType],
-        username: username.charAt(0).toUpperCase() + username.slice(1),
+        name: name.charAt(0).toUpperCase() + name.slice(1),
         redirectURL,
         contactUs,
       },

@@ -7,7 +7,7 @@ import {
 import { addUser } from '../../services';
 
 export default async ({ body }: Request, res: Response, next: NextFunction):Promise<void> => {
-  const { username, email, password } = body;
+  const { name, email, password } = body;
   const { CREATED } = constants.HttpStatus;
 
   try {
@@ -18,17 +18,19 @@ export default async ({ body }: Request, res: Response, next: NextFunction):Prom
     const hashedPassword = await hash(password, 10);
 
     const user = await addUser({
-      username,
+      name,
       email: email.toLowerCase(),
       userRoleId: constants.USER_ROLES.COMEDIAN,
       password: hashedPassword,
       createdBy: constants.USER_ROLES.SYSTEM_ADMIN,
+      accPaidRevenue: 0,
+      freeToBePaidRevenue: 0,
     });
 
     await sendEmail({
       email: user.email,
       type: 'verify',
-      username: user.username,
+      name: user.name,
     });
     res
       .status(CREATED)

@@ -21,7 +21,7 @@ export default (userTypes: number[]) => async (
 
     const { id } = userPayload;
 
-    const userData = await getUserById(id);
+    const userData = await getUserById(id as number);
 
     if (!userData) throw new CustomError(notExist, constants.HttpStatus.NOT_FOUND);
 

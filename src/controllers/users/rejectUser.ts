@@ -15,12 +15,12 @@ export default async (req: Request, res: Response, next: NextFunction)
     user.updatedBy = constants.USER_ROLES.SYSTEM_ADMIN;
     await user.save();
 
-    const { username, email } = user;
+    const { name, email } = user;
 
     const lowerCaseEmail = email.toLowerCase();
 
     await sendEmail({
-      email: lowerCaseEmail, type: 'reject', username, redirectURL, contactUs,
+      email: lowerCaseEmail, type: 'reject', name, redirectURL, contactUs,
     });
 
     res

@@ -1,7 +1,4 @@
-import {
-  InferAttributes, InferCreationAttributes, Model,
-} from 'sequelize';
-
+import { IUser } from 'db-models-nc';
 import {
   Secret,
 } from 'jsonwebtoken';
@@ -12,13 +9,13 @@ interface IServerAddress{
   address: string;
 }
 
-interface IUser{
-  id:number
-  userRoleId:number
-  email:string
-  username: string,
-  image?: string,
-  role?: string,
+interface IUserInfo{
+  id: number;
+  userRoleId: number;
+  email: string;
+  name: string;
+  image?: string;
+  role?: string;
 }
 
 interface IServer{
@@ -50,26 +47,9 @@ interface ApprovedUser {
   id: number,
   email: string,
   roleId: number,
-  username: string,
+  name: string,
 }
 
-interface IUsers extends Model<
-  InferAttributes<IUsers>, InferCreationAttributes<IUsers>
-> {
-  id?: number;
-  username: string;
-  email: string;
-  password: string;
-  userRoleId: number;
-  userStatusId?: number;
-  googleId?: string;
-  accPaidRevenue?: number;
-  freeToBePaidRevenue?: number;
-  createdBy?: number;
-  updatedBy?: number;
-  image?: string;
-  reasonOfRejection?: string;
-}
 interface FinancialInformation {
   id?: number,
   userId: number,
@@ -79,20 +59,8 @@ interface FinancialInformation {
   updatedBy?: number,
 }
 
-interface IPayments extends Model<
-  InferAttributes<IPayments>, InferCreationAttributes<IPayments>
-> {
-  id?: number;
-  userId?: number;
-  name: string;
-  address: string;
-  method_id?: number;
-  updatedBy?: number;
-  createdBy?: number;
-}
-
 interface UserAuth extends Request {
-  user?: IUsers,
+  user?: IUser,
   admin?: { id: number, email: string, role: string },
 }
 interface ErrorWithDetails extends Error {
@@ -105,14 +73,13 @@ interface ErrorWithDetails extends Error {
 
 export {
   IServerAddress,
-  IUser,
+  IUserInfo,
   IServer,
   IDatabase,
   UserAuth,
   ApprovedUser,
   GoogleUserRequest,
-  IUsers,
+  IUser,
   ErrorWithDetails,
-  IPayments,
   FinancialInformation,
 };

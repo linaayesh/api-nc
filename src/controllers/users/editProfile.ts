@@ -1,5 +1,6 @@
 import { NextFunction, Response } from 'express';
-import { UserAuth, IUsers } from '../../interfaces';
+import { IUser } from 'db-models-nc';
+import { UserAuth } from '../../interfaces';
 import { constants, CustomError, upload } from '../../helpers';
 import { getUserById } from '../../services';
 
@@ -22,7 +23,7 @@ export default async (req: UserAuth, res: Response, next: NextFunction)
       userUpdatedFields.image = Location;
     }
 
-    const user : IUsers = await currentUser.update({
+    const user : IUser = await currentUser.update({
       ...userUpdatedFields,
     }); // remove this any & update the interface
 

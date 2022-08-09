@@ -1,11 +1,10 @@
 import { Op, col } from 'sequelize';
-import { Users, Roles } from '../../database/models';
-import { IUsers } from '../../interfaces';
+import { IUser, User, UserRole } from 'db-models-nc';
 import { constants } from '../../helpers';
 
-type GetUsersStatus = (statusId: number) => Promise<IUsers[] | null>
+type GetUsersStatus = (statusId: number) => Promise<IUser[] | null>
 
-const getUsersStatus: GetUsersStatus = (statusId: number) => Users.findAll({
+const getUsersStatus: GetUsersStatus = (statusId: number) => User.findAll({
   where: {
     [Op.and]: [
       { userStatusId: statusId },
@@ -17,7 +16,7 @@ const getUsersStatus: GetUsersStatus = (statusId: number) => Users.findAll({
     include: [[col('user_role.name'), 'roleName']],
   },
   include: {
-    model: Roles,
+    model: UserRole,
     attributes: [],
   },
 });

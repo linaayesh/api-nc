@@ -16,11 +16,11 @@ export default async ({ body }: Request, res: Response, next: NextFunction)
     const user = await checkExistence.ApprovalChecks(lowerCaseEmail);
 
     const {
-      username, userRoleId, id,
+      name, userRoleId, id,
     } = user;
     const token = await signToken({
       id: Number(id),
-      username,
+      name,
       email: lowerCaseEmail,
       userRoleId,
     }, { expiresIn: '1h' });
@@ -30,7 +30,7 @@ export default async ({ body }: Request, res: Response, next: NextFunction)
     await sendEmail({
       email: lowerCaseEmail,
       type: 'reset',
-      username,
+      name,
       redirectURL,
     });
 

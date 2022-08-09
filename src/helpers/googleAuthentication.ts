@@ -5,7 +5,7 @@ import config from '../config';
 interface googleAuthInterface{
   googleId: string,
   email:string
-  username: string,
+  name: string,
   image: string,
 }
 
@@ -25,7 +25,7 @@ const googleAuthentication: GoogleAuth = async (tokenId: string) => {
     data: {
       sub,
       email,
-      name: username,
+      name,
       picture: image,
     },
   } = await axios.get(
@@ -34,7 +34,7 @@ const googleAuthentication: GoogleAuth = async (tokenId: string) => {
   const lowerCaseEmail = email.toLowerCase();
 
   return ({
-    googleId: sub, email: lowerCaseEmail, username, image,
+    googleId: sub, email: lowerCaseEmail, name, image,
   });
 };
 

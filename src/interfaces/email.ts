@@ -18,7 +18,7 @@ enum EmailType {
 interface IEmailService {
   email: string;
   type: string;
-  username: string;
+  name: string;
   redirectURL?: string;
   contactUs?: string;
 }

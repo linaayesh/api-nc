@@ -21,9 +21,9 @@ Promise<void> => {
     const isValid = await compare(password, user.password);
     if (!isValid) throw new CustomError(wrongEmailOrPassword, UNAUTHORIZED);
 
-    const { id, username, userRoleId } = user;
+    const { id, name, userRoleId } = user;
     const token = await signToken({
-      id: Number(id), username, email: lowerCaseEmail, userRoleId,
+      id: Number(id), name, email: lowerCaseEmail, userRoleId,
     }, { expiresIn });
 
     res
@@ -32,7 +32,7 @@ Promise<void> => {
       .json({
         message: logIn,
         payload: {
-          id: Number(id), username, email: lowerCaseEmail, userRoleId,
+          id: Number(id), name, email: lowerCaseEmail, userRoleId,
         },
       });
   } catch (error) {

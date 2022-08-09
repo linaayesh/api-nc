@@ -12,7 +12,7 @@ export default async ({ body }: Request, res: Response, next: NextFunction)
   const { tokenId } = body;
   try {
     const {
-      email, username, image, googleId,
+      email, name, image, googleId,
     } = await googleAuthentication(tokenId);
 
     await checkExistence.RegistrationCheck(email);
@@ -23,19 +23,21 @@ export default async ({ body }: Request, res: Response, next: NextFunction)
     const hashedPassword = await hash(password, 10);
 
     const user = await addUser({
-      username,
+      name,
       email,
       userRoleId: 2,
       password: hashedPassword,
       createdBy: 1,
       image,
       googleId,
+      freeToBePaidRevenue: 0,
+      accPaidRevenue: 0,
     });
 
     await sendEmail({
       email: user.email,
       type: 'verify',
-      username: user.username,
+      name: user.name,
     });
 
     res

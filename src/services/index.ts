@@ -1,3 +1,6 @@
 export {
-  getUserByEmail, getUserById, getUsersStatus, addUser,
+  getUserByEmail,
+  getUserById,
+  getUsersStatus,
+  addUser,
 } from './user';
