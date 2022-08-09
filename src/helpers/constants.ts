@@ -42,6 +42,7 @@ export const HttpStatus = {
   CREATED: 201,
   OK: 200,
   NOT_FOUND: 404,
+  BAD_REQUEST: 400,
   CONFLICT: 409,
   INTERNAL_SERVER_ERROR: 500,
   REDIRECT: 302,
@@ -57,6 +58,11 @@ export const USER_STATUS = {
 export const USER_ROLES = {
   SYSTEM_ADMIN: 1,
   COMEDIAN: 2,
+};
+
+export const ERROR_RESPONSE = {
+  CLIENT: 'PAGE NOT FOUND',
+  SERVER: 'INTERNAL SERVER ERROR',
 };
 
 export const emailTemplates = {

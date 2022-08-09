@@ -1,7 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
+import { constants } from '../../helpers';
 
 const notFound = (_req: Request, res: Response):void => {
-  res.status(400).json({ message: 'Page Not Found' });
+  res.status(constants.HttpStatus.BAD_REQUEST).json({ message: constants.ERROR_RESPONSE.CLIENT });
 };
 
 interface IError extends Error {
@@ -9,7 +10,9 @@ interface IError extends Error {
 }
 
 const serverError = (err: IError, req: Request, res: Response, _next: NextFunction):void => {
-  res.status(err.status || 500).json({ message: err.status ? err.message : 'Internal Server Error' });
+  res
+    .status(err.status || constants.HttpStatus.INTERNAL_SERVER_ERROR)
+    .json({ message: err.status ? err.message : constants.ERROR_RESPONSE.SERVER });
 };
 
 export { notFound, serverError };

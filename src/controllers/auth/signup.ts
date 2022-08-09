@@ -24,7 +24,7 @@ export default async ({ body }: Request, res: Response, next: NextFunction):Prom
       password: hashedPassword,
       createdBy: constants.USER_ROLES.SYSTEM_ADMIN,
     });
-    // // ! new end point to FrontEnd
+
     await sendEmail({
       email: user.email,
       type: 'verify',

@@ -15,7 +15,7 @@ export default (userTypes: number[]) => async (
   try {
     const { accessToken } = req.cookies;
 
-    if (!accessToken) throw new CustomError(UNAUTHORIZED, 401);
+    if (!accessToken) throw new CustomError(UNAUTHORIZED, constants.HttpStatus.UNAUTHORIZED);
 
     const userPayload = await verifyToken(accessToken);
 
@@ -23,11 +23,13 @@ export default (userTypes: number[]) => async (
 
     const userData = await getUserById(id);
 
-    if (!userData) throw new CustomError(notExist, 404);
+    if (!userData) throw new CustomError(notExist, constants.HttpStatus.NOT_FOUND);
 
     const { userRoleId, userStatusId } = userData;
 
-    if (!userTypes.includes(userRoleId) || userStatusId !== USER_STATUS.APPROVED) throw new CustomError('UnAuthorized', 401);
+    if (!userTypes.includes(userRoleId) || userStatusId !== USER_STATUS.APPROVED) {
+      throw new CustomError(UNAUTHORIZED, constants.HttpStatus.UNAUTHORIZED);
+    }
 
     req.user = userData;
 

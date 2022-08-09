@@ -1,6 +1,7 @@
 import { Op, col } from 'sequelize';
 import { Users, Roles } from '../../database/models';
 import { IUsers } from '../../interfaces';
+import { constants } from '../../helpers';
 
 type GetUsersStatus = (statusId: number) => Promise<IUsers[] | null>
 
@@ -8,7 +9,7 @@ const getUsersStatus: GetUsersStatus = (statusId: number) => Users.findAll({
   where: {
     [Op.and]: [
       { userStatusId: statusId },
-      { userRoleId: { [Op.ne]: 1 } },
+      { userRoleId: { [Op.ne]: constants.USER_ROLES.SYSTEM_ADMIN } },
     ],
   },
   attributes: {
