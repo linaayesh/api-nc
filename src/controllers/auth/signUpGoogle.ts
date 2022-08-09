@@ -1,60 +1,46 @@
 import { Request, Response, NextFunction } from 'express';
 import { hash } from 'bcrypt';
-import { OAuth2Client } from 'google-auth-library';
-import axios from 'axios';
 import generatePassword from 'generate-password';
-import config from '../../config';
-import { checkExistence, constants } from '../../helpers';
+import {
+  checkExistence, constants, sendEmail, googleAuthentication,
+} from '../../helpers';
 import { addUser } from '../../services';
 
 export default async ({ body }: Request, res: Response, next: NextFunction)
 :Promise<void> => {
-  const { REDIRECT } = constants.HttpStatus;
+  const { CREATED } = constants.HttpStatus;
   const { tokenId } = body;
   try {
-    // TODO: separate signUp with Google steps
-    const client = new OAuth2Client(config.server.CLIENT_ID);
-    const verify = async ():Promise<void> => {
-      const ticket = await client.verifyIdToken({
-        idToken: tokenId,
-        audience: config.server.CLIENT_ID,
-      });
-      ticket.getPayload();
-    };
-    verify().catch(console.error);
     const {
-      data: {
-        sub,
-        email,
-        name,
-        picture: image,
-      },
-    } = await axios.get(
-      `${config.server.GOOGLE_API}tokeninfo?id_token=${tokenId}`,
-    );
-    const lowerCaseEmail = email.toLowerCase();
+      email, username, image, googleId,
+    } = await googleAuthentication(tokenId);
 
-    await checkExistence.RegistrationCheck(lowerCaseEmail);
+    await checkExistence.RegistrationCheck(email);
 
     const password = generatePassword.generate({
       length: 20, numbers: true, strict: true, lowercase: true, uppercase: true,
     });
     const hashedPassword = await hash(password, 10);
 
-    await addUser({
-      username: name,
-      email: lowerCaseEmail,
+    const user = await addUser({
+      username,
+      email,
       userRoleId: 2,
       password: hashedPassword,
       createdBy: 1,
       image,
-      googleId: sub,
+      googleId,
     });
 
-    const redirectURL = `${config.server.CLIENT_URL}/waitingApproval`;
+    await sendEmail({
+      email: user.email,
+      type: 'verify',
+      username: user.username,
+    });
+
     res
-      .status(REDIRECT)
-      .redirect(redirectURL);
+      .status(CREATED)
+      .json({ message: constants.messages.authResponse.SUCCESS });
   } catch (error) {
     next(error);
   }

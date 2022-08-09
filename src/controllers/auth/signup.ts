@@ -1,14 +1,14 @@
 import { Request, Response, NextFunction } from 'express';
 import { hash } from 'bcrypt';
 import {
-  checkExistence, constants,
+  checkExistence, constants, sendEmail,
 } from '../../helpers';
-import config from '../../config';
+// import config from '../../config';
 import { addUser } from '../../services';
 
 export default async ({ body }: Request, res: Response, next: NextFunction):Promise<void> => {
   const { username, email, password } = body;
-  const { REDIRECT } = constants.HttpStatus;
+  const { CREATED } = constants.HttpStatus;
 
   try {
     const lowercaseEmail = email.toLowerCase();
@@ -16,19 +16,23 @@ export default async ({ body }: Request, res: Response, next: NextFunction):Prom
     await checkExistence.RegistrationCheck(lowercaseEmail);
 
     const hashedPassword = await hash(password, 10);
-    // TODO: userRoleId from the body, Created by Whom
-    await addUser({
+
+    const user = await addUser({
       username,
       email: email.toLowerCase(),
       userRoleId: constants.USER_ROLES.COMEDIAN,
       password: hashedPassword,
       createdBy: constants.USER_ROLES.SYSTEM_ADMIN,
     });
-    // ! new end point to FrontEnd
-    const redirectURL = `${config.server.CLIENT_URL}/waitingApproval`;
+    // // ! new end point to FrontEnd
+    await sendEmail({
+      email: user.email,
+      type: 'verify',
+      username: user.username,
+    });
     res
-      .status(REDIRECT)
-      .redirect(redirectURL);
+      .status(CREATED)
+      .json({ message: constants.messages.authResponse.SUCCESS });
   } catch (err) {
     next(err);
   }
