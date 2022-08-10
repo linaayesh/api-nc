@@ -11,7 +11,7 @@ interface IServerAddress{
 
 interface IUserInfo{
   id: number;
-  userRoleId: number;
+  roleId: number;
   email: string;
   name: string;
   image?: string;

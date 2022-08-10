@@ -1,5 +1,4 @@
 import { User, IUser } from 'db-models-nc';
-// import { IUserInfo } from '../../interfaces'
 
 interface AddUserInterface{
   name: string;

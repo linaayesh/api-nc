@@ -77,6 +77,7 @@ export const LOGGER_LEVELS = {
   debug: 4,
 };
 
+export const REVENUE_DEFAULT_VALUE = 0;
 export const LOGGER_COLORS = {
   error: 'red',
   warn: 'yellow',

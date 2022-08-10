@@ -22,7 +22,7 @@ export default async ({ body }: Request, res: Response, next: NextFunction)
       id: Number(id),
       name,
       email: lowerCaseEmail,
-      userRoleId,
+      roleId: userRoleId,
     }, { expiresIn: '1h' });
 
     const redirectURL = `${config.server.SERVER_URL}/api/v1/auth/reset-password/${token}`;

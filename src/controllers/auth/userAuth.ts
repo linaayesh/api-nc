@@ -24,7 +24,7 @@ Promise<void> => {
       .json({
         message: approvedUser,
         data: {
-          id, userRoleId, email: lowerCaseEmail, name, image,
+          id, roleId: userRoleId, email: lowerCaseEmail, name, image,
         },
       });
   } catch (error) {

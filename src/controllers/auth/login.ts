@@ -23,7 +23,7 @@ Promise<void> => {
 
     const { id, name, userRoleId } = user;
     const token = await signToken({
-      id: Number(id), name, email: lowerCaseEmail, userRoleId,
+      id: Number(id), name, email: lowerCaseEmail, roleId: userRoleId,
     }, { expiresIn });
 
     res
@@ -32,7 +32,7 @@ Promise<void> => {
       .json({
         message: logIn,
         payload: {
-          id: Number(id), name, email: lowerCaseEmail, userRoleId,
+          id: Number(id), name, email: lowerCaseEmail, roleId: userRoleId,
         },
       });
   } catch (error) {

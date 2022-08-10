@@ -21,13 +21,13 @@ export default async ({ body }: Request, res: Response, next: NextFunction)
     const { id, name, userRoleId } = user;
 
     const token = await signToken({
-      id: Number(id), name, email, userRoleId,
+      id: Number(id), name, email, roleId: userRoleId,
     }, { expiresIn: '24h' });
 
     res.status(200).cookie(accessToken, token, { httpOnly: true }).json({
       message: logIn,
       payload: {
-        id: Number(id), name, email, userRoleId,
+        id: Number(id), name, email, roleId: userRoleId,
       },
     });
   } catch (error) {
