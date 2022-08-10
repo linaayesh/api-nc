@@ -1,9 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
-import {
-  idValidation, validateError, sendEmail,
-} from '../../utilities';
 import config from '../../config';
-import { checkExistence, constants } from '../../helpers';
+import { checkExistence, constants, sendEmail } from '../../helpers';
 
 export default async (req: Request, res: Response, next: NextFunction)
 :Promise<void> => {
@@ -11,23 +8,24 @@ export default async (req: Request, res: Response, next: NextFunction)
   const redirectURL = `${config.server.CLIENT_URL}`;
 
   try {
-    await idValidation.validateAsync({ userId });
-
     const user = await checkExistence.VerificationChecks(+userId);
 
-    user.status = constants.userStatus.approved;
+    user.userStatusId = constants.USER_STATUS.APPROVED;
+    user.updatedBy = constants.USER_ROLES.SYSTEM_ADMIN;
     await user.save();
 
-    const { username, email } = user;
+    const { name, email } = user;
+
+    const lowerCaseEmail = email.toLowerCase();
 
     await sendEmail({
-      email, type: 'approve', username, redirectURL,
+      email: lowerCaseEmail, type: 'approve', name, redirectURL,
     });
 
     res
-      .status(201)
+      .status(constants.HttpStatus.OK)
       .json({ message: constants.messages.authResponse.adminApproval });
   } catch (err) {
-    next(validateError(err as Error));
+    next(err);
   }
 };

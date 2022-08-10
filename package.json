@@ -7,11 +7,13 @@
     "start": "NODE_ENV=production node ./dist/src/bin/index.js",
     "dev": "cross-env NODE_ENV=development ts-node-dev ./src/bin/index.ts",
     "test": "cross-env NODE_ENV=test jest -i",
-    "dev:client": "cd client&& npm start",
+    "dev:client": "cd client && npm start",
     "build": "tsc -p .",
     "lint": "eslint --ext .ts src/",
-    "build:db": "cross-env NODE_ENV=development ts-node ./src/database/config/buildDB.ts",
-    "insert:db": "cross-env NODE_ENV=development ts-node ./src/database/fakeData/build.ts"
+    "build:db": "cross-env NODE_ENV=development npm run migrate:reset && cross-env NODE_ENV=development ts-node-dev ./src/database/fakeData/index.ts && cross-env NODE_ENV=development npm run migrate:up",
+    "migrate:up": "cross-env NODE_ENV=development ts-node-dev ./src/database/migrations/migrateUp.ts",
+    "migrate:down": "cross-env NODE_ENV=development ts-node-dev ./src/database/migrations/migrateDown.ts",
+    "migrate:reset": "cross-env NODE_ENV=development ts-node-dev ./src/database/migrations/migrateReset.ts"
   },
   "repository": {
     "type": "git",
@@ -49,9 +51,9 @@
     "typescript": "^4.7.4"
   },
   "dependencies": {
-    "@types/morgan": "^1.9.3",
     "@sendgrid/helpers": "^7.7.0",
     "@sendgrid/mail": "^7.7.0",
+    "@types/morgan": "^1.9.3",
     "aws-sdk": "^2.1185.0",
     "axios": "^0.27.2",
     "babel-jest": "^28.1.1",
@@ -59,8 +61,10 @@
     "compression": "^1.7.4",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
+    "db-models-nc": "^1.1.0",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
+    "express-joi-validation": "^5.0.1",
     "generate-password": "^1.7.0",
     "google-auth-library": "^8.1.1",
     "joi": "^17.6.0",
@@ -71,6 +75,7 @@
     "sequelize": "^6.21.1",
     "ts-jest": "^28.0.5",
     "ts-node": "^10.8.1",
+    "umzug": "^3.1.1",
     "winston": "^3.8.1"
   }
 }

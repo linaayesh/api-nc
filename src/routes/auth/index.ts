@@ -1,24 +1,33 @@
 import { Router } from 'express';
 
-import { isAuth } from '../../middleware';
+import { checkUserRole } from '../../middleware';
+
 import {
-  signupHandler, loginHandler, verifyEmailHandler, userAuth, forgetPassword, resetPasswordEmail,
-  resetPassword, logOut, signUpGoogle, editProfile,
+  signupHandler, loginHandler, userAuth, forgetPassword, resetPasswordEmail,
+  logInGoogle, resetPassword, logOut, signUpGoogle, editProfile,
 } from '../../controllers';
 
+import {
+  constants, validator, loginSchema, signupSchema, emailSchema, passwordSchema, editProfileSchema,
+} from '../../helpers';
+
+const { SYSTEM_ADMIN, COMEDIAN } = constants.USER_ROLES;
 const router = Router();
 
-router.get('/user', userAuth);
-router.post('/signup', signupHandler);
-router.get('/verify-email/:token', verifyEmailHandler);
-router.get('/reset-password/:token', resetPasswordEmail);
-router.post('/login', loginHandler);
-router.post('/sign/google', signUpGoogle);
-router.post('/forget-password', forgetPassword);
-router.post('/reset-password', resetPassword);
-router.patch('/edit-profile', editProfile);
+router.post('/login', validator.body(loginSchema), loginHandler);
+router.post('/signup', validator.body(signupSchema), signupHandler);
 
-router.use(isAuth);
+router.post('/log/google', logInGoogle);
+router.post('/sign/google', signUpGoogle);
+
+router.get('/reset-password/:token', resetPasswordEmail);
+router.post('/forget-password', validator.body(emailSchema), forgetPassword);
+router.post('/reset-password', validator.body(passwordSchema), resetPassword);
+
+router.use(checkUserRole([SYSTEM_ADMIN, COMEDIAN]));
+
+router.get('/user', userAuth);
+router.patch('/edit-profile', validator.body(editProfileSchema), editProfile);
 router.get('/logout', logOut);
 
 export default router;

@@ -1,53 +1,42 @@
 import { Request, Response, NextFunction } from 'express';
 import { hash } from 'bcrypt';
-import { Users } from '../../database/models';
-import { checkExistence, constants } from '../../helpers';
 import {
-  sendEmail,
-  signupSchema,
-  validateError,
-  signToken,
-} from '../../utilities';
-import config from '../../config';
+  checkExistence, constants, sendEmail,
+} from '../../helpers';
+// import config from '../../config';
+import { addUser } from '../../services';
 
 export default async ({ body }: Request, res: Response, next: NextFunction):Promise<void> => {
-  const { username, email, password } = body;
-  const { emailCheck } = constants.messages.check;
-  const { verifyToken } = constants.messages.token;
+  const { name, email, password } = body;
+  const { CREATED } = constants.HttpStatus;
+  const { COMEDIAN, SYSTEM_ADMIN } = constants.USER_ROLES;
 
   try {
-    await signupSchema.validateAsync(body);
+    const lowercaseEmail = email.toLowerCase();
 
-    await checkExistence.RegistrationCheck(email);
+    await checkExistence.RegistrationCheck(lowercaseEmail);
 
     const hashedPassword = await hash(password, 10);
-    const user = await Users.create({
-      username,
-      email,
-      roleId: 2,
+
+    const user = await addUser({
+      name,
+      email: email.toLowerCase(),
+      userRoleId: COMEDIAN,
       password: hashedPassword,
-      createdBy: 1,
+      createdBy: SYSTEM_ADMIN,
+      accPaidRevenue: constants.REVENUE_DEFAULT_VALUE,
+      freeToBePaidRevenue: constants.REVENUE_DEFAULT_VALUE,
     });
-
-    const { id, roleId } = user;
-    const token = await signToken({
-      id: Number(id),
-      username,
-      email,
-      roleId,
-    }, { expiresIn: '1h' });
-
-    const redirectURL = `${config.server.SERVER_URL}/api/v1/auth/verify-email/${token}`;
 
     await sendEmail({
-      email, type: 'verify', username, redirectURL,
+      email: user.email,
+      type: 'verify',
+      name: user.name,
     });
-
     res
-      .cookie(verifyToken, token)
-      .status(201)
-      .json({ message: emailCheck });
+      .status(CREATED)
+      .json({ message: constants.messages.authResponse.SUCCESS });
   } catch (err) {
-    next(validateError(err as Error)); // TODO: handle internal server error
+    next(err);
   }
 };

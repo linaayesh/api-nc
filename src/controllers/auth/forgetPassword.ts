@@ -1,43 +1,44 @@
 import { NextFunction, Request, Response } from 'express';
-import {
-  emailValidation, validateError, signToken, sendEmail,
-} from '../../utilities';
 import config from '../../config';
-import { constants, checkExistence } from '../../helpers';
+import {
+  constants, checkExistence, signToken, sendEmail,
+} from '../../helpers';
 
 export default async ({ body }: Request, res: Response, next: NextFunction)
 :Promise<void> => {
   const { resetToken } = constants.messages.token;
   const { emailCheck } = constants.messages.check;
-  try {
-    await emailValidation.validateAsync(body);
+  const { OK } = constants.HttpStatus;
+  const { email } = body;
+  const lowerCaseEmail = email.toLowerCase();
 
-    const user = await checkExistence.ApprovalChecks(body.email);
+  try {
+    const user = await checkExistence.ApprovalChecks(lowerCaseEmail);
 
     const {
-      username, email, roleId, id,
+      name, userRoleId, id,
     } = user;
     const token = await signToken({
       id: Number(id),
-      username,
-      email,
-      roleId,
+      name,
+      email: lowerCaseEmail,
+      roleId: userRoleId,
     }, { expiresIn: '1h' });
 
     const redirectURL = `${config.server.SERVER_URL}/api/v1/auth/reset-password/${token}`;
 
     await sendEmail({
-      email,
+      email: lowerCaseEmail,
       type: 'reset',
-      username,
+      name,
       redirectURL,
     });
 
     res
       .cookie(resetToken, token)
-      .status(201)
+      .status(OK)
       .json({ message: emailCheck });
   } catch (err) {
-    next(validateError(err as Error));
+    next(err);
   }
 };

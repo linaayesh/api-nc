@@ -1,11 +1,10 @@
 import { Request, Response, NextFunction } from 'express';
 import { hash } from 'bcrypt';
+
 import {
-  CustomError,
-  verifyToken,
-  tokenError,
-} from '../../utilities';
-import { constants, checkExistence } from '../../helpers';
+  constants, checkExistence, CustomError,
+  verifyToken, tokenError,
+} from '../../helpers';
 import config from '../../config';
 
 export default async (req: Request, res: Response, next: NextFunction):Promise<void> => {
@@ -13,19 +12,22 @@ export default async (req: Request, res: Response, next: NextFunction):Promise<v
   const { resetPasswordToken } = req.cookies;
   const { resetToken } = constants.messages.token;
   const { unAuthUser, resetPassword } = constants.messages.authResponse;
+  const { OK } = constants.HttpStatus;
 
   try {
     if (!resetPasswordToken) throw new CustomError(unAuthUser, 401);
 
     const { email } = await verifyToken(resetPasswordToken);
 
-    const userData = await checkExistence.ApprovalChecks(email);
+    const lowerCaseEmail = email.toLowerCase();
+
+    const userData = await checkExistence.ApprovalChecks(lowerCaseEmail);
 
     const hashedPassword = await hash(password, 10);
     userData.password = hashedPassword;
     await userData.save();
 
-    res.status(200).clearCookie(resetToken).json({
+    res.status(OK).clearCookie(resetToken).json({
       message: { message: resetPassword },
       redirect: `${config.server.CLIENT_URL}/login`,
     });

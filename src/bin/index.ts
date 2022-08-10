@@ -1,6 +1,6 @@
+import { sequelize } from 'db-models-nc';
 import Logger from '../helpers/logger';
 import app from '../app';
-import { sequelize } from '../database/config';
 import config from '../config';
 import { IServerAddress } from '../interfaces';
 
