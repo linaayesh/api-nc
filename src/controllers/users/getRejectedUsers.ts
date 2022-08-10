@@ -1,29 +1,16 @@
 import { Request, Response, NextFunction } from 'express';
-import { Op, col } from 'sequelize';
-import { Users, Roles } from '../../database/models';
-import { constants } from '../../helpers';
+import { USER_STATUS, messages, HttpStatus } from '../../helpers/constants';
+import { getUsersStatus } from '../../services';
 
 export default async (req: Request, res: Response, next: NextFunction)
 :Promise<void> => {
   try {
-    const RejectedUsers = await Users.findAll({
-      where: {
-        [Op.and]: [
-          { isVerified: true, status: constants.userStatus.rejected },
-          { roleId: { [Op.ne]: 1 } },
-        ],
-      },
-      attributes: {
-        exclude: ['password', 'updatedAt'],
-        include: [[col('role.name'), 'roleName']],
-      },
-      include: {
-        model: Roles,
-        attributes: [],
-      },
-    });
-    res.json({ message: constants.messages.listOfUsers.rejected, data: RejectedUsers });
-  } catch (err) {
-    next(err);
+    const RejectedUsers = await getUsersStatus(USER_STATUS.REJECTED);
+
+    res
+      .status(HttpStatus.OK)
+      .json({ message: messages.listOfUsers.rejected, data: RejectedUsers });
+  } catch (error) {
+    next(error);
   }
 };

@@ -1,37 +1,41 @@
 import { Request, Response, NextFunction } from 'express';
 import { compare } from 'bcrypt';
-import { constants, checkExistence } from '../../helpers';
 import {
-  loginSchema, signToken, validateError, CustomError,
-} from '../../utilities';
+  constants, checkExistence, signToken, CustomError,
+} from '../../helpers';
 
 export default async ({ body }: Request, res: Response, next: NextFunction):
 Promise<void> => {
   const { email, password, rememberMe } = body;
   const { wrongEmailOrPassword, logIn } = constants.messages.authResponse;
   const { accessToken } = constants.messages.token;
+  const { OK, UNAUTHORIZED } = constants.HttpStatus;
   try {
-    await loginSchema.validateAsync(body);
     let expiresIn;
-    if (rememberMe) { expiresIn = '30d'; } else { expiresIn = '1h'; }
+    if (rememberMe) { expiresIn = '30d'; } else { expiresIn = '24h'; }
 
-    const user = await checkExistence.ApprovalChecks(email);
+    const lowerCaseEmail = email.toLowerCase();
+
+    const user = await checkExistence.ApprovalChecks(lowerCaseEmail);
 
     const isValid = await compare(password, user.password);
-    if (!isValid) throw new CustomError(wrongEmailOrPassword, 401);
+    if (!isValid) throw new CustomError(wrongEmailOrPassword, UNAUTHORIZED);
 
-    const { id, username, roleId } = user;
+    const { id, name, userRoleId } = user;
     const token = await signToken({
-      id: Number(id), username, email, roleId,
+      id: Number(id), name, email: lowerCaseEmail, roleId: userRoleId,
     }, { expiresIn });
 
-    res.cookie(accessToken, token, { httpOnly: true }).json({
-      message: logIn,
-      payload: {
-        id: Number(id), username, email, roleId,
-      },
-    });
-  } catch (err) {
-    next(validateError(err as Error));
+    res
+      .status(OK)
+      .cookie(accessToken, token, { httpOnly: true })
+      .json({
+        message: logIn,
+        payload: {
+          id: Number(id), name, email: lowerCaseEmail, roleId: userRoleId,
+        },
+      });
+  } catch (error) {
+    next(error);
   }
 };

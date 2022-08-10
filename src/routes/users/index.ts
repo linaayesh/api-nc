@@ -1,20 +1,26 @@
 import { Router } from 'express';
 
 import {
-  pendingUsers, approveUser, approvedUser, rejectUser, rejectedUsers,
+  pendingUsers,
+  approveUser,
+  approvedUser,
+  rejectUser,
+  rejectedUsers,
 } from '../../controllers';
-import { isAdmin, isAuth } from '../../middleware';
+import { constants, validator, idSchema } from '../../helpers';
+import { checkUserRole } from '../../middleware';
 
 const router = Router();
 
-router.use(isAuth);
+const { SYSTEM_ADMIN } = constants.USER_ROLES;
 
-// Middleware to check Admin
-router.use(isAdmin);
-router.get('/waiting-list', pendingUsers);
-router.patch('/approve/:userId', approveUser);
+router.use(checkUserRole([SYSTEM_ADMIN]));
+
 router.get('/approved-list', approvedUser);
-router.patch('/reject/:userId', rejectUser);
 router.get('/rejected-list', rejectedUsers);
+router.get('/waiting-list', pendingUsers);
+
+router.patch('/reject/:userId', validator.params(idSchema), rejectUser);
+router.patch('/approve/:userId', validator.params(idSchema), approveUser);
 
 export default router;

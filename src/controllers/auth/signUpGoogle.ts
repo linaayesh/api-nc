@@ -1,40 +1,19 @@
 import { Request, Response, NextFunction } from 'express';
 import { hash } from 'bcrypt';
-import { OAuth2Client } from 'google-auth-library';
-import axios from 'axios';
 import generatePassword from 'generate-password';
-import { Users } from '../../database/models';
 import {
-  validateError,
-} from '../../utilities';
-import config from '../../config';
-import { checkExistence } from '../../helpers';
+  checkExistence, constants, sendEmail, googleAuthentication,
+} from '../../helpers';
+import { addUser } from '../../services';
 
 export default async ({ body }: Request, res: Response, next: NextFunction)
 :Promise<void> => {
+  const { CREATED } = constants.HttpStatus;
   const { tokenId } = body;
   try {
-    // TODO: separate signUp with Google steps
-    const client = new OAuth2Client(config.server.CLIENT_ID);
-    const verify = async ():Promise<void> => {
-      const ticket = await client.verifyIdToken({
-        idToken: tokenId,
-        audience: config.server.CLIENT_ID,
-      });
-      ticket.getPayload();
-    };
-    verify().catch(console.error);
     const {
-      data: {
-        sub,
-        email,
-        email_verified: isVerified,
-        name,
-        picture: image,
-      },
-    } = await axios.get(
-      `${config.server.GOOGLE_API}tokeninfo?id_token=${tokenId}`,
-    );
+      email, name, image, googleId,
+    } = await googleAuthentication(tokenId);
 
     await checkExistence.RegistrationCheck(email);
 
@@ -42,18 +21,29 @@ export default async ({ body }: Request, res: Response, next: NextFunction)
       length: 20, numbers: true, strict: true, lowercase: true, uppercase: true,
     });
     const hashedPassword = await hash(password, 10);
-    await Users.create({
-      username: name,
+
+    const user = await addUser({
+      name,
       email,
-      roleId: 2,
+      userRoleId: 2,
       password: hashedPassword,
       createdBy: 1,
-      isVerified,
       image,
-      googleId: sub,
+      googleId,
+      freeToBePaidRevenue: 0,
+      accPaidRevenue: 0,
     });
-    res.status(201).redirect(`${config.server.CLIENT_URL}/verifyEmail`);
+
+    await sendEmail({
+      email: user.email,
+      type: 'verify',
+      name: user.name,
+    });
+
+    res
+      .status(CREATED)
+      .json({ message: constants.messages.authResponse.SUCCESS });
   } catch (error) {
-    next(validateError(error as Error));
+    next(error);
   }
 };
