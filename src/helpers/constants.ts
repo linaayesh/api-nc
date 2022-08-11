@@ -56,8 +56,10 @@ export const USER_STATUS = {
 };
 
 export const USER_ROLES = {
-  SYSTEM_ADMIN: 1,
-  COMEDIAN: 2,
+  SYSTEM: 1,
+  MASTER_ADMIN: 2,
+  ADMIN: 3,
+  COMEDIAN: 4,
 };
 
 export const ERROR_RESPONSE = {

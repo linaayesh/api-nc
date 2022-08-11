@@ -8,7 +8,7 @@ const getUsersStatus: GetUsersStatus = (statusId: number) => User.findAll({
   where: {
     [Op.and]: [
       { userStatusId: statusId },
-      { userRoleId: { [Op.ne]: constants.USER_ROLES.SYSTEM_ADMIN } },
+      { userRoleId: { [Op.ne]: constants.USER_ROLES.SYSTEM } },
     ],
   },
   attributes: {
