@@ -1,37 +1,48 @@
-import { Request, Response, NextFunction } from 'express';
+import { Response, NextFunction } from 'express';
 import { hash } from 'bcrypt';
+import generatePassword from 'generate-password';
 import {
   checkExistence, constants, sendEmail,
 } from '../../helpers';
+import { UserAuth } from '../../interfaces';
 import { addUser } from '../../services';
 
-export default async ({ body }: Request, res: Response, next: NextFunction):Promise<void> => {
-  const { name, email, password } = body;
+export default async (req: UserAuth, res: Response, next: NextFunction):Promise<void> => {
+  const {
+    name, email, roleId,
+  } = req.body;
   const { CREATED } = constants.HttpStatus;
-  const { COMEDIAN, SYSTEM } = constants.USER_ROLES;
+  const { MASTER_ADMIN } = constants.USER_ROLES;
+  const { APPROVED } = constants.USER_STATUS;
 
   try {
     const lowercaseEmail = email.toLowerCase();
 
     await checkExistence.RegistrationCheck(lowercaseEmail);
 
+    const password = generatePassword.generate({
+      length: 15, numbers: true, strict: true, lowercase: true, uppercase: true,
+    });
     const hashedPassword = await hash(password, 10);
 
     const user = await addUser({
       name,
       email: email.toLowerCase(),
-      userRoleId: COMEDIAN,
+      userRoleId: roleId,
       password: hashedPassword,
-      createdBy: SYSTEM,
+      createdBy: req.user?.id || MASTER_ADMIN,
+      userStatusId: APPROVED,
       accPaidRevenue: constants.REVENUE_DEFAULT_VALUE,
       freeToBePaidRevenue: constants.REVENUE_DEFAULT_VALUE,
     });
 
     await sendEmail({
       email: user.email,
-      type: 'verify',
+      type: 'create',
       name: user.name,
+      password,
     });
+
     res
       .status(CREATED)
       .json({ message: constants.messages.authResponse.SUCCESS });

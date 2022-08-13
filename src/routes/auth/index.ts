@@ -11,7 +11,7 @@ import {
   constants, validator, loginSchema, signupSchema, emailSchema, passwordSchema, editProfileSchema,
 } from '../../helpers';
 
-const { SYSTEM_ADMIN, COMEDIAN } = constants.USER_ROLES;
+const { SYSTEM, COMEDIAN } = constants.USER_ROLES;
 const router = Router();
 
 router.post('/login', validator.body(loginSchema), loginHandler);
@@ -24,7 +24,7 @@ router.get('/reset-password/:token', resetPasswordEmail);
 router.post('/forget-password', validator.body(emailSchema), forgetPassword);
 router.post('/reset-password', validator.body(passwordSchema), resetPassword);
 
-router.use(checkUserRole([SYSTEM_ADMIN, COMEDIAN]));
+router.use(checkUserRole([SYSTEM, COMEDIAN]));
 
 router.get('/user', userAuth);
 router.patch('/edit-profile', validator.body(editProfileSchema), editProfile);

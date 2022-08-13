@@ -25,7 +25,7 @@ export default async (req: UserAuth, res: Response, next: NextFunction)
 
     const user : IUser = await currentUser.update({
       ...userUpdatedFields,
-    }); // remove this any & update the interface
+    });
 
     if (!user) throw new CustomError(messages.authResponse.conflict, 409);
 

@@ -11,7 +11,7 @@ export default async (req: Request, res: Response, next: NextFunction)
     const user = await checkExistence.VerificationChecks(+userId);
 
     user.userStatusId = constants.USER_STATUS.APPROVED;
-    user.updatedBy = constants.USER_ROLES.SYSTEM_ADMIN;
+    user.updatedBy = constants.USER_ROLES.SYSTEM;
     await user.save();
 
     const { name, email } = user;
