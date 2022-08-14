@@ -9,7 +9,11 @@ export {
   signupSchema,
   loginSchema,
   idSchema,
-  emailSchema, editProfileSchema, financialInformationSchema, passwordSchema,
+  emailSchema,
+  editProfileSchema,
+  financialInformationSchema,
+  passwordSchema,
+  getUsersAndContentsSchema,
 } from './validation';
 
 export { validator, checkExistence, constants };

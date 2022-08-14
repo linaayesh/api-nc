@@ -1,4 +1,4 @@
-import { IUser } from 'db-models-nc';
+import { IUser, IContent } from 'db-models-nc';
 import {
   Secret,
 } from 'jsonwebtoken';
@@ -71,6 +71,38 @@ interface ErrorWithDetails extends Error {
   ];
  }
 
+interface IContents {
+  id: string;
+  userId: number;
+  runtime: number;
+  title: string;
+  publishDate: string;
+  permalink: string;
+  advance?: number;
+  launchDate?: string;
+  nextUpAccRevenue: string;
+  owedAccRevenue: string;
+  freeToBePaid?: number
+  feePaid?: number;
+  filmingCosts?: number;
+  paidToOwedAmount?: number;
+  createdBy: number;
+  updatedBy: number;
+  primaryCategory: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+interface IUsers {
+  id: number;
+  name: string;
+  email: string;
+  image: string;
+}
+
+type ICustomContent = Omit<IContent, 'deletedAt'>
+type ICustomInput = Pick<IUser, 'id' | 'name' | 'email' | 'image'>
+
 export {
   IServerAddress,
   IUserInfo,
@@ -82,4 +114,8 @@ export {
   IUser,
   ErrorWithDetails,
   FinancialInformation,
+  IContents,
+  IUsers,
+  ICustomInput,
+  ICustomContent,
 };
