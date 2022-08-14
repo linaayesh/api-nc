@@ -7,6 +7,7 @@ import {
   rejectUser,
   rejectedUsers,
   createUser,
+  blockUser,
 } from '../../controllers';
 import {
   constants, validator, idSchema, createUserSchema,
@@ -28,4 +29,6 @@ router.post('/add-user', validator.body(createUserSchema), createUser);
 router.patch('/reject/:userId', validator.params(idSchema), rejectUser);
 router.patch('/approve/:userId', validator.params(idSchema), approveUser);
 
+router.use(checkUserRole([MASTER_ADMIN]));
+router.patch('/block-user/:userId', validator.params(idSchema), blockUser);
 export default router;

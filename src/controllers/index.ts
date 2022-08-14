@@ -17,4 +17,5 @@ export {
   rejectedUsers,
   editProfile,
   createUser,
+  blockUser,
 } from './users';
