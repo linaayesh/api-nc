@@ -1,12 +1,14 @@
 import { Request, Response, NextFunction } from 'express';
 import { getContentsAndUsersService } from '../../services';
 
-export default async (_req: Request, res: Response, next: NextFunction): Promise<void> => {
+export default async ({ query }: Request, res: Response, next: NextFunction): Promise<void> => {
+  const { targetContent } = query;
+
   try {
-    const [contents, users] = await getContentsAndUsersService();
+    const [contents, users] = await getContentsAndUsersService(targetContent as string);
 
     res.json({ data: { contents, users } });
-  } catch (error) {
-    next(error);
+  } catch (err) {
+    next(err);
   }
 };

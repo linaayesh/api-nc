@@ -8,7 +8,9 @@ import {
   rejectedUsers,
   getContentsAndUsers,
 } from '../../controllers';
-import { constants, validator, idSchema } from '../../helpers';
+import {
+  constants, validator, idSchema, getUsersAndContentsSchema,
+} from '../../helpers';
 import { checkUserRole } from '../../middleware';
 
 const router = Router();
@@ -20,7 +22,7 @@ router.use(checkUserRole([ADMIN, MASTER_ADMIN]));
 router.get('/approved-list', approvedUser);
 router.get('/rejected-list', rejectedUsers);
 router.get('/waiting-list', pendingUsers);
-router.get('/contents-and-users', getContentsAndUsers);
+router.get('/contents-and-users', validator.query(getUsersAndContentsSchema), getContentsAndUsers);
 
 router.patch('/reject/:userId', validator.params(idSchema), rejectUser);
 router.patch('/approve/:userId', validator.params(idSchema), approveUser);

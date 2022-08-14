@@ -1,13 +1,18 @@
+import { Op } from 'sequelize';
 import { User, Content } from 'db-models-nc';
 import { USER_ROLES } from '../../helpers/constants';
 import {
-  ICustomInput, ICustomContent,
+  ICustomInput,
+  ICustomContent,
 } from '../../interfaces';
 
-type GetContentsAndUsers = () => Promise<[ICustomContent[], ICustomInput[]]>
+type GetContentsAndUsers = (_: string) => Promise<[ICustomContent[], ICustomInput[]]>
 
-const getContentsAndUsersService: GetContentsAndUsers = () => Promise.all([
-  Content.findAll({ order: [['createdAt', 'DESC']] }),
+const getContentsAndUsersService: GetContentsAndUsers = (targetContent) => Promise.all([
+  Content.findAll({
+    where: targetContent !== 'all' ? { userId: targetContent === 'unmatched' ? { [Op.is]: null } : { [Op.ne]: null } } : undefined,
+    order: [['createdAt', 'DESC']],
+  }),
   User.findAll({
     order: [['id', 'DESC']],
     attributes: ['id', 'name', 'email', 'image'],
