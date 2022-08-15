@@ -9,7 +9,7 @@ import { addUser } from '../../services';
 export default async ({ body }: Request, res: Response, next: NextFunction):Promise<void> => {
   const { name, email, password } = body;
   const { CREATED } = constants.HttpStatus;
-  const { COMEDIAN, SYSTEM_ADMIN } = constants.USER_ROLES;
+  const { COMEDIAN, SYSTEM } = constants.USER_ROLES;
 
   try {
     const lowercaseEmail = email.toLowerCase();
@@ -23,7 +23,7 @@ export default async ({ body }: Request, res: Response, next: NextFunction):Prom
       email: email.toLowerCase(),
       userRoleId: COMEDIAN,
       password: hashedPassword,
-      createdBy: SYSTEM_ADMIN,
+      createdBy: SYSTEM,
       accPaidRevenue: constants.REVENUE_DEFAULT_VALUE,
       freeToBePaidRevenue: constants.REVENUE_DEFAULT_VALUE,
     });
