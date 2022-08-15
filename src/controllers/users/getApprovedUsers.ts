@@ -5,11 +5,10 @@ import { messages, USER_STATUS, HttpStatus } from '../../helpers/constants';
 export default async (req: Request, res: Response, next: NextFunction)
 :Promise<void> => {
   try {
-    const ApprovedUsers = await getUsersStatus(USER_STATUS.APPROVED);
-
+    const approvedUsers = await getUsersStatus(USER_STATUS.APPROVED);
     res
       .status(HttpStatus.OK)
-      .json({ message: messages.listOfUsers.approved, data: ApprovedUsers });
+      .json({ message: messages.listOfUsers.approved, data: approvedUsers });
   } catch (err) {
     next(err);
   }

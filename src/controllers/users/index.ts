@@ -6,3 +6,4 @@ export { default as rejectedUsers } from './getRejectedUsers';
 export { default as editProfile } from './editProfile';
 export { default as createUser } from './addUser';
 export { default as blockUser } from './blockUser';
+export { default as getContentsAndUsers } from './getContentsAndUsers';

@@ -6,3 +6,4 @@ export { default as financialInformationSchema } from './financialInfoSchema';
 export { default as editProfileSchema } from './editProfileSchema';
 export { default as passwordSchema } from './passwordSchema';
 export { default as createUserSchema } from './createUserSchema';
+export { default as getUsersAndContentsSchema } from './getUsersAndContentsSchema';

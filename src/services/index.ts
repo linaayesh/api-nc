@@ -3,4 +3,5 @@ export {
   getUserById,
   getUsersStatus,
   addUser,
+  getContentsAndUsersService,
 } from './user';

@@ -18,4 +18,5 @@ export {
   editProfile,
   createUser,
   blockUser,
+  getContentsAndUsers,
 } from './users';
