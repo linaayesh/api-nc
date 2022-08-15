@@ -13,7 +13,7 @@ export {
   editProfileSchema,
   financialInformationSchema,
   passwordSchema,
-  getContentsSchema,
+  getPaginatedDataSchema,
 } from './validation';
 
 export { validator, checkExistence, constants };
