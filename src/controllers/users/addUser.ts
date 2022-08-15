@@ -2,7 +2,7 @@ import { Response, NextFunction } from 'express';
 import { hash } from 'bcrypt';
 import generatePassword from 'generate-password';
 import {
-  checkExistence, constants, sendEmail,
+  checkExistence, constants, CustomError, sendEmail,
 } from '../../helpers';
 import { UserAuth } from '../../interfaces';
 import { addUser } from '../../services';
@@ -11,8 +11,7 @@ export default async (req: UserAuth, res: Response, next: NextFunction):Promise<
   const {
     name, email, roleId,
   } = req.body;
-  const { CREATED } = constants.HttpStatus;
-  const { MASTER_ADMIN } = constants.USER_ROLES;
+  const { CREATED, UNAUTHORIZED } = constants.HttpStatus;
   const { APPROVED } = constants.USER_STATUS;
 
   try {
@@ -25,12 +24,15 @@ export default async (req: UserAuth, res: Response, next: NextFunction):Promise<
     });
     const hashedPassword = await hash(password, 10);
 
+    if (!req.user || !req.user.id) {
+      throw new CustomError(constants.messages.authResponse.UNAUTHORIZED, UNAUTHORIZED);
+    }
     const user = await addUser({
       name,
       email: email.toLowerCase(),
       userRoleId: roleId,
       password: hashedPassword,
-      createdBy: req.user?.id || MASTER_ADMIN,
+      createdBy: req.user.id,
       userStatusId: APPROVED,
       accPaidRevenue: constants.REVENUE_DEFAULT_VALUE,
       freeToBePaidRevenue: constants.REVENUE_DEFAULT_VALUE,

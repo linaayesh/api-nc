@@ -5,8 +5,8 @@ import { getUserById } from '../../services';
 
 export default async (req: UserAuth, res: Response, next: NextFunction)
 :Promise<void> => {
-  const { HttpStatus } = constants;
-  const { notExist, edit } = constants.messages.authResponse;
+  const { HttpStatus, USER_ROLES } = constants;
+  const { notExist, edit, UNAUTHORIZED } = constants.messages.authResponse;
   const {
     id, image, ...userUpdatedFields
   } = req.body;
@@ -19,7 +19,8 @@ export default async (req: UserAuth, res: Response, next: NextFunction)
       const { Location } = await upload(image, id);
       userUpdatedFields.image = Location;
     }
-    userUpdatedFields.updatedBy = req.user?.id;
+    if (!req.user) throw new CustomError(UNAUTHORIZED, HttpStatus.UNAUTHORIZED);
+    userUpdatedFields.updatedBy = req.user.id || USER_ROLES.SYSTEM;
 
     await currentUser.update({
       ...userUpdatedFields,

@@ -44,18 +44,13 @@ export const RegistrationCheck = async (email: string): Promise<string | void> =
 
 /**
  * @description ApprovalChecks is a function used to check user approve => true LogIn, ResetPassword
- * @param {string} email user email
+ * @param {IUser | null}  userExists user object
  * @returns {Promise<IUser>}
  * if the user dose not exist return error, then check his status => if approved return User Object
  */
 
-export const ApprovalChecks = async (data: string | number): Promise<IUser> => {
+export const ApprovalChecks = async (userExists: IUser | null): Promise<IUser> => {
   try {
-    let userExists;
-
-    if (typeof data === 'string') userExists = await getUserByEmail(data);
-    if (typeof data === 'number') userExists = await getUserById(data);
-
     if (!userExists) throw new CustomError(notExist, UNAUTHORIZED);
 
     const userStatus = userExists.userStatusId;

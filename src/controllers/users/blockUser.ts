@@ -1,13 +1,15 @@
 import { NextFunction, Response } from 'express';
 import { UserAuth } from '../../interfaces';
 import { checkExistence, constants } from '../../helpers';
+import { getUserById } from '../../services';
 
 export default async (req: UserAuth, res: Response, next: NextFunction)
 :Promise<void> => {
   const { userId } = req.params;
 
   try {
-    const user = await checkExistence.ApprovalChecks(+userId);
+    const userData = await getUserById(+userId);
+    const user = await checkExistence.ApprovalChecks(userData);
     const { USER_STATUS, HttpStatus, messages } = constants;
 
     user.userStatusId = USER_STATUS.BANNED;
