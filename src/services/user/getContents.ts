@@ -1,3 +1,4 @@
+import { Op } from 'sequelize';
 import { Content } from 'db-models-nc';
 import { ICustomContent } from '../../interfaces';
 
@@ -11,6 +12,7 @@ const getPaginatedContents: IGetPaginatedContents = ({ page, limit }) => {
   return Content.findAndCountAll({
     offset,
     limit,
+    where: { userId: { [Op.is]: null } },
     order: [['createdAt', 'DESC']],
   });
 };
