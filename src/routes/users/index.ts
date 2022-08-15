@@ -8,10 +8,15 @@ import {
   rejectedUsers,
   createUser,
   blockUser,
-  getContentsAndUsers,
+  getPaginatedContents,
+  getPaginatedUsers,
 } from '../../controllers';
 import {
-  constants, validator, idSchema, getUsersAndContentsSchema, createUserSchema,
+  constants,
+  validator,
+  idSchema,
+  getPaginatedDataSchema,
+  createUserSchema,
 } from '../../helpers';
 import { checkUserRole } from '../../middleware';
 
@@ -24,7 +29,8 @@ router.use(checkUserRole([ADMIN, MASTER_ADMIN]));
 router.get('/approved-list', approvedUser);
 router.get('/rejected-list', rejectedUsers);
 router.get('/waiting-list', pendingUsers);
-router.get('/contents-and-users', validator.query(getUsersAndContentsSchema), getContentsAndUsers);
+router.get('/contents', validator.query(getPaginatedDataSchema), getPaginatedContents);
+router.get('/users', validator.query(getPaginatedDataSchema), getPaginatedUsers);
 
 router.post('/add-user', validator.body(createUserSchema), createUser);
 

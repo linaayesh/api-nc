@@ -18,5 +18,6 @@ export {
   editProfile,
   createUser,
   blockUser,
-  getContentsAndUsers,
+  getPaginatedContents,
+  getPaginatedUsers,
 } from './users';

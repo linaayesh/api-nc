@@ -14,7 +14,7 @@ export {
   editProfileSchema,
   financialInformationSchema,
   passwordSchema,
-  getUsersAndContentsSchema,
+  getPaginatedDataSchema,
 } from './validation';
 
 export { validator, checkExistence, constants };
