@@ -17,4 +17,5 @@ export {
   rejectedUsers,
   editProfile,
   getPaginatedContents,
+  getPaginatedUsers,
 } from './users';

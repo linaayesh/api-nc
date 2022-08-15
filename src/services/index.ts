@@ -4,4 +4,5 @@ export {
   getUsersStatus,
   addUser,
   getContents,
+  getUsers,
 } from './user';
