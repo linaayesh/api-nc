@@ -19,6 +19,7 @@ export default async ({
   name,
   redirectURL,
   contactUs,
+  password,
 }: IEmailService): Promise<[ClientResponse, {}] | void> => {
   try {
     const templateType: EmailTypes = {
@@ -26,6 +27,7 @@ export default async ({
       approve: config.email.SENDGRID_APPROVAL_TEMPLATE_ID,
       reject: config.email.SENDGRID_REJECTION_TEMPLATE_ID,
       reset: config.email.SENDGRID_RESET_PASSWORD_TEMPLATE_ID,
+      create: config.email.SENDGRID_CREATE_USER_TEMPLATE_ID,
     };
 
     const message: MailJSON = {
@@ -35,6 +37,7 @@ export default async ({
       dynamicTemplateData: {
         subject: EmailType[type as keyof typeof EmailType],
         name: name.charAt(0).toUpperCase() + name.slice(1),
+        password,
         redirectURL,
         contactUs,
       },

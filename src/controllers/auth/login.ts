@@ -3,6 +3,7 @@ import { compare } from 'bcrypt';
 import {
   constants, checkExistence, signToken, CustomError,
 } from '../../helpers';
+import { getUserByEmail } from '../../services';
 
 export default async ({ body }: Request, res: Response, next: NextFunction):
 Promise<void> => {
@@ -16,7 +17,9 @@ Promise<void> => {
 
     const lowerCaseEmail = email.toLowerCase();
 
-    const user = await checkExistence.ApprovalChecks(lowerCaseEmail);
+    const userData = await getUserByEmail(lowerCaseEmail);
+
+    const user = await checkExistence.ApprovalChecks(userData);
 
     const isValid = await compare(password, user.password);
     if (!isValid) throw new CustomError(wrongEmailOrPassword, UNAUTHORIZED);

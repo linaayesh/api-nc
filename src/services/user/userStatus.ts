@@ -1,7 +1,4 @@
-import {
-  Op,
-  col,
-} from 'sequelize';
+import { Op, col } from 'sequelize';
 import { IUser, User, UserRole } from 'db-models-nc';
 import { constants } from '../../helpers';
 

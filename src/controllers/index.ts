@@ -16,5 +16,8 @@ export {
   rejectUser,
   rejectedUsers,
   editProfile,
-  getContentsAndUsers,
+  createUser,
+  blockUser,
+  getPaginatedContents,
+  getPaginatedUsers,
 } from './users';

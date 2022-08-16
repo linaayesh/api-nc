@@ -101,7 +101,7 @@ interface IUsers {
 }
 
 type ICustomContent = Omit<IContent, 'deletedAt'>
-type ICustomInput = Pick<IUser, 'id' | 'name' | 'email' | 'image'>
+type ICustomUser = Pick<IUser, 'id' | 'name' | 'email' | 'image'>
 
 export {
   IServerAddress,
@@ -116,6 +116,6 @@ export {
   FinancialInformation,
   IContents,
   IUsers,
-  ICustomInput,
+  ICustomUser,
   ICustomContent,
 };

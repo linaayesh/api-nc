@@ -5,4 +5,5 @@ export { default as emailSchema } from './emailSchema';
 export { default as financialInformationSchema } from './financialInfoSchema';
 export { default as editProfileSchema } from './editProfileSchema';
 export { default as passwordSchema } from './passwordSchema';
-export { default as getUsersAndContentsSchema } from './getUsersAndContentsSchema';
+export { default as createUserSchema } from './createUserSchema';
+export { default as getPaginatedDataSchema } from './getPaginatedDataSchema';
