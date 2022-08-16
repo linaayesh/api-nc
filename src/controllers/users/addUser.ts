@@ -33,6 +33,7 @@ export default async (req: UserAuth, res: Response, next: NextFunction):Promise<
       userRoleId: roleId,
       password: hashedPassword,
       createdBy: req.user.id,
+      updatedBy: req.user.id,
       userStatusId: APPROVED,
       accPaidRevenue: constants.REVENUE_DEFAULT_VALUE,
       freeToBePaidRevenue: constants.REVENUE_DEFAULT_VALUE,

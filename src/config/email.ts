@@ -8,6 +8,7 @@ const envVarsSchema = Joi.object({
   SENDGRID_RESET_PASSWORD_TEMPLATE_ID: Joi.string().required(),
   SENDGRID_APPROVAL_TEMPLATE_ID: Joi.string().required(),
   SENDGRID_REJECTION_TEMPLATE_ID: Joi.string().required(),
+  SENDGRID_CREATE_USER_TEMPLATE_ID: Joi.string().required(),
   NEXTUP_COMEDY_SUPPORT_EMAIL: Joi.string().email().required(),
 }).unknown().required();
 

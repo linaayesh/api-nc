@@ -6,6 +6,7 @@ interface AddUserInterface{
   password: string;
   userRoleId: number;
   createdBy: number;
+  updatedBy: number;
   image?: string;
   googleId?: string;
   accPaidRevenue: number;

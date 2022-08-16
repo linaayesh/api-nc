@@ -2,14 +2,21 @@ import { Request, Response, NextFunction } from 'express';
 import { hash } from 'bcrypt';
 import generatePassword from 'generate-password';
 import {
-  checkExistence, constants, sendEmail, googleAuthentication,
+  checkExistence,
+  constants,
+  sendEmail,
+  googleAuthentication,
 } from '../../helpers';
 import { addUser } from '../../services';
 
-export default async ({ body }: Request, res: Response, next: NextFunction)
+export default async ({ body: { tokenId } }: Request, res: Response, next: NextFunction)
 :Promise<void> => {
-  const { CREATED } = constants.HttpStatus;
-  const { tokenId } = body;
+  const {
+    HttpStatus: { CREATED },
+    USER_ROLES: { SYSTEM, COMEDIAN },
+    REVENUE_DEFAULT_VALUE,
+  } = constants;
+
   try {
     const {
       email, name, image, googleId,
@@ -18,20 +25,26 @@ export default async ({ body }: Request, res: Response, next: NextFunction)
     await checkExistence.RegistrationCheck(email);
 
     const password = generatePassword.generate({
-      length: 20, numbers: true, strict: true, lowercase: true, uppercase: true,
+      length: 20,
+      numbers: true,
+      strict: true,
+      lowercase: true,
+      uppercase: true,
     });
+
     const hashedPassword = await hash(password, 10);
 
     const user = await addUser({
       name,
       email,
-      userRoleId: 2,
+      userRoleId: COMEDIAN,
       password: hashedPassword,
-      createdBy: 1,
+      createdBy: SYSTEM,
+      updatedBy: SYSTEM,
       image,
       googleId,
-      freeToBePaidRevenue: 0,
-      accPaidRevenue: 0,
+      freeToBePaidRevenue: REVENUE_DEFAULT_VALUE,
+      accPaidRevenue: REVENUE_DEFAULT_VALUE,
     });
 
     await sendEmail({

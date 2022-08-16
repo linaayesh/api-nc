@@ -1,7 +1,4 @@
-import {
-  Op,
-  col,
-} from 'sequelize';
+import { Op, col } from 'sequelize';
 import { IUser, User, UserRole } from 'db-models-nc';
 import { constants } from '../../helpers';
 
@@ -11,9 +8,6 @@ const getUsersStatus: GetUsersStatus = (statusId: number) => User.findAll({
   where: {
     [Op.and]: [
       { userStatusId: statusId },
-<<<<<<< HEAD
-      { userRoleId: { [Op.ne]: constants.USER_ROLES.SYSTEM } },
-=======
       {
         userRoleId: {
           [Op.notIn]: [
@@ -22,7 +16,6 @@ const getUsersStatus: GetUsersStatus = (statusId: number) => User.findAll({
           ],
         },
       },
->>>>>>> 8023bce83c01023f5b5b6e97afb000dce02e475c
     ],
   },
   attributes: {
