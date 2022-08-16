@@ -20,4 +20,5 @@ export {
   blockUser,
   getPaginatedContents,
   getPaginatedUsers,
+  matchUserContent,
 } from './users';

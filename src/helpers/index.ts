@@ -15,6 +15,7 @@ export {
   financialInformationSchema,
   passwordSchema,
   getPaginatedDataSchema,
+  matchUserContentSchema,
 } from './validation';
 
 export { validator, checkExistence, constants };

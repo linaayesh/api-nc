@@ -5,4 +5,5 @@ export {
   addUser,
   getContents,
   getUsers,
+  matchUserContent,
 } from './user';
