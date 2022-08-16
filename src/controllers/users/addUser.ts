@@ -16,7 +16,6 @@ export default async (req: UserAuth, res: Response, next: NextFunction):Promise<
 
   try {
     const lowercaseEmail = email.toLowerCase();
-
     await checkExistence.RegistrationCheck(lowercaseEmail);
 
     const password = generatePassword.generate({
@@ -45,7 +44,6 @@ export default async (req: UserAuth, res: Response, next: NextFunction):Promise<
       name: user.name,
       password,
     });
-
     res
       .status(CREATED)
       .json({ message: constants.messages.authResponse.SUCCESS });

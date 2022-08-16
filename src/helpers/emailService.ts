@@ -37,6 +37,7 @@ export default async ({
       dynamicTemplateData: {
         subject: EmailType[type as keyof typeof EmailType],
         name: name.charAt(0).toUpperCase() + name.slice(1),
+        email,
         password,
         redirectURL,
         contactUs,
