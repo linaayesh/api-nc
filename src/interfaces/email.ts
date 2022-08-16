@@ -6,6 +6,7 @@ interface IEmailConfigs {
   SENDGRID_APPROVAL_TEMPLATE_ID: string;
   SENDGRID_REJECTION_TEMPLATE_ID: string;
   NEXTUP_COMEDY_SUPPORT_EMAIL: string;
+  SENDGRID_CREATE_USER_TEMPLATE_ID: string;
 }
 
 enum EmailType {
@@ -21,6 +22,7 @@ interface IEmailService {
   name: string;
   redirectURL?: string;
   contactUs?: string;
+  password?: string;
 }
 
 interface MailJSON {

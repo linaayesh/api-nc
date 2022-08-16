@@ -5,6 +5,7 @@ import {
   constants, checkExistence, CustomError,
   verifyToken, tokenError,
 } from '../../helpers';
+import { getUserByEmail } from '../../services';
 import config from '../../config';
 
 export default async (req: Request, res: Response, next: NextFunction):Promise<void> => {
@@ -21,7 +22,9 @@ export default async (req: Request, res: Response, next: NextFunction):Promise<v
 
     const lowerCaseEmail = email.toLowerCase();
 
-    const userData = await checkExistence.ApprovalChecks(lowerCaseEmail);
+    const user = await getUserByEmail(lowerCaseEmail);
+
+    const userData = await checkExistence.ApprovalChecks(user);
 
     const hashedPassword = await hash(password, 10);
     userData.password = hashedPassword;

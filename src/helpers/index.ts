@@ -9,6 +9,7 @@ export {
   signupSchema,
   loginSchema,
   idSchema,
+  createUserSchema,
   emailSchema,
   editProfileSchema,
   financialInformationSchema,

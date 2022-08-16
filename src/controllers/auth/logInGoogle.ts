@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import {
   checkExistence, constants, validateError, signToken, googleAuthentication,
 } from '../../helpers';
+import { getUserByEmail } from '../../services';
 
 export default async ({ body }: Request, res: Response, next: NextFunction)
 :Promise<void> => {
@@ -14,7 +15,9 @@ export default async ({ body }: Request, res: Response, next: NextFunction)
       email, googleId,
     } = await googleAuthentication(tokenId);
 
-    const user = await checkExistence.ApprovalChecks(email);
+    const userData = await getUserByEmail(email);
+
+    const user = await checkExistence.ApprovalChecks(userData);
 
     if (user.googleId !== googleId) res.status(401).json({ message: 'unAuthorized test' });
 

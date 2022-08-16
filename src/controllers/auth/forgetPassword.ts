@@ -3,6 +3,7 @@ import config from '../../config';
 import {
   constants, checkExistence, signToken, sendEmail,
 } from '../../helpers';
+import { getUserByEmail } from '../../services';
 
 export default async ({ body }: Request, res: Response, next: NextFunction)
 :Promise<void> => {
@@ -13,7 +14,9 @@ export default async ({ body }: Request, res: Response, next: NextFunction)
   const lowerCaseEmail = email.toLowerCase();
 
   try {
-    const user = await checkExistence.ApprovalChecks(lowerCaseEmail);
+    const userData = await getUserByEmail(lowerCaseEmail);
+
+    const user = await checkExistence.ApprovalChecks(userData);
 
     const {
       name, userRoleId, id,

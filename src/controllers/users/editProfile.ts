@@ -1,35 +1,32 @@
 import { NextFunction, Response } from 'express';
-import { IUser } from 'db-models-nc';
 import { UserAuth } from '../../interfaces';
 import { constants, CustomError, upload } from '../../helpers';
 import { getUserById } from '../../services';
 
 export default async (req: UserAuth, res: Response, next: NextFunction)
 :Promise<void> => {
-  const { messages } = constants;
+  const { HttpStatus, USER_ROLES } = constants;
+  const { notExist, edit, UNAUTHORIZED } = constants.messages.authResponse;
   const {
     id, image, ...userUpdatedFields
   } = req.body;
 
   try {
     const currentUser = await getUserById(id);
-
-    if (!currentUser) {
-      throw new CustomError(messages.authResponse.notExist, 404);
-    }
+    if (!currentUser) throw new CustomError(notExist, HttpStatus.NOT_FOUND);
 
     if (image) {
       const { Location } = await upload(image, id);
       userUpdatedFields.image = Location;
     }
+    if (!req.user) throw new CustomError(UNAUTHORIZED, HttpStatus.UNAUTHORIZED);
+    userUpdatedFields.updatedBy = req.user.id || USER_ROLES.SYSTEM;
 
-    const user : IUser = await currentUser.update({
+    await currentUser.update({
       ...userUpdatedFields,
-    }); // remove this any & update the interface
+    });
 
-    if (!user) throw new CustomError(messages.authResponse.conflict, 409);
-
-    res.status(200).json({ message: messages.authResponse.edit });
+    res.status(HttpStatus.OK).json({ message: edit });
   } catch (error) {
     next(error);
   }
