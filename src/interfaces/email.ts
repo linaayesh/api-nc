@@ -9,7 +9,6 @@ interface IEmailConfigs {
   SENDGRID_CREATE_USER_TEMPLATE_ID: string;
 }
 
-// eslint-disable-next-line no-shadow
 enum EmailType {
   verify = 'Verification Email',
   reset = 'Reset Password',
