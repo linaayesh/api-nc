@@ -10,6 +10,7 @@ import {
   blockUser,
   getPaginatedContents,
   getPaginatedUsers,
+  matchUserContent,
 } from '../../controllers';
 import {
   constants,
@@ -17,6 +18,7 @@ import {
   idSchema,
   getPaginatedDataSchema,
   createUserSchema,
+  matchUserContentSchema,
 } from '../../helpers';
 import { checkUserRole } from '../../middleware';
 
@@ -36,6 +38,7 @@ router.post('/add-user', validator.body(createUserSchema), createUser);
 
 router.patch('/reject/:userId', validator.params(idSchema), rejectUser);
 router.patch('/approve/:userId', validator.params(idSchema), approveUser);
+router.patch('/match-user-content', validator.body(matchUserContentSchema), matchUserContent);
 
 router.use(checkUserRole([MASTER_ADMIN]));
 router.patch('/block-user/:userId', validator.params(idSchema), blockUser);

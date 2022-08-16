@@ -7,3 +7,4 @@ export { default as editProfileSchema } from './editProfileSchema';
 export { default as passwordSchema } from './passwordSchema';
 export { default as createUserSchema } from './createUserSchema';
 export { default as getPaginatedDataSchema } from './getPaginatedDataSchema';
+export { default as matchUserContentSchema } from './matchUserContentSchema';
