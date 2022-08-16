@@ -33,6 +33,7 @@ export default async ({ body }: Request, res: Response, next: NextFunction):Prom
       type: 'verify',
       name: user.name,
     });
+
     res
       .status(CREATED)
       .json({ message: constants.messages.authResponse.SUCCESS });

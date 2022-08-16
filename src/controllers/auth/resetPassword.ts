@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
 import { hash } from 'bcrypt';
-
 import {
   constants, checkExistence, CustomError,
   verifyToken, tokenError,

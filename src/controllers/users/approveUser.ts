@@ -24,7 +24,7 @@ export default async (req: Request, res: Response, next: NextFunction)
 
     res
       .status(constants.HttpStatus.OK)
-      .json({ message: constants.messages.authResponse.adminApproval });
+      .json({ message: constants.messages.authResponse.approvedUser });
   } catch (err) {
     next(err);
   }

@@ -8,11 +8,9 @@ export const messages = {
     NOT_FOUND: 'NOT_FOUND',
     approvedUser: 'APPROVED ACCOUNT',
     rejectedUser: 'REJECTED ACCOUNT',
-    // UNVERIFIED
     UNVERIFIED: 'NOT VERIFIED ACCOUNT',
     notExist: 'NOT EXIST USER',
     waitApprove: 'WAITING APPROVAL',
-    adminApproval: 'SUCCESSFULLY APPROVED',
     wrongEmailOrPassword: 'Incorrect email or password',
     logIn: 'SUCCESS LOGIN',
     SUCCESS: 'SUCCESS PROCESS',
@@ -38,6 +36,7 @@ export const messages = {
     verifyToken: 'verifyEmailToken',
   },
 };
+
 export const HttpStatus = {
   UNAUTHORIZED: 401,
   CREATED: 201,
@@ -66,10 +65,6 @@ export const USER_ROLES = {
 export const ERROR_RESPONSE = {
   CLIENT: 'PAGE NOT FOUND',
   SERVER: 'INTERNAL SERVER ERROR',
-};
-
-export const emailTemplates = {
-  test: 'testMail',
 };
 
 export const LOGGER_LEVELS = {

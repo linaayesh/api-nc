@@ -19,6 +19,6 @@ export default async (req: Request, res: Response, next: NextFunction)
 
     return res.status(REDIRECT).redirect(`${config.server.CLIENT_URL}/resetPassword`);
   } catch (error) {
-    return next(tokenError(error as Error));
+    next(tokenError(error as Error));
   }
 };

@@ -20,7 +20,7 @@ export default async ({
   redirectURL,
   contactUs,
   password,
-}: IEmailService): Promise<[ClientResponse, {}] | void> => {
+}: IEmailService): Promise<[ClientResponse] | void> => {
   try {
     const templateType: EmailTypes = {
       verify: config.email.SENDGRID_VERIFICATION_TEMPLATE_ID,
