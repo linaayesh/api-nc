@@ -1,9 +1,12 @@
 import { Content, ContentReport } from 'db-models-nc';
+
 import { ICustomContent } from '../../interfaces';
 
-type IGetPaginatedContents = (_: { page: number, limit: number, userId: number }) => Promise<
-  { rows: ICustomContent[]; count: number; }
->
+type IGetPaginatedContents = (_: {
+  page: number;
+  limit: number;
+  userId: number;
+}) => Promise<{ rows: ICustomContent[]; count: number }>;
 
 const getNumberOfContent: IGetPaginatedContents = ({ page, limit, userId }) => {
   const offset = (page - 1) * limit;
@@ -20,20 +23,18 @@ const getNumberOfContent: IGetPaginatedContents = ({ page, limit, userId }) => {
         order: [['createdAt', 'DESC']],
         attributes: [
           'id',
-          'contentId',
-          'reportId',
           'watchedSeconds',
           'revenue',
-          'createdBy',
-          'updatedBy',
           'tvodTicketsCount',
           'tvodSeconds',
-          'createdAt',
-          'updatedAt',
-          'deletedAt',
+          'owedRevenue',
         ],
       },
     ],
+    attributes: [
+      'title',
+    ],
+
   });
 };
 
