@@ -34,7 +34,7 @@ router.get('/rejected-list', rejectedUsers);
 router.get('/waiting-list', pendingUsers);
 router.get('/contents', validator.query(getPaginatedDataSchema), getPaginatedContents);
 router.get('/users', validator.query(getPaginatedDataSchema), getPaginatedUsers);
-router.get('/getStatistics/:userId', validator.params(idSchema), getUserStatistics);
+router.get('/statistics/:userId', validator.params(idSchema), getUserStatistics);
 router.post('/add-user', validator.body(createUserSchema), createUser);
 
 router.patch('/reject/:userId', validator.params(idSchema), rejectUser);
