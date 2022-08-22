@@ -10,7 +10,9 @@ export default async (req: Request, res: Response, next: NextFunction)
     const userData = await getUserById(+userId);
     const user = await checkExistence.ApprovalChecks(userData);
     const { accPaidRevenue, freeToBePaidRevenue } = user;
-    const getContentRepor = await getNumberOfContent(
+    const balance = accPaidRevenue - freeToBePaidRevenue;
+    const earning = accPaidRevenue + freeToBePaidRevenue;
+    const ContentReport = await getNumberOfContent(
       { page: 1, limit: 10, userId: Number(userId) },
     );
 
@@ -18,7 +20,9 @@ export default async (req: Request, res: Response, next: NextFunction)
       .status(HttpStatus.OK)
       .json({
         message: messages.authResponse.userStatistics,
-        data: { accPaidRevenue, freeToBePaidRevenue, getContentRepor },
+        data: {
+          accPaidRevenue, freeToBePaidRevenue, balance, earning, ContentReport,
+        },
       });
   } catch (error) {
     next(error);
