@@ -12,7 +12,7 @@ export default async (req: Request, res: Response, next: NextFunction)
     const { accPaidRevenue, freeToBePaidRevenue } = user;
     const balance = accPaidRevenue - freeToBePaidRevenue;
     const earning = accPaidRevenue + freeToBePaidRevenue;
-    const ContentReport = await getNumberOfContent(
+    const Content = await getNumberOfContent(
       { page: 1, limit: 10, userId: Number(userId) },
     );
 
@@ -21,7 +21,7 @@ export default async (req: Request, res: Response, next: NextFunction)
       .json({
         message: messages.authResponse.userStatistics,
         data: {
-          accPaidRevenue, freeToBePaidRevenue, balance, earning, ContentReport,
+          accPaidRevenue, freeToBePaidRevenue, balance, earning, Content,
         },
       });
   } catch (error) {

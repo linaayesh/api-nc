@@ -31,8 +31,22 @@ const getNumberOfContent: IGetPaginatedContents = ({ page, limit, userId }) => {
         ],
       },
     ],
+
     attributes: [
       'title',
+      'runtime',
+      'publishDate',
+      'permalink',
+      'advance',
+      'launchDate',
+      'nextUpAccRevenue',
+      'owedAccRevenue',
+      'freeToBePaid',
+      'feePaid',
+      'filmingCosts',
+      'recoveredCosts',
+      'paidToOwedAmount',
+      'primaryCategory',
     ],
 
   });
