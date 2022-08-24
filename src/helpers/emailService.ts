@@ -47,7 +47,7 @@ export default async ({
     await sgMail.send(message);
   } catch (error) {
     if (error instanceof ResponseError) {
-      throw new CustomError(error.toString()?.split('\n ')[1], error.code);
+      throw new CustomError(error.toString().split('\n ')[1], error.code);
     }
   }
 };

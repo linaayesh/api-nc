@@ -46,7 +46,7 @@ export default async (req: UserAuth, res: Response, next: NextFunction):Promise<
     });
     res
       .status(CREATED)
-      .json({ message: constants.messages.authResponse.SUCCESS });
+      .json({ message: constants.messages.authResponse.SUCCESS, data: user });
   } catch (err) {
     next(err);
   }

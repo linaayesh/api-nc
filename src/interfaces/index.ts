@@ -60,7 +60,6 @@ interface FinancialInformation {
 
 interface UserAuth extends Request {
   user?: IUser,
-  admin?: { id: number, email: string, role: string },
 }
 interface ErrorWithDetails extends Error {
   details: [
