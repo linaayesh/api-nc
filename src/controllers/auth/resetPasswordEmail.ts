@@ -7,7 +7,7 @@ export default async (req: Request, res: Response, next: NextFunction)
 :Promise<void> => {
   const { notExist } = constants.messages.authResponse;
   const { REDIRECT } = constants.HttpStatus;
-  const token: string = req.params?.token;
+  const { token } = req.params;
 
   try {
     const { email } = await verifyToken(token);
