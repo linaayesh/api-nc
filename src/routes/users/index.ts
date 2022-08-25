@@ -11,6 +11,7 @@ import {
   getPaginatedContents,
   getPaginatedUsers,
   matchUserContent,
+  changePassword,
 } from '../../controllers';
 import {
   constants,
@@ -19,12 +20,16 @@ import {
   getPaginatedDataSchema,
   createUserSchema,
   matchUserContentSchema,
+  changePasswordSchema,
 } from '../../helpers';
 import { checkUserRole } from '../../middleware';
 
 const router = Router();
 
-const { ADMIN, MASTER_ADMIN } = constants.USER_ROLES;
+const { ADMIN, MASTER_ADMIN, COMEDIAN } = constants.USER_ROLES;
+
+router.use(checkUserRole([COMEDIAN, ADMIN, MASTER_ADMIN]));
+router.patch('/change-password', validator.body(changePasswordSchema), changePassword);
 
 router.use(checkUserRole([ADMIN, MASTER_ADMIN]));
 

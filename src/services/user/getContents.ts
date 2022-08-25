@@ -2,18 +2,36 @@ import { Op } from 'sequelize';
 import { Content } from 'db-models-nc';
 import { ICustomContent } from '../../interfaces';
 
-type IGetPaginatedContents = (_: { page: number, limit: number }) => Promise<
-  { rows: ICustomContent[]; count: number; }
+type IGetPaginatedContents = (_: {
+  page: number,
+  limit: number,
+  title: string | undefined
+  id: string | undefined
+}) => Promise<
+  { rows: ICustomContent[]; count: number; } | ICustomContent[] | ICustomContent | null
 >
 
-const getPaginatedContents: IGetPaginatedContents = ({ page, limit }) => {
+const getPaginatedContents: IGetPaginatedContents = ({
+  page, limit, title, id,
+}) => {
   const offset = (page - 1) * limit;
 
-  return Content.findAndCountAll({
-    offset,
-    limit,
-    where: { userId: { [Op.is]: null } },
-    order: [['createdAt', 'DESC']],
+  if (!title && !id) {
+    return Content.findAndCountAll({
+      offset,
+      limit,
+      where: { userId: { [Op.is]: null } },
+    });
+  }
+
+  if (title && !id) {
+    return Content.findAll({
+      where: { title: { [Op.iLike]: `%${title}%` } },
+    });
+  }
+
+  return Content.findOne({
+    where: { id },
   });
 };
 
