@@ -1,7 +1,4 @@
-import {
-  InferAttributes, InferCreationAttributes, Model,
-} from 'sequelize';
-
+import { IUser, IContent } from 'db-models-nc';
 import {
   Secret,
 } from 'jsonwebtoken';
@@ -12,36 +9,35 @@ interface IServerAddress{
   address: string;
 }
 
-interface IUser{
-  id:number
-  roleId:number
-  email:string
-  username:string
-  role?:string
+interface IUserInfo{
+  id: number;
+  roleId: number;
+  email: string;
+  name: string;
+  image?: string;
+  role?: string;
 }
 
 interface IServer{
-  secretKey: Secret;
-  appMail: string;
-  mailPassword: string;
-  port: string;
-  clientURL: string;
-  serverURL: string;
-  clientId: string;
-  googleAPI: string;
+  SECRET_KEY: Secret;
+  APP_MAIL: string;
+  MAIL_PASSWORD: string;
+  PORT: string;
+  CLIENT_URL: string;
+  SERVER_URL: string;
+  CLIENT_ID: string;
+  GOOGLE_API: string;
+  AWS_BUCKET_NAME: string;
+  AWS_BUCKET_REGION: string,
+  AWS_ACCESS_KEY_ID: string,
+  AWS_SECRET_ACCESS_KEY: string,
 }
 interface IDatabase{
 url:string
 }
-interface UserAuth extends Request {
-  user?: IUser,
-  admin?: { id: number, email: string, role: string },
-}
-
 interface GoogleUserRequest extends Request {
   googleUserData: { sub: string,
     email: string,
-    isVerified: string,
     name: string,
     image: string, },
 }
@@ -50,28 +46,21 @@ interface ApprovedUser {
   id: number,
   email: string,
   roleId: number,
-  username: string,
+  name: string,
 }
 
-interface IUsers extends Model<
-  InferAttributes<IUsers>, InferCreationAttributes<IUsers>
-> {
-  id?: number;
-  username: string;
-  email: string;
-  password: string;
-  roleId: number;
-  isVerified?: boolean,
-  status?: string;
-  googleId?: string;
-  accPaidRevenue?: number;
-  freeToBePaidRevenue?: number;
-  createdBy?: number;
-  updatedBy?: number;
-  image?: string;
-  reasonOfRejection?: string;
+interface FinancialInformation {
+  id?: number,
+  userId: number,
+  name: string,
+  address: string,
+  createdBy?: number,
+  updatedBy?: number,
 }
 
+interface UserAuth extends Request {
+  user?: IUser,
+}
 interface ErrorWithDetails extends Error {
   details: [
     {
@@ -80,8 +69,51 @@ interface ErrorWithDetails extends Error {
   ];
  }
 
+interface IContents {
+  id: string;
+  userId: number;
+  runtime: number;
+  title: string;
+  publishDate: string;
+  permalink: string;
+  advance?: number;
+  launchDate?: string;
+  nextUpAccRevenue: string;
+  owedAccRevenue: string;
+  freeToBePaid?: number
+  feePaid?: number;
+  filmingCosts?: number;
+  paidToOwedAmount?: number;
+  createdBy: number;
+  updatedBy: number;
+  primaryCategory: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+interface IUsers {
+  id: number;
+  name: string;
+  email: string;
+  image: string;
+}
+
+type ICustomContent = Omit<IContent, 'deletedAt'>
+type ICustomUser = Pick<IUser, 'id' | 'name' | 'email' | 'image'>
+
 export {
   IServerAddress,
+  IUserInfo,
+  IServer,
+  IDatabase,
+  UserAuth,
+  ApprovedUser,
+  GoogleUserRequest,
   IUser,
-  IServer, IDatabase, UserAuth, ApprovedUser, GoogleUserRequest, IUsers, ErrorWithDetails,
+  ErrorWithDetails,
+  FinancialInformation,
+  IContents,
+  IUsers,
+  ICustomUser,
+  ICustomContent,
 };

@@ -1,27 +1,32 @@
 import { NextFunction, Request, Response } from 'express';
-import {
-  idValidation, validateError, sendEmail,
-} from '../../utilities';
-import { checkExistence, constants } from '../../helpers';
+import config from '../../config';
+import { checkExistence, constants, sendEmail } from '../../helpers';
 
 export default async (req: Request, res: Response, next: NextFunction)
 :Promise<void> => {
   const { userId } = req.params;
+  const redirectURL = `${config.server.CLIENT_URL}/faq`; // TODO: to be modified with FAQ page
+  const contactUs = `mailto:${config.email.NEXTUP_COMEDY_SUPPORT_EMAIL}`;
 
   try {
-    await idValidation.validateAsync({ userId });
-
     const user = await checkExistence.VerificationChecks(+userId);
 
-    user.status = constants.userStatus.rejected;
+    user.userStatusId = constants.USER_STATUS.REJECTED;
+    user.updatedBy = constants.USER_ROLES.SYSTEM;
     await user.save();
 
-    const { username, email } = user;
-    await sendEmail(email, 'NextUp Comedy', `<h1>Welcome, ${username}!</h1><p>Sorry to form you that your application has been rejected, if you need more information  <a href="mailto:support@nextupcomedy.com" >contact us</a>.</p>`);
+    const { name, email } = user;
+
+    const lowerCaseEmail = email.toLowerCase();
+
+    await sendEmail({
+      email: lowerCaseEmail, type: 'reject', name, redirectURL, contactUs,
+    });
+
     res
-      .status(201)
+      .status(constants.HttpStatus.OK)
       .json({ message: constants.messages.check.emailCheck });
   } catch (err) {
-    next(validateError(err as Error));
+    next(err);
   }
 };

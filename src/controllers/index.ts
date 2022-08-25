@@ -1,14 +1,24 @@
 export {
   signupHandler,
   loginHandler,
-  verifyEmailHandler,
   userAuth,
   forgetPassword,
   resetPasswordEmail,
   resetPassword,
   logOut,
   signUpGoogle,
+  logInGoogle,
 } from './auth';
 export {
-  pendingUsers, approveUser, approvedUser, rejectUser, rejectedUsers,
+  pendingUsers,
+  approveUser,
+  approvedUser,
+  rejectUser,
+  rejectedUsers,
+  editProfile,
+  createUser,
+  blockUser,
+  getPaginatedContents,
+  getPaginatedUsers,
+  matchUserContent,
 } from './users';

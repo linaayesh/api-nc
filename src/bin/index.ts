@@ -1,6 +1,6 @@
-/* eslint-disable no-console */
+import { sequelize } from 'db-models-nc';
+import Logger from '../helpers/logger';
 import app from '../app';
-import { sequelize } from '../database/config';
 import config from '../config';
 import { IServerAddress } from '../interfaces';
 
@@ -15,7 +15,7 @@ const normalizePort = (val: string): number | string | boolean => {
   return false;
 };
 
-const port = normalizePort(config.server.port);
+const port = normalizePort(config.server.PORT);
 
 const onError = (error: NodeJS.ErrnoException): void => {
   if (error.syscall !== 'listen') {
@@ -45,7 +45,7 @@ const onError = (error: NodeJS.ErrnoException): void => {
         : addr !== null
           ? `${addr.address}:${addr.port}`
           : `port ${addr}`;
-      console.log(`Listening on http://${bind}`);
+      Logger.info(`Listening on http://${bind}`);
     });
     server.on('error', onError);
   } catch (err) {
