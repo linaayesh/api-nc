@@ -27,8 +27,6 @@ export default async (req: UserAuth, res: Response, next: NextFunction): Promise
 
     res.json({ message: messages.authResponse.PASSWORD_CHANGED });
   } catch (error) {
-    console.log(error);
-
     next(error);
   }
 };
