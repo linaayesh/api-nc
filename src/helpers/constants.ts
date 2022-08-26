@@ -23,6 +23,7 @@ export const messages = {
     unAuthUser: 'UNAUTHORIZED',
     resetPassword: 'RESET PASSWORD',
     conflict: 'CONFLICT',
+    userStatistics: 'USER STATISTICS',
   },
   check: {
     emailCheck: 'CHECK EMAIL',

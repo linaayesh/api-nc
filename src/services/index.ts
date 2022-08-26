@@ -6,4 +6,5 @@ export {
   getContents,
   getUsers,
   matchUserContent,
+  getNumberOfContent,
 } from './user';

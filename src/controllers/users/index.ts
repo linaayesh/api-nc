@@ -10,3 +10,4 @@ export { default as getPaginatedContents } from './getPaginatedContents';
 export { default as getPaginatedUsers } from './getPaginatedUsers';
 export { default as matchUserContent } from './matchUserContent';
 export { default as changePassword } from './changePassword';
+export { default as getUserStatistics } from './getUserStatistics';
