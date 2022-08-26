@@ -5,10 +5,10 @@ import { HttpStatus } from '../../helpers/constants';
 type IMatchUserContent = (_: {
   id: string,
   userId: number,
-  filmingCosts: number,
+  filmingCosts: string,
   launchDate: string,
-  advance: number,
-  feePaid: number
+  advance: string,
+  feePaid: string
 }) => Promise<IContent>
 
 const matchUserContent: IMatchUserContent = async ({

@@ -14,6 +14,8 @@ type IGetPaginatedContents = (_: {
 const getPaginatedContents: IGetPaginatedContents = ({
   page, limit, title, id,
 }) => {
+  if (!page && !limit) return Content.findAll();
+
   const offset = (page - 1) * limit;
 
   if (!title && !id) {
