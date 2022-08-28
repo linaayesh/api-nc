@@ -28,9 +28,11 @@ const { ADMIN, MASTER_ADMIN } = constants.USER_ROLES;
 
 router.use(checkUserRole([ADMIN, MASTER_ADMIN]));
 
-router.get('/approved-list', approvedUser);
-router.get('/rejected-list', rejectedUsers);
-router.get('/waiting-list', pendingUsers);
+// const checkQuery = router.use(validator.query(getPaginatedDataSchema));
+
+router.get('/approved-list', validator.query(getPaginatedDataSchema), approvedUser);
+router.get('/rejected-list', validator.query(getPaginatedDataSchema), rejectedUsers);
+router.get('/waiting-list', validator.query(getPaginatedDataSchema), pendingUsers);
 router.get('/contents', validator.query(getPaginatedDataSchema), getPaginatedContents);
 router.get('/users', validator.query(getPaginatedDataSchema), getPaginatedUsers);
 
@@ -42,4 +44,5 @@ router.patch('/match-user-content', validator.body(matchUserContentSchema), matc
 
 router.use(checkUserRole([MASTER_ADMIN]));
 router.patch('/block-user/:userId', validator.params(idSchema), blockUser);
+
 export default router;

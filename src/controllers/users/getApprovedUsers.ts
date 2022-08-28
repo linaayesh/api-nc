@@ -2,10 +2,13 @@ import { Request, Response, NextFunction } from 'express';
 import { getUsersStatus } from '../../services';
 import { messages, USER_STATUS, HttpStatus } from '../../helpers/constants';
 
-export default async (req: Request, res: Response, next: NextFunction)
+export default async ({ query }: Request, res: Response, next: NextFunction)
 :Promise<void> => {
+  const { page, limit } = query;
   try {
-    const approvedUsers = await getUsersStatus(USER_STATUS.APPROVED);
+    const approvedUsers = await getUsersStatus(USER_STATUS.APPROVED, {
+      page: Number(page), limit: Number(limit),
+    });
     res
       .status(HttpStatus.OK)
       .json({ message: messages.listOfUsers.approved, data: approvedUsers });

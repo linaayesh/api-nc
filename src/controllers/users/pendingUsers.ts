@@ -3,10 +3,13 @@ import { getUsersStatus } from '../../services';
 import { messages, USER_STATUS } from '../../helpers/constants';
 import { constants } from '../../helpers';
 
-export default async (_req: Request, res: Response, next: NextFunction)
+export default async ({ query }: Request, res: Response, next: NextFunction)
 :Promise<void> => {
+  const { page, limit } = query;
   try {
-    const pendingUsers = await getUsersStatus(USER_STATUS.PENDING);
+    const pendingUsers = await getUsersStatus(USER_STATUS.PENDING, {
+      page: Number(page), limit: Number(limit),
+    });
 
     res
       .status(constants.HttpStatus.OK)
