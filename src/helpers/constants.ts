@@ -1,5 +1,6 @@
 export const messages = {
   authResponse: {
+    ALREADY_EXIST: 'ALREADY EXIST USER',
     ALREADY_APPROVED: 'ALREADY APPROVED',
     ALREADY_REJECTED: 'ALREADY REJECTED',
     PENDING: 'PENDING ACCOUNT',
@@ -24,6 +25,8 @@ export const messages = {
   },
   check: {
     emailCheck: 'CHECK EMAIL',
+    VERIFY_CHECK: 'VERIFY_CHECK',
+    APPROVE_CHECK: 'APPROVE_CHECK',
   },
   listOfUsers: {
     approved: 'APPROVED USERS',
