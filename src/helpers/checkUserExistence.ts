@@ -1,7 +1,7 @@
 import { IUser } from 'db-models-nc';
 import CustomError from './CustomError';
 import { messages, HttpStatus, USER_STATUS } from './constants';
-import { getUserByEmail, getUserById } from '../services';
+import { getUserByEmail } from '../services';
 
 const {
   notExist, ALREADY_EXIST,
@@ -57,31 +57,6 @@ export const ApprovalChecks = async (userExists: IUser | null): Promise<IUser> =
     if (!userExists) throw new CustomError(notExist, UNAUTHORIZED);
 
     check(userExists.userStatusId);
-
-    return userExists;
-  } catch (error) {
-    if (error instanceof CustomError) {
-      throw error;
-    }
-    throw new CustomError(String(error), INTERNAL_SERVER_ERROR);
-  }
-};
-
-/**
- * @description VerificationChecks is a function  used to check user verify=> true|change his status
- * @param {number} id user id
- * @returns {Promise<IUser>}
- * Check existence + pending status
- * if the user dose not exist return error, then if [approved, rejected ] => error
- * if verify return User Object
- */
-export const VerificationChecks = async (id: number):Promise<IUser> => {
-  try {
-    const userExists = await getUserById(id);
-
-    if (!userExists || !userExists.userStatusId) throw new CustomError(notExist, UNAUTHORIZED);
-
-    // check(messages.check.VERIFY_CHECK, userExists.userStatusId);
 
     return userExists;
   } catch (error) {
