@@ -78,6 +78,8 @@ export const LOGGER_LEVELS = {
   debug: 4,
 };
 
+export const EMAIL_REGEX = /^[\w-\\.]+@([\w-]+\.)+[\w-]{2,10}$/;
+
 export const REVENUE_DEFAULT_VALUE = 0;
 export const LOGGER_COLORS = {
   error: 'red',

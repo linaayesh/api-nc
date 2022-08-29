@@ -28,8 +28,6 @@ const { ADMIN, MASTER_ADMIN } = constants.USER_ROLES;
 
 router.use(checkUserRole([ADMIN, MASTER_ADMIN]));
 
-// const checkQuery = router.use(validator.query(getPaginatedDataSchema));
-
 router.get('/approved-list', validator.query(getPaginatedDataSchema), approvedUser);
 router.get('/rejected-list', validator.query(getPaginatedDataSchema), rejectedUsers);
 router.get('/waiting-list', validator.query(getPaginatedDataSchema), pendingUsers);

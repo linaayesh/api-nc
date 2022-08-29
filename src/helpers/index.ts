@@ -1,6 +1,7 @@
 import * as Constants from './constants';
 import * as Checkers from './checkUserExistence';
 import { validator } from './validate';
+import * as VALIDATION_RULES from './validationRules';
 
 const checkExistence = Checkers;
 const constants = Constants;
@@ -18,7 +19,9 @@ export {
   matchUserContentSchema,
 } from './validation';
 
-export { validator, checkExistence, constants };
+export {
+  validator, checkExistence, constants, VALIDATION_RULES,
+};
 
 export { default as CustomError } from './CustomError';
 export { default as validateError } from './validationError';
