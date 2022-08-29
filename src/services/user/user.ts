@@ -10,7 +10,7 @@ interface AddUserInterface{
   image?: string;
   googleId?: string;
   accPaidRevenue: number;
-  userStatusId?: number;
+  userStatusId: number;
   freeToBePaidRevenue: number;
 }
 

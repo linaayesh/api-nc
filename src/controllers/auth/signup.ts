@@ -24,6 +24,7 @@ export default async ({ body }: Request, res: Response, next: NextFunction):Prom
       password: hashedPassword,
       createdBy: SYSTEM,
       updatedBy: SYSTEM,
+      userStatusId: constants.USER_STATUS.PENDING,
       accPaidRevenue: constants.REVENUE_DEFAULT_VALUE,
       freeToBePaidRevenue: constants.REVENUE_DEFAULT_VALUE,
     });

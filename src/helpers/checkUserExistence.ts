@@ -4,28 +4,25 @@ import { messages, HttpStatus, USER_STATUS } from './constants';
 import { getUserByEmail, getUserById } from '../services';
 
 const {
-  notExist, ALREADY_APPROVED, ALREADY_REJECTED, ALREADY_EXIST,
+  notExist, ALREADY_EXIST,
 } = messages.authResponse;
-const { CONFLICT, UNAUTHORIZED, INTERNAL_SERVER_ERROR } = HttpStatus;
+const { UNAUTHORIZED, INTERNAL_SERVER_ERROR } = HttpStatus;
 const {
-  APPROVED, REJECTED, PENDING, BANNED,
+  REJECTED, PENDING, BANNED,
 } = USER_STATUS;
 
-const check = (checkType: string, statusOfTheUser: number): void => {
-  if (statusOfTheUser === REJECTED) throw new CustomError(ALREADY_REJECTED, UNAUTHORIZED);
-
-  if (checkType === messages.check.VERIFY_CHECK) {
-    if (statusOfTheUser === APPROVED) throw new CustomError(ALREADY_APPROVED, CONFLICT);
-  }
-
-  if (checkType === messages.check.APPROVE_CHECK) {
-    if (statusOfTheUser === PENDING) {
+const check = (statusOfTheUser: number): void => {
+  switch (statusOfTheUser) {
+    case (REJECTED):
+      throw new CustomError(messages.authResponse.ALREADY_REJECTED, UNAUTHORIZED);
+      break;
+    case (PENDING):
       throw new CustomError(messages.authResponse.PENDING, UNAUTHORIZED);
-    }
-
-    if (statusOfTheUser === BANNED) {
+      break;
+    case (BANNED):
       throw new CustomError(messages.authResponse.BANNED, UNAUTHORIZED);
-    }
+      break;
+    default: break;
   }
 };
 
@@ -57,9 +54,9 @@ export const RegistrationCheck = async (email: string): Promise<string> => {
  */
 export const ApprovalChecks = async (userExists: IUser | null): Promise<IUser> => {
   try {
-    if (!userExists || !userExists.userStatusId) throw new CustomError(notExist, UNAUTHORIZED);
+    if (!userExists) throw new CustomError(notExist, UNAUTHORIZED);
 
-    check(messages.check.APPROVE_CHECK, userExists.userStatusId);
+    check(userExists.userStatusId);
 
     return userExists;
   } catch (error) {
@@ -74,7 +71,8 @@ export const ApprovalChecks = async (userExists: IUser | null): Promise<IUser> =
  * @description VerificationChecks is a function  used to check user verify=> true|change his status
  * @param {number} id user id
  * @returns {Promise<IUser>}
- * if the user dose not exist return error, then if [not verified, approved, rejected ] => error
+ * Check existence + pending status
+ * if the user dose not exist return error, then if [approved, rejected ] => error
  * if verify return User Object
  */
 export const VerificationChecks = async (id: number):Promise<IUser> => {
@@ -83,7 +81,7 @@ export const VerificationChecks = async (id: number):Promise<IUser> => {
 
     if (!userExists || !userExists.userStatusId) throw new CustomError(notExist, UNAUTHORIZED);
 
-    check(messages.check.VERIFY_CHECK, userExists.userStatusId);
+    // check(messages.check.VERIFY_CHECK, userExists.userStatusId);
 
     return userExists;
   } catch (error) {

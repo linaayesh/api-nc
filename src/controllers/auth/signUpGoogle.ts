@@ -43,6 +43,7 @@ export default async ({ body: { tokenId } }: Request, res: Response, next: NextF
       updatedBy: SYSTEM,
       image,
       googleId,
+      userStatusId: constants.USER_STATUS.PENDING,
       freeToBePaidRevenue: REVENUE_DEFAULT_VALUE,
       accPaidRevenue: REVENUE_DEFAULT_VALUE,
     });
