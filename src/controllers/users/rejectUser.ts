@@ -9,12 +9,12 @@ export default async (req: Request, res: Response, next: NextFunction)
   const redirectURL = `${config.server.CLIENT_URL}/faq`; // TODO: to be modified with FAQ page
   const contactUs = `mailto:${config.email.NEXTUP_COMEDY_SUPPORT_EMAIL}`;
   const {
-    messages, HttpStatus, USER_ROLES, USER_STATUS,
+    MESSAGES, HttpStatus, USER_ROLES, USER_STATUS,
   } = constants;
 
   try {
     const user = await getUserById(+userId);
-    if (!user) throw new CustomError(messages.authResponse.notExist, HttpStatus.NOT_FOUND);
+    if (!user) throw new CustomError(MESSAGES.authResponse.notExist, HttpStatus.NOT_FOUND);
 
     user.userStatusId = USER_STATUS.REJECTED;
     user.updatedBy = USER_ROLES.SYSTEM;
@@ -30,7 +30,7 @@ export default async (req: Request, res: Response, next: NextFunction)
 
     res
       .status(constants.HttpStatus.OK)
-      .json({ message: constants.messages.check.REJECT_EMAIL_CHECK });
+      .json({ message: constants.MESSAGES.check.REJECT_EMAIL_CHECK });
   } catch (err) {
     next(err);
   }

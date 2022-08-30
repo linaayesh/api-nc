@@ -23,6 +23,7 @@ export {
   validator, checkExistence, constants, VALIDATION_RULES,
 };
 
+export { default as Logger } from './logger';
 export { default as CustomError } from './CustomError';
 export { default as validateError } from './validationError';
 export { default as sendEmail } from './emailService';

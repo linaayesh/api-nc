@@ -24,7 +24,7 @@ export default async (req: UserAuth, res: Response, next: NextFunction):Promise<
     const hashedPassword = await hash(password, 10);
 
     if (!req.user || !req.user.id) {
-      throw new CustomError(constants.messages.authResponse.UNAUTHORIZED, UNAUTHORIZED);
+      throw new CustomError(constants.MESSAGES.authResponse.UNAUTHORIZED, UNAUTHORIZED);
     }
     const user = await addUser({
       name,
@@ -46,7 +46,7 @@ export default async (req: UserAuth, res: Response, next: NextFunction):Promise<
     });
     res
       .status(CREATED)
-      .json({ message: constants.messages.authResponse.SUCCESS, data: user });
+      .json({ message: constants.MESSAGES.authResponse.SUCCESS, data: user });
   } catch (err) {
     next(err);
   }

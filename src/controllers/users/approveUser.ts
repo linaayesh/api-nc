@@ -8,12 +8,12 @@ export default async (req: Request, res: Response, next: NextFunction)
   const { userId } = req.params;
   const redirectURL = `${config.server.CLIENT_URL}`;
   const {
-    messages, HttpStatus, USER_ROLES, USER_STATUS,
+    MESSAGES, HttpStatus, USER_ROLES, USER_STATUS,
   } = constants;
 
   try {
     const user = await getUserById(+userId);
-    if (!user) throw new CustomError(messages.authResponse.notExist, HttpStatus.NOT_FOUND);
+    if (!user) throw new CustomError(MESSAGES.authResponse.notExist, HttpStatus.NOT_FOUND);
 
     user.userStatusId = USER_STATUS.APPROVED;
     user.updatedBy = USER_ROLES.SYSTEM;
@@ -29,7 +29,7 @@ export default async (req: Request, res: Response, next: NextFunction)
 
     res
       .status(constants.HttpStatus.OK)
-      .json({ message: constants.messages.authResponse.approvedUser });
+      .json({ message: constants.MESSAGES.authResponse.approvedUser });
   } catch (err) {
     next(err);
   }

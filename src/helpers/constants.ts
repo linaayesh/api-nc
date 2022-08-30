@@ -1,4 +1,4 @@
-export const messages = {
+export const MESSAGES = {
   authResponse: {
     ALREADY_EXIST: 'ALREADY EXIST USER',
     ALREADY_APPROVED: 'ALREADY APPROVED',

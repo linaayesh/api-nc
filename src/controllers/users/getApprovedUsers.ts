@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { getUsersStatus } from '../../services';
-import { messages, USER_STATUS, HttpStatus } from '../../helpers/constants';
+import { MESSAGES, USER_STATUS, HttpStatus } from '../../helpers/constants';
 
 export default async ({ query }: Request, res: Response, next: NextFunction)
 :Promise<void> => {
@@ -11,7 +11,7 @@ export default async ({ query }: Request, res: Response, next: NextFunction)
     });
     res
       .status(HttpStatus.OK)
-      .json({ message: messages.listOfUsers.approved, data: approvedUsers });
+      .json({ message: MESSAGES.listOfUsers.approved, data: approvedUsers });
   } catch (err) {
     next(err);
   }

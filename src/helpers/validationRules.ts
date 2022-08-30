@@ -28,3 +28,7 @@ export const financialValidation = Joi.number().min(0).required();
 export const date = Joi.string().isoDate().required();
 
 export const guid = Joi.string().guid().required();
+
+export const ENV_STRING = Joi.string().required();
+
+export const ENV_NUMBER = Joi.string().required();

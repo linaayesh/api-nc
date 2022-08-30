@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { NextFunction, Request, Response } from 'express';
 import config from '../../config';
 import {
@@ -5,14 +6,18 @@ import {
 } from '../../helpers';
 import { getUserByEmail } from '../../services';
 
-export default async ({ body }: Request, res: Response, next: NextFunction)
-:Promise<void> => {
-  const { resetToken } = constants.messages.token;
-  const { RESET_EMAIL_CHECK } = constants.messages.check;
-  const { OK } = constants.HttpStatus;
+// const bodyDTO = (data: unknown) => data.body;
+const bodyData = (request: Request) => request.body;
 
-  const { email } = body;
-  const lowerCaseEmail = email.toLowerCase();
+type ForgetPasswordType = (req: Request, res: Response, next: NextFunction) => Promise<void>;
+
+const ForgetPassword: ForgetPasswordType = async (req: Request, res: Response, next: NextFunction)
+:Promise<void> => {
+  const { MESSAGES, HttpStatus } = constants;
+  // const emailDto = (req, body) => ({ email: body.email.toLowerCase() });
+  // const { email } = req.body;
+  const body = bodyData(req);
+  const lowerCaseEmail = body.email.toLowerCase();
 
   try {
     const userData = await getUserByEmail(lowerCaseEmail);
@@ -39,10 +44,12 @@ export default async ({ body }: Request, res: Response, next: NextFunction)
     });
 
     res
-      .cookie(resetToken, token)
-      .status(OK)
-      .json({ message: RESET_EMAIL_CHECK });
+      .cookie(MESSAGES.token.resetToken, token)
+      .status(HttpStatus.OK)
+      .json({ message: MESSAGES.check.RESET_EMAIL_CHECK });
   } catch (err) {
     next(err);
   }
 };
+
+export default ForgetPassword;

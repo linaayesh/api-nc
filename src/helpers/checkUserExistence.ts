@@ -1,11 +1,11 @@
 import { IUser } from 'db-models-nc';
 import CustomError from './CustomError';
-import { messages, HttpStatus, USER_STATUS } from './constants';
+import { MESSAGES, HttpStatus, USER_STATUS } from './constants';
 import { getUserByEmail } from '../services';
 
 const {
   notExist, ALREADY_EXIST,
-} = messages.authResponse;
+} = MESSAGES.authResponse;
 const { UNAUTHORIZED, INTERNAL_SERVER_ERROR } = HttpStatus;
 const {
   REJECTED, PENDING, BANNED,
@@ -14,13 +14,13 @@ const {
 const check = (statusOfTheUser: number): void => {
   switch (statusOfTheUser) {
     case (REJECTED):
-      throw new CustomError(messages.authResponse.ALREADY_REJECTED, UNAUTHORIZED);
+      throw new CustomError(MESSAGES.authResponse.ALREADY_REJECTED, UNAUTHORIZED);
       break;
     case (PENDING):
-      throw new CustomError(messages.authResponse.PENDING, UNAUTHORIZED);
+      throw new CustomError(MESSAGES.authResponse.PENDING, UNAUTHORIZED);
       break;
     case (BANNED):
-      throw new CustomError(messages.authResponse.BANNED, UNAUTHORIZED);
+      throw new CustomError(MESSAGES.authResponse.BANNED, UNAUTHORIZED);
       break;
     default: break;
   }

@@ -10,8 +10,8 @@ import config from '../../config';
 export default async (req: Request, res: Response, next: NextFunction):Promise<void> => {
   const { password } = req.body;
   const { resetPasswordToken } = req.cookies;
-  const { resetToken } = constants.messages.token;
-  const { unAuthUser, resetPassword } = constants.messages.authResponse;
+  const { resetToken } = constants.MESSAGES.token;
+  const { unAuthUser, resetPassword } = constants.MESSAGES.authResponse;
   const { OK } = constants.HttpStatus;
 
   try {

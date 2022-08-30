@@ -5,7 +5,7 @@ import { getUserByEmail } from '../../services';
 
 export default async (req: Request, res: Response, next: NextFunction)
 :Promise<void> => {
-  const { notExist } = constants.messages.authResponse;
+  const { notExist } = constants.MESSAGES.authResponse;
   const { REDIRECT } = constants.HttpStatus;
   const { token } = req.params;
 

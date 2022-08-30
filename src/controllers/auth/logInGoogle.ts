@@ -8,8 +8,8 @@ export default async ({ body }: Request, res: Response, next: NextFunction)
 :Promise<void> => {
   const { tokenId } = body;
   try {
-    const { logIn } = constants.messages.authResponse;
-    const { accessToken } = constants.messages.token;
+    const { logIn } = constants.MESSAGES.authResponse;
+    const { accessToken } = constants.MESSAGES.token;
 
     const {
       email, googleId,

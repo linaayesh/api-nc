@@ -9,10 +9,10 @@ export default async (req: UserAuth, res: Response, next: NextFunction)
   try {
     const userData = await getUserById(+userId);
     const user = await checkExistence.ApprovalChecks(userData);
-    const { USER_STATUS, HttpStatus, messages } = constants;
+    const { USER_STATUS, HttpStatus, MESSAGES } = constants;
 
     if (!req.user) {
-      throw new CustomError(messages.authResponse.UNAUTHORIZED, HttpStatus.UNAUTHORIZED);
+      throw new CustomError(MESSAGES.authResponse.UNAUTHORIZED, HttpStatus.UNAUTHORIZED);
     }
 
     user.userStatusId = USER_STATUS.BANNED;
@@ -21,7 +21,7 @@ export default async (req: UserAuth, res: Response, next: NextFunction)
 
     res
       .status(HttpStatus.OK)
-      .json({ message: messages.authResponse.SUCCESS });
+      .json({ message: MESSAGES.authResponse.SUCCESS });
   } catch (err) {
     next(err);
   }

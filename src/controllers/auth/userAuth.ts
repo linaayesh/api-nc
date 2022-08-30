@@ -4,7 +4,7 @@ import { constants, CustomError } from '../../helpers';
 
 export default async ({ user }: UserAuth, res: Response, next: NextFunction):
 Promise<void> => {
-  const { approvedUser, UNAUTHORIZED } = constants.messages.authResponse;
+  const { approvedUser, UNAUTHORIZED } = constants.MESSAGES.authResponse;
   const { OK } = constants.HttpStatus;
   try {
     if (!user) throw new CustomError(UNAUTHORIZED, 401);

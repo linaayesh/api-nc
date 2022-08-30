@@ -37,7 +37,7 @@ export default async ({ body }: Request, res: Response, next: NextFunction):Prom
 
     res
       .status(CREATED)
-      .json({ message: constants.messages.authResponse.SUCCESS });
+      .json({ message: constants.MESSAGES.authResponse.SUCCESS });
   } catch (err) {
     next(err);
   }

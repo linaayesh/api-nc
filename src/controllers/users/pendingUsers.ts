@@ -1,6 +1,6 @@
 import { Response, NextFunction, Request } from 'express';
 import { getUsersStatus } from '../../services';
-import { messages, USER_STATUS } from '../../helpers/constants';
+import { MESSAGES, USER_STATUS } from '../../helpers/constants';
 import { constants } from '../../helpers';
 
 export default async ({ query }: Request, res: Response, next: NextFunction)
@@ -13,7 +13,7 @@ export default async ({ query }: Request, res: Response, next: NextFunction)
 
     res
       .status(constants.HttpStatus.OK)
-      .json({ message: messages.listOfUsers.notApproved, data: pendingUsers });
+      .json({ message: MESSAGES.listOfUsers.notApproved, data: pendingUsers });
   } catch (error) {
     next(error);
   }

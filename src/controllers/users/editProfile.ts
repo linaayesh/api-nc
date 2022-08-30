@@ -6,7 +6,7 @@ import { getUserById } from '../../services';
 export default async (req: UserAuth, res: Response, next: NextFunction)
 :Promise<void> => {
   const { HttpStatus, USER_ROLES } = constants;
-  const { notExist, edit, UNAUTHORIZED } = constants.messages.authResponse;
+  const { notExist, edit, UNAUTHORIZED } = constants.MESSAGES.authResponse;
   const {
     id, image, ...userUpdatedFields
   } = req.body;

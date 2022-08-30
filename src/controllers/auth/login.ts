@@ -1,16 +1,26 @@
+// /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { Request, Response, NextFunction } from 'express';
 import { compare } from 'bcrypt';
 import {
-  constants, checkExistence, signToken, CustomError,
+  constants, checkExistence, signToken, CustomError, Logger,
 } from '../../helpers';
 import { getUserByEmail } from '../../services';
 
-export default async ({ body }: Request, res: Response, next: NextFunction):
+interface logInBody {
+  rememberMe: string,
+  password: string,
+  email: string,
+}
+const bodyData = (request: Request): logInBody => request.body;
+
+export default async (req: Request, res: Response, next: NextFunction):
 Promise<void> => {
-  const { email, password, rememberMe } = body;
-  const { wrongEmailOrPassword, logIn } = constants.messages.authResponse;
-  const { accessToken } = constants.messages.token;
+  const { email, password, rememberMe } = bodyData(req);
+  Logger.info(`The EMAIL ${email}`);
+  const { wrongEmailOrPassword, logIn } = constants.MESSAGES.authResponse;
+  const { accessToken } = constants.MESSAGES.token;
   const { OK, UNAUTHORIZED } = constants.HttpStatus;
+
   try {
     let expiresIn;
     if (rememberMe) { expiresIn = '30d'; } else { expiresIn = '24h'; }

@@ -1,8 +1,9 @@
 import Joi from 'joi';
 import { IDatabase } from '../interfaces';
+import { ENV_STRING } from '../helpers/validationRules';
 
 const envVarsSchema = Joi.object({
-  DATABASE_URL: Joi.string().required(),
+  DATABASE_URL: ENV_STRING,
 }).unknown().required();
 
 const config = (): IDatabase => {

@@ -56,7 +56,7 @@ export default async ({ body: { tokenId } }: Request, res: Response, next: NextF
 
     res
       .status(CREATED)
-      .json({ message: constants.messages.authResponse.SUCCESS });
+      .json({ message: constants.MESSAGES.authResponse.SUCCESS });
   } catch (error) {
     next(error);
   }

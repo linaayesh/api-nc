@@ -10,8 +10,8 @@ export default (userTypes: number[]) => async (
   _res: Response,
   next: NextFunction,
 ): Promise<void> => {
-  const { USER_STATUS, messages } = constants;
-  const { UNAUTHORIZED, notExist } = messages.authResponse;
+  const { USER_STATUS, MESSAGES } = constants;
+  const { UNAUTHORIZED, notExist } = MESSAGES.authResponse;
   try {
     const { accessToken } = req.cookies;
 
