@@ -21,4 +21,6 @@ export {
   getPaginatedContents,
   getPaginatedUsers,
   matchUserContent,
+  changePassword,
+  getUserStatistics,
 } from './users';

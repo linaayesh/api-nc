@@ -1,5 +1,7 @@
 export const messages = {
   authResponse: {
+    PASSWORD_CHANGED: 'PASSWORD CHANGED',
+    INCORRECT_PASSWORD: 'INCORRECT PASSWORD',
     ALREADY_APPROVED: 'ALREADY APPROVED',
     ALREADY_REJECTED: 'ALREADY REJECTED',
     PENDING: 'PENDING ACCOUNT',
@@ -21,6 +23,7 @@ export const messages = {
     unAuthUser: 'UNAUTHORIZED',
     resetPassword: 'RESET PASSWORD',
     conflict: 'CONFLICT',
+    userStatistics: 'USER STATISTICS',
   },
   check: {
     emailCheck: 'CHECK EMAIL',
