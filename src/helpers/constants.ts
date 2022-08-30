@@ -24,9 +24,8 @@ export const messages = {
     conflict: 'CONFLICT',
   },
   check: {
-    emailCheck: 'CHECK EMAIL',
-    VERIFY_CHECK: 'VERIFY_CHECK',
-    APPROVE_CHECK: 'APPROVE_CHECK',
+    RESET_EMAIL_CHECK: 'RESET_EMAIL_CHECK',
+    REJECT_EMAIL_CHECK: 'REJECT_EMAIL_CHECK',
   },
   listOfUsers: {
     approved: 'APPROVED USERS',

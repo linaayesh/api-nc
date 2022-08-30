@@ -30,7 +30,7 @@ export default async (req: Request, res: Response, next: NextFunction)
 
     res
       .status(constants.HttpStatus.OK)
-      .json({ message: constants.messages.check.emailCheck });
+      .json({ message: constants.messages.check.REJECT_EMAIL_CHECK });
   } catch (err) {
     next(err);
   }
