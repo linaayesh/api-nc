@@ -17,8 +17,11 @@ export {
   editProfile,
   createUser,
   blockUser,
-  getPaginatedContents,
-  matchUserContent,
   changePassword,
   getUserStatistics,
 } from './users';
+
+export {
+  getPaginatedContents,
+  matchUserContent,
+} from './contents';

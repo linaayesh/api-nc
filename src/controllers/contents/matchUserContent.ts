@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { matchUserContent } from '../../services';
+import { constants } from '../../helpers';
 
 export default async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   const { body } = req;
@@ -13,7 +14,7 @@ export default async (req: Request, res: Response, next: NextFunction): Promise<
   try {
     const content = await matchUserContent(modifiedBody);
 
-    res.json({ data: content, message: 'Content matched successfully' });
+    res.json({ message: constants.MESSAGES.authResponse.SUCCESS, data: content });
   } catch (err) {
     next(err);
   }

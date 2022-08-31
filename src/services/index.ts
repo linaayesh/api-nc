@@ -3,8 +3,11 @@ export {
   getUserById,
   getUsersStatus,
   addUser,
-  getContents,
   getUsers,
   matchUserContent,
   getNumberOfContent,
 } from './user';
+
+export {
+  getContents,
+} from './contents';
