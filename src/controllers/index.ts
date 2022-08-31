@@ -18,7 +18,6 @@ export {
   createUser,
   blockUser,
   getPaginatedContents,
-  getPaginatedUsers,
   matchUserContent,
   changePassword,
   getUserStatistics,

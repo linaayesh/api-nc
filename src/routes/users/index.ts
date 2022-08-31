@@ -9,7 +9,6 @@ import {
   createUser,
   blockUser,
   getPaginatedContents,
-  getPaginatedUsers,
   matchUserContent,
   changePassword,
   getUserStatistics,
@@ -38,7 +37,6 @@ router.get('/approved-list', validator.query(getPaginatedDataSchema), approvedUs
 router.get('/rejected-list', validator.query(getPaginatedDataSchema), rejectedUsers);
 router.get('/waiting-list', validator.query(getPaginatedDataSchema), pendingUsers);
 router.get('/contents', validator.query(getPaginatedDataSchema), getPaginatedContents);
-router.get('/users', validator.query(getPaginatedDataSchema), getPaginatedUsers);
 router.get('/statistics/:userId', validator.params(idSchema), getUserStatistics);
 router.post('/add-user', validator.body(createUserSchema), createUser);
 

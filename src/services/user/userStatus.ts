@@ -35,7 +35,6 @@ const getUsersStatus: GetUsersStatus = (statusId: number, { page, limit }) => {
     });
   }
   const offset = (page - 1) * limit;
-  console.log(offset, limit);
 
   return User.findAndCountAll({
     offset,
