@@ -1,9 +1,17 @@
 import { Request, Response, NextFunction } from 'express';
 import { matchUserContent } from '../../services';
 
-export default async ({ body }: Request, res: Response, next: NextFunction): Promise<void> => {
+export default async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  const { body } = req;
+  const modifiedBody = {
+    ...body,
+    filmingCosts: body.filmingCosts.toString(),
+    advance: body.advance.toString(),
+    feePaid: body.feePaid.toString(),
+  };
+
   try {
-    const content = await matchUserContent(body);
+    const content = await matchUserContent(modifiedBody);
 
     res.json({ data: content, message: 'Content matched successfully' });
   } catch (err) {

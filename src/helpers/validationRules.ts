@@ -19,9 +19,9 @@ export const stringValidation = Joi.string();
 
 export const booleanValidation = Joi.boolean();
 
-export const limit = Joi.number().min(1).max(1000).required();
+export const limit = Joi.number().min(1).max(1000);
 
-export const page = Joi.number().min(1).required();
+export const page = Joi.number().min(1);
 
 export const financialValidation = Joi.number().min(0).required();
 

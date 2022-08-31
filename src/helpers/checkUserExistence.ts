@@ -54,7 +54,7 @@ export const RegistrationCheck = async (email: string): Promise<string> => {
  */
 export const ApprovalChecks = async (userExists: IUser | null): Promise<IUser> => {
   try {
-    if (!userExists) throw new CustomError(notExist, UNAUTHORIZED);
+    if (!userExists || !userExists.userStatusId) throw new CustomError(notExist, UNAUTHORIZED);
 
     check(userExists.userStatusId);
 

@@ -6,7 +6,6 @@ import {
 } from '../../helpers';
 import { getUserByEmail } from '../../services';
 
-// const bodyDTO = (data: unknown) => data.body;
 const bodyData = (request: Request) => request.body;
 
 type ForgetPasswordType = (req: Request, res: Response, next: NextFunction) => Promise<void>;
@@ -14,8 +13,6 @@ type ForgetPasswordType = (req: Request, res: Response, next: NextFunction) => P
 const ForgetPassword: ForgetPasswordType = async (req: Request, res: Response, next: NextFunction)
 :Promise<void> => {
   const { MESSAGES, HttpStatus } = constants;
-  // const emailDto = (req, body) => ({ email: body.email.toLowerCase() });
-  // const { email } = req.body;
   const body = bodyData(req);
   const lowerCaseEmail = body.email.toLowerCase();
 
@@ -44,7 +41,7 @@ const ForgetPassword: ForgetPasswordType = async (req: Request, res: Response, n
     });
 
     res
-      .cookie(MESSAGES.token.resetToken, token)
+      // .cookie(MESSAGES.token.resetToken, token)
       .status(HttpStatus.OK)
       .json({ message: MESSAGES.check.RESET_EMAIL_CHECK });
   } catch (err) {

@@ -17,6 +17,7 @@ export {
   passwordSchema,
   getPaginatedDataSchema,
   matchUserContentSchema,
+  changePasswordSchema,
 } from './validation';
 
 export {

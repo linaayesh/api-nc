@@ -1,22 +1,26 @@
-// /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { Request, Response, NextFunction } from 'express';
 import { compare } from 'bcrypt';
 import {
-  constants, checkExistence, signToken, CustomError, Logger,
+  constants, checkExistence, signToken, CustomError,
 } from '../../helpers';
 import { getUserByEmail } from '../../services';
 
-interface logInBody {
+interface loginBody {
   rememberMe: string,
   password: string,
   email: string,
 }
-const bodyData = (request: Request): logInBody => request.body;
+
+const loginDTO = (body: loginBody): loginBody => ({
+  email: body.email.toLowerCase(),
+  password: body.password,
+  rememberMe: body.rememberMe,
+});
 
 export default async (req: Request, res: Response, next: NextFunction):
 Promise<void> => {
-  const { email, password, rememberMe } = bodyData(req);
-  Logger.info(`The EMAIL ${email}`);
+  const { email, password, rememberMe } = loginDTO(req.body);
+
   const { wrongEmailOrPassword, logIn } = constants.MESSAGES.authResponse;
   const { accessToken } = constants.MESSAGES.token;
   const { OK, UNAUTHORIZED } = constants.HttpStatus;
