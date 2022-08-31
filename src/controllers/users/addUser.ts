@@ -11,20 +11,21 @@ export default async (req: UserAuth, res: Response, next: NextFunction):Promise<
   const {
     name, email, roleId,
   } = req.body;
-  const { CREATED, UNAUTHORIZED } = constants.HttpStatus;
-  const { APPROVED } = constants.USER_STATUS;
+  const {
+    HttpStatus, USER_STATUS, PASSWORD_LENGTH, EMAIL_TYPE,
+  } = constants;
 
   try {
     const lowercaseEmail = email.toLowerCase();
     await checkExistence.RegistrationCheck(lowercaseEmail);
 
     const password = generatePassword.generate({
-      length: 15, numbers: true, strict: true, lowercase: true, uppercase: true,
+      length: PASSWORD_LENGTH, numbers: true, strict: true, lowercase: true, uppercase: true,
     });
     const hashedPassword = await hash(password, 10);
 
     if (!req.user || !req.user.id) {
-      throw new CustomError(constants.MESSAGES.authResponse.UNAUTHORIZED, UNAUTHORIZED);
+      throw new CustomError(constants.MESSAGES.authResponse.UNAUTHORIZED, HttpStatus.UNAUTHORIZED);
     }
     const user = await addUser({
       name,
@@ -33,19 +34,19 @@ export default async (req: UserAuth, res: Response, next: NextFunction):Promise<
       password: hashedPassword,
       createdBy: req.user.id,
       updatedBy: req.user.id,
-      userStatusId: APPROVED,
+      userStatusId: USER_STATUS.APPROVED,
       accPaidRevenue: constants.REVENUE_DEFAULT_VALUE,
       freeToBePaidRevenue: constants.REVENUE_DEFAULT_VALUE,
     });
 
     await sendEmail({
       email: user.email,
-      type: 'create',
+      type: EMAIL_TYPE.CREATE,
       name: user.name,
       password,
     });
     res
-      .status(CREATED)
+      .status(HttpStatus.CREATED)
       .json({ message: constants.MESSAGES.authResponse.SUCCESS, data: user });
   } catch (err) {
     next(err);

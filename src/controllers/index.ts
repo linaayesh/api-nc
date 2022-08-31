@@ -3,7 +3,6 @@ export {
   loginHandler,
   userAuth,
   forgetPassword,
-  resetPasswordEmail,
   resetPassword,
   logOut,
   signUpGoogle,

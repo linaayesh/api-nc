@@ -13,6 +13,7 @@ export default async (req: Request, res: Response, next: NextFunction):Promise<v
   const { resetToken } = constants.MESSAGES.token;
   const { unAuthUser, resetPassword } = constants.MESSAGES.authResponse;
   const { OK } = constants.HttpStatus;
+  console.log(3333, 'actual reset password');
 
   try {
     if (!resetPasswordToken) throw new CustomError(unAuthUser, 401);

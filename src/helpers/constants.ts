@@ -1,3 +1,5 @@
+import config from '../config';
+
 export const MESSAGES = {
   authResponse: {
     ALREADY_EXIST: 'ALREADY EXIST USER',
@@ -89,4 +91,21 @@ export const LOGGER_COLORS = {
   info: 'green',
   http: 'cyan',
   debug: 'gray',
+};
+
+export const PASSWORD_LENGTH = 15;
+
+export const EMAIL_TYPE = {
+  CREATE: 'create',
+  VERIFY: 'verify',
+  RESET: 'reset',
+  APPROVE: 'approve',
+  REJECT: 'reject',
+};
+
+export const REDIRECT_URLS = {
+  RESET: `${config.server.CLIENT_URL}/resetPassword`,
+  LOGIN: `${config.server.CLIENT_URL}`,
+  FAQ: `${config.server.CLIENT_URL}/faq`,
+  CONTACT_US: `mailto:${config.email.NEXTUP_COMEDY_SUPPORT_EMAIL}`,
 };

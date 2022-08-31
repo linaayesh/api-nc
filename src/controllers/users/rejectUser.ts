@@ -1,15 +1,12 @@
 import { NextFunction, Request, Response } from 'express';
-import config from '../../config';
 import { getUserById } from '../../services';
 import { constants, CustomError, sendEmail } from '../../helpers';
 
 export default async (req: Request, res: Response, next: NextFunction)
 :Promise<void> => {
   const { userId } = req.params;
-  const redirectURL = `${config.server.CLIENT_URL}/faq`; // TODO: to be modified with FAQ page
-  const contactUs = `mailto:${config.email.NEXTUP_COMEDY_SUPPORT_EMAIL}`;
   const {
-    MESSAGES, HttpStatus, USER_ROLES, USER_STATUS,
+    MESSAGES, HttpStatus, USER_ROLES, USER_STATUS, EMAIL_TYPE, REDIRECT_URLS,
   } = constants;
 
   try {
@@ -25,7 +22,11 @@ export default async (req: Request, res: Response, next: NextFunction)
     const lowerCaseEmail = email.toLowerCase();
 
     await sendEmail({
-      email: lowerCaseEmail, type: 'reject', name, redirectURL, contactUs,
+      email: lowerCaseEmail,
+      type: EMAIL_TYPE.REJECT,
+      name,
+      redirectURL: REDIRECT_URLS.FAQ,
+      contactUs: REDIRECT_URLS.CONTACT_US,
     });
 
     res

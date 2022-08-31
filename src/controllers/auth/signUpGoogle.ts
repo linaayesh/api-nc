@@ -9,23 +9,25 @@ import {
 } from '../../helpers';
 import { addUser } from '../../services';
 
-export default async ({ body: { tokenId } }: Request, res: Response, next: NextFunction)
+export default async ({ body }: Request, res: Response, next: NextFunction)
 :Promise<void> => {
   const {
-    HttpStatus: { CREATED },
-    USER_ROLES: { SYSTEM, COMEDIAN },
+    HttpStatus,
+    USER_ROLES,
     REVENUE_DEFAULT_VALUE,
+    PASSWORD_LENGTH,
+    EMAIL_TYPE,
   } = constants;
 
   try {
     const {
       email, name, image, googleId,
-    } = await googleAuthentication(tokenId);
+    } = await googleAuthentication(body.tokenId);
 
     await checkExistence.RegistrationCheck(email);
 
     const password = generatePassword.generate({
-      length: 20,
+      length: PASSWORD_LENGTH,
       numbers: true,
       strict: true,
       lowercase: true,
@@ -37,10 +39,10 @@ export default async ({ body: { tokenId } }: Request, res: Response, next: NextF
     const user = await addUser({
       name,
       email,
-      userRoleId: COMEDIAN,
+      userRoleId: USER_ROLES.COMEDIAN,
       password: hashedPassword,
-      createdBy: SYSTEM,
-      updatedBy: SYSTEM,
+      createdBy: USER_ROLES.SYSTEM,
+      updatedBy: USER_ROLES.SYSTEM,
       image,
       googleId,
       userStatusId: constants.USER_STATUS.PENDING,
@@ -50,12 +52,12 @@ export default async ({ body: { tokenId } }: Request, res: Response, next: NextF
 
     await sendEmail({
       email: user.email,
-      type: 'verify',
+      type: EMAIL_TYPE.VERIFY,
       name: user.name,
     });
 
     res
-      .status(CREATED)
+      .status(HttpStatus.CREATED)
       .json({ message: constants.MESSAGES.authResponse.SUCCESS });
   } catch (error) {
     next(error);

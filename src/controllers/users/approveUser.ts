@@ -1,14 +1,12 @@
 import { NextFunction, Request, Response } from 'express';
 import { getUserById } from '../../services';
-import config from '../../config';
 import { constants, CustomError, sendEmail } from '../../helpers';
 
 export default async (req: Request, res: Response, next: NextFunction)
 :Promise<void> => {
   const { userId } = req.params;
-  const redirectURL = `${config.server.CLIENT_URL}`;
   const {
-    MESSAGES, HttpStatus, USER_ROLES, USER_STATUS,
+    MESSAGES, HttpStatus, USER_ROLES, USER_STATUS, EMAIL_TYPE, REDIRECT_URLS,
   } = constants;
 
   try {
@@ -24,7 +22,10 @@ export default async (req: Request, res: Response, next: NextFunction)
     const lowerCaseEmail = email.toLowerCase();
 
     await sendEmail({
-      email: lowerCaseEmail, type: 'approve', name, redirectURL,
+      email: lowerCaseEmail,
+      type: EMAIL_TYPE.APPROVE,
+      name,
+      redirectURL: REDIRECT_URLS.LOGIN,
     });
 
     res
