@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { editDashboardVars } from '../../services';
+import { editDashboardSettings } from '../../services';
 import { constants } from '../../helpers';
 
 export default async (req: Request, res: Response, next: NextFunction): Promise<void> => {
@@ -9,7 +9,7 @@ export default async (req: Request, res: Response, next: NextFunction): Promise<
     const {
       regularVariables: newRegularVariables,
       encryptedVariables,
-    } = await editDashboardVars({ encryptedVariables: { viewliftPassword }, regularVariables });
+    } = await editDashboardSettings({ encryptedVariables: { viewliftPassword }, regularVariables });
 
     res.json({
       message: constants.messages.authResponse.DASHBOARD_VARS_CHANGED,

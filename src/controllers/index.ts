@@ -23,6 +23,6 @@ export {
   matchUserContent,
   changePassword,
   getUserStatistics,
-  editDashboardVars,
-  getDashboardVars,
+  editDashboardSettings,
+  getDashboardSettings,
 } from './users';

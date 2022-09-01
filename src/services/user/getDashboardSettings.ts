@@ -4,11 +4,11 @@ import config from '../../config';
 
 const { ENCRYPTION_SECRET_KEY } = config.server;
 
-type IGetDashboardVars = () => Promise<IVariables>
+type IGetDashboardSettings = () => Promise<IVariables>
 
-const getDashboardVars: IGetDashboardVars = async () => {
+const getDashboardSettings: IGetDashboardSettings = async () => {
   const oldVars = (await Settings.findOne({ where: { name: 'variables' } })) as ISettings;
-  const oldVarsValue = JSON.parse(oldVars.value as string) as IVariables;
+  const oldVarsValue = oldVars.value as IVariables;
 
   const originalPassword = AES
     .decrypt(oldVarsValue.encryptedVariables.viewliftPassword, ENCRYPTION_SECRET_KEY)
@@ -20,4 +20,4 @@ const getDashboardVars: IGetDashboardVars = async () => {
   };
 };
 
-export default getDashboardVars;
+export default getDashboardSettings;

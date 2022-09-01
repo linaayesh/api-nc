@@ -5,14 +5,14 @@ import config from '../../config';
 
 const { ENCRYPTION_SECRET_KEY } = config.server;
 
-type IEditDashboardVars = (_: IVariables) => Promise<IVariables>
+type IEditDashboardSettings = (_: IVariables) => Promise<IVariables>
 
-const editDashboardVars: IEditDashboardVars = async ({
+const editDashboardSettings: IEditDashboardSettings = async ({
   encryptedVariables,
   regularVariables,
 }) => {
   const oldVars = (await Settings.findOne({ where: { name: 'variables' } })) as ISettings;
-  const oldVarsValue = JSON.parse(oldVars.value as string) as IVariables;
+  const oldVarsValue = oldVars.value as IVariables;
 
   const originalPassword = AES
     .decrypt(oldVarsValue.encryptedVariables.viewliftPassword, ENCRYPTION_SECRET_KEY)
@@ -28,10 +28,10 @@ const editDashboardVars: IEditDashboardVars = async ({
   const hashedPassword = AES.encrypt(encryptedVariables.viewliftPassword, ENCRYPTION_SECRET_KEY)
     .toString();
 
-  oldVars.value = JSON.stringify({
+  oldVars.value = {
     regularVariables,
     encryptedVariables: { viewliftPassword: hashedPassword },
-  });
+  };
 
   await oldVars.save();
 
@@ -43,4 +43,4 @@ const editDashboardVars: IEditDashboardVars = async ({
   return newDashboardVars;
 };
 
-export default editDashboardVars;
+export default editDashboardSettings;
