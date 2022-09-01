@@ -9,5 +9,5 @@ export {
 } from './user';
 
 export {
-  getContents,
+  getUnmatchedContent,
 } from './contents';

@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { getContents } from '../../services';
+import { getUnmatchedContent } from '../../services';
 
 export default async ({ query }: Request, res: Response, next: NextFunction): Promise<void> => {
   const {
@@ -7,7 +7,7 @@ export default async ({ query }: Request, res: Response, next: NextFunction): Pr
   } = query;
 
   try {
-    const data = await getContents({
+    const data = await getUnmatchedContent({
       page: Number(page),
       limit: Number(limit),
       title: typeof title === 'string' ? String(title) : undefined,

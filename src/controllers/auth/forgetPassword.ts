@@ -1,23 +1,15 @@
 import { NextFunction, Request, Response } from 'express';
 import {
-  constants, checkExistence, sendEmail,
+  constants, checkExistence, sendEmail, forgetPasswordDTO,
 } from '../../helpers';
 import { getUserByEmail } from '../../services';
 
-interface forgetPasswordBody {
-  email: string,
-}
-
-const forgetPasswordDTO = (body: forgetPasswordBody): string => (body.email.toLowerCase());
-
-type ForgetPasswordType = (req: Request, res: Response, next: NextFunction) => Promise<void>;
-
-const ForgetPassword: ForgetPasswordType = async (req: Request, res: Response, next: NextFunction)
+export default async (req: Request, res: Response, next: NextFunction)
 :Promise<void> => {
   const {
     MESSAGES, HttpStatus, EMAIL_TYPE, REDIRECT_URLS,
   } = constants;
-  const email = forgetPasswordDTO(req.body);
+  const email = forgetPasswordDTO(req);
 
   try {
     const userData = await getUserByEmail(email);
@@ -39,4 +31,4 @@ const ForgetPassword: ForgetPasswordType = async (req: Request, res: Response, n
   }
 };
 
-export default ForgetPassword;
+// export default ForgetPassword;

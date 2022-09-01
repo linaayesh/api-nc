@@ -20,6 +20,8 @@ export {
   changePasswordSchema,
 } from './validation';
 
+export { forgetPasswordDTO } from './dto/auth';
+
 export {
   validator, checkExistence, constants, VALIDATION_RULES,
 };
