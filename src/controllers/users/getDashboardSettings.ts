@@ -4,11 +4,10 @@ import { getDashboardSettings } from '../../services';
 export default async (_req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const data = await getDashboardSettings();
-    const newData = { ...data.regularVariables, ...data.encryptedVariables };
-    console.log(newData);
-
+    const { regularVariables, encryptedVariables } = data;
+    const dashboardSettings = { ...regularVariables, ...encryptedVariables };
     res.json({
-      data: newData,
+      data: dashboardSettings,
     });
   } catch (error) {
     next(error);
