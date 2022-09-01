@@ -13,10 +13,7 @@ export default async (req: Request, res: Response, next: NextFunction): Promise<
 
     res.json({
       message: constants.messages.authResponse.DASHBOARD_VARS_CHANGED,
-      data: {
-        regularVariables: newRegularVariables,
-        encryptedVariables,
-      },
+      data: { ...newRegularVariables, ...encryptedVariables },
     });
   } catch (error) {
     next(error);
