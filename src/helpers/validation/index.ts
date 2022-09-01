@@ -9,3 +9,4 @@ export { default as createUserSchema } from './createUserSchema';
 export { default as getPaginatedDataSchema } from './getPaginatedDataSchema';
 export { default as matchUserContentSchema } from './matchUserContentSchema';
 export { default as changePasswordSchema } from './changePasswordSchema';
+export { default as editDashboardVarsSchema } from './editDashboardVarsSchema';

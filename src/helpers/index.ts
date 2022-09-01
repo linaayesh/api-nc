@@ -17,6 +17,7 @@ export {
   getPaginatedDataSchema,
   matchUserContentSchema,
   changePasswordSchema,
+  editDashboardVarsSchema,
 } from './validation';
 
 export { validator, checkExistence, constants };

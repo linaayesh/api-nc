@@ -13,6 +13,8 @@ import {
   matchUserContent,
   changePassword,
   getUserStatistics,
+  editDashboardVars,
+  getDashboardVars,
 } from '../../controllers';
 import {
   constants,
@@ -22,6 +24,7 @@ import {
   createUserSchema,
   matchUserContentSchema,
   changePasswordSchema,
+  editDashboardVarsSchema,
 } from '../../helpers';
 import { checkUserRole } from '../../middleware';
 
@@ -47,5 +50,8 @@ router.patch('/approve/:userId', validator.params(idSchema), approveUser);
 router.patch('/match-user-content', validator.body(matchUserContentSchema), matchUserContent);
 
 router.use(checkUserRole([MASTER_ADMIN]));
+router.get('/dashboard-vars', getDashboardVars);
 router.patch('/block-user/:userId', validator.params(idSchema), blockUser);
+router.patch('/edit-dashboard-vars', validator.body(editDashboardVarsSchema), editDashboardVars);
+
 export default router;

@@ -11,3 +11,5 @@ export { default as getPaginatedUsers } from './getPaginatedUsers';
 export { default as matchUserContent } from './matchUserContent';
 export { default as changePassword } from './changePassword';
 export { default as getUserStatistics } from './getUserStatistics';
+export { default as editDashboardVars } from './editDashboardVars';
+export { default as getDashboardVars } from './getDashboardVars';

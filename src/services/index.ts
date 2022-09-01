@@ -7,4 +7,6 @@ export {
   getUsers,
   matchUserContent,
   getNumberOfContent,
+  editDashboardVars,
+  getDashboardVars,
 } from './user';

@@ -24,6 +24,8 @@ export const messages = {
     resetPassword: 'RESET PASSWORD',
     conflict: 'CONFLICT',
     userStatistics: 'USER STATISTICS',
+    SAME_PASSWORD: 'SAME OLD PASSWORD',
+    DASHBOARD_VARS_CHANGED: 'DASHBOARD VARS CHANGED SUCCESSFULLY',
   },
   check: {
     emailCheck: 'CHECK EMAIL',
