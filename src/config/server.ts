@@ -14,6 +14,7 @@ const envVarsSchema = Joi.object({
   AWS_BUCKET_REGION: Joi.string().required(),
   AWS_ACCESS_KEY_ID: Joi.string().required(),
   AWS_SECRET_ACCESS_KEY: Joi.string().required(),
+  ENCRYPTION_SECRET_KEY: Joi.string().required(),
 }).unknown().required();
 
 const config = (): IServer => {
@@ -36,6 +37,7 @@ const config = (): IServer => {
     AWS_BUCKET_REGION: envVars.AWS_BUCKET_REGION,
     AWS_ACCESS_KEY_ID: envVars.AWS_ACCESS_KEY_ID,
     AWS_SECRET_ACCESS_KEY: envVars.AWS_SECRET_ACCESS_KEY,
+    ENCRYPTION_SECRET_KEY: envVars.ENCRYPTION_SECRET_KEY,
   };
 };
 
