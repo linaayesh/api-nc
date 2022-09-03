@@ -8,7 +8,8 @@ type IMatchUserContent = (_: {
   filmingCosts: string,
   launchDate: string,
   advance: string,
-  feePaid: string
+  feePaid: string,
+  recoveredCosts: string,
 }) => Promise<IContent>
 
 const matchUserContent: IMatchUserContent = async ({
@@ -18,6 +19,7 @@ const matchUserContent: IMatchUserContent = async ({
   launchDate,
   advance,
   feePaid,
+  recoveredCosts,
 }) => {
   const content = await Content.findOne({ where: { id } });
   if (!content) throw new CustomError('No such a content', HttpStatus.NOT_FOUND);
@@ -27,6 +29,7 @@ const matchUserContent: IMatchUserContent = async ({
   content.launchDate = launchDate;
   content.advance = advance;
   content.feePaid = feePaid;
+  content.recoveredCosts = recoveredCosts;
 
   await content.save();
   return content;
