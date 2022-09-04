@@ -1,16 +1,18 @@
 import { NextFunction, Request, Response } from 'express';
 import { getUserById } from '../../services';
-import { constants, CustomError, sendEmail } from '../../helpers';
+import {
+  constants, CustomError, sendEmail, dto,
+} from '../../helpers';
 
-export default async (req: Request, res: Response, next: NextFunction)
+export default async (request: Request, res: Response, next: NextFunction)
 :Promise<void> => {
-  const { userId } = req.params;
+  const { userId } = dto.generalDTO.userIdDTO(request);
   const {
     MESSAGES, HttpStatus, USER_ROLES, USER_STATUS, EMAIL_TYPE, REDIRECT_URLS,
   } = constants;
 
   try {
-    const user = await getUserById(+userId);
+    const user = await getUserById(userId);
     if (!user) throw new CustomError(MESSAGES.authResponse.notExist, HttpStatus.NOT_FOUND);
 
     user.userStatusId = USER_STATUS.APPROVED;
@@ -19,10 +21,8 @@ export default async (req: Request, res: Response, next: NextFunction)
 
     const { name, email } = user;
 
-    const lowerCaseEmail = email.toLowerCase();
-
     await sendEmail({
-      email: lowerCaseEmail,
+      email,
       type: EMAIL_TYPE.APPROVE,
       name,
       redirectURL: REDIRECT_URLS.LOGIN,

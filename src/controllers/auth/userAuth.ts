@@ -2,12 +2,12 @@ import { Response, NextFunction } from 'express';
 import { UserAuth } from '../../interfaces';
 import { constants, CustomError } from '../../helpers';
 
-export default async ({ user }: UserAuth, res: Response, next: NextFunction):
+export default async (request: UserAuth, res: Response, next: NextFunction):
 Promise<void> => {
   const { approvedUser, UNAUTHORIZED } = constants.MESSAGES.authResponse;
   const { OK } = constants.HttpStatus;
   try {
-    if (!user) throw new CustomError(UNAUTHORIZED, 401);
+    if (!request.user) throw new CustomError(UNAUTHORIZED, 401);
 
     const {
       id,
@@ -15,7 +15,7 @@ Promise<void> => {
       email,
       name,
       image,
-    } = user;
+    } = request.user;
 
     const lowerCaseEmail = email.toLowerCase();
 

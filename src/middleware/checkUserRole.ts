@@ -1,12 +1,12 @@
-import { Response, NextFunction } from 'express';
-import { UserAuth } from '../interfaces';
+import { Response, NextFunction, Request } from 'express';
+// import { UserAuth } from '../interfaces';
 import {
   constants, CustomError, verifyToken, tokenError,
 } from '../helpers';
 import { getUserById } from '../services';
 
 export default (userTypes: number[]) => async (
-  req: UserAuth,
+  req: Request,
   _res: Response,
   next: NextFunction,
 ): Promise<void> => {
@@ -31,7 +31,7 @@ export default (userTypes: number[]) => async (
       throw new CustomError(UNAUTHORIZED, constants.HttpStatus.UNAUTHORIZED);
     }
 
-    req.user = userData;
+    req.app.set('user', userData);
 
     next();
   } catch (error) {

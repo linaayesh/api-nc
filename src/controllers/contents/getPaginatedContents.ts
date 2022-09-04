@@ -1,20 +1,14 @@
 import { Request, Response, NextFunction } from 'express';
+import { dto, constants } from '../../helpers';
 import { getUnmatchedContent } from '../../services';
 
-export default async ({ query }: Request, res: Response, next: NextFunction): Promise<void> => {
-  const {
-    page, limit, title, id,
-  } = query;
+export default async (request: Request, res: Response, next: NextFunction): Promise<void> => {
+  const paginationData = dto.generalDTO.paginationDTO(request);
 
   try {
-    const data = await getUnmatchedContent({
-      page: Number(page),
-      limit: Number(limit),
-      title: typeof title === 'string' ? String(title) : undefined,
-      id: typeof id === 'string' ? String(id) : undefined,
-    });
+    const data = await getUnmatchedContent(paginationData);
 
-    res.json({ data });
+    res.json({ message: constants.MESSAGES.authResponse.SUCCESS, data });
   } catch (err) {
     next(err);
   }

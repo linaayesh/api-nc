@@ -1,25 +1,13 @@
 import { Request, Response, NextFunction } from 'express';
 import { compare } from 'bcrypt';
 import {
-  constants, checkExistence, signToken, CustomError,
+  constants, checkExistence, signToken, CustomError, dto,
 } from '../../helpers';
 import { getUserByEmail } from '../../services';
 
-interface loginBody {
-  rememberMe: string,
-  password: string,
-  email: string,
-}
-
-const loginDTO = (body: loginBody): loginBody => ({
-  email: body.email.toLowerCase(),
-  password: body.password,
-  rememberMe: body.rememberMe,
-});
-
 export default async (req: Request, res: Response, next: NextFunction):
 Promise<void> => {
-  const { email, password, rememberMe } = loginDTO(req.body);
+  const { email, password, rememberMe } = dto.authDTO.loginDTO(req);
 
   const { wrongEmailOrPassword, logIn } = constants.MESSAGES.authResponse;
   const { accessToken } = constants.MESSAGES.token;
@@ -29,9 +17,7 @@ Promise<void> => {
     let expiresIn;
     if (rememberMe) { expiresIn = '30d'; } else { expiresIn = '24h'; }
 
-    const lowerCaseEmail = email.toLowerCase();
-
-    const userData = await getUserByEmail(lowerCaseEmail);
+    const userData = await getUserByEmail(email);
 
     const user = await checkExistence.ApprovalChecks(userData);
 
@@ -40,7 +26,7 @@ Promise<void> => {
 
     const { id, name, userRoleId } = user;
     const token = await signToken({
-      id: Number(id), name, email: lowerCaseEmail, roleId: userRoleId,
+      id: Number(id), name, email, roleId: userRoleId,
     }, { expiresIn });
 
     res
@@ -49,7 +35,7 @@ Promise<void> => {
       .json({
         message: logIn,
         payload: {
-          id: Number(id), name, email: lowerCaseEmail, roleId: userRoleId,
+          id: Number(id), name, email, roleId: userRoleId,
         },
       });
   } catch (error) {

@@ -1,22 +1,23 @@
-import { NextFunction, Response } from 'express';
-import { UserAuth } from '../../interfaces';
-import { checkExistence, constants, CustomError } from '../../helpers';
+import { NextFunction, Response, Request } from 'express';
+import {
+  checkExistence, constants, CustomError, dto,
+} from '../../helpers';
 import { getUserById } from '../../services';
 
-export default async (req: UserAuth, res: Response, next: NextFunction)
+export default async (request: Request, res: Response, next: NextFunction)
 :Promise<void> => {
-  const { userId } = req.params;
+  const { userId } = dto.generalDTO.userIdDTO(request);
   try {
-    const userData = await getUserById(+userId);
+    const userData = await getUserById(userId);
     const user = await checkExistence.ApprovalChecks(userData);
     const { USER_STATUS, HttpStatus, MESSAGES } = constants;
 
-    if (!req.user) {
+    if (!user) {
       throw new CustomError(MESSAGES.authResponse.UNAUTHORIZED, HttpStatus.UNAUTHORIZED);
     }
 
     user.userStatusId = USER_STATUS.BANNED;
-    user.updatedBy = req.user.id;
+    user.updatedBy = user.id;
     await user.save();
 
     res

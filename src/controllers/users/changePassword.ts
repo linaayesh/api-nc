@@ -1,15 +1,15 @@
-import { Response, NextFunction } from 'express';
+import { Response, NextFunction, Request } from 'express';
 import { User } from 'db-models-nc';
 import { compare, hash } from 'bcrypt';
-import { UserAuth } from '../../interfaces';
-import { CustomError, constants } from '../../helpers';
+import { CustomError, constants, dto } from '../../helpers';
 
-export default async (req: UserAuth, res: Response, next: NextFunction): Promise<void> => {
-  const { body: { oldPassword, password }, user } = req;
-  const { HttpStatus, MESSAGES } = constants;
+export default async (request: Request, res: Response, next: NextFunction): Promise<void> => {
+  const { oldPassword, password } = dto.usersDTO.resetPasswordDTO(request);
+  const { HttpStatus, MESSAGES, SALT_ROUNDS } = constants;
 
   try {
-    const isMatch = await compare(oldPassword, user?.password as string);
+    const user = request.app.get('user');
+    const isMatch = await compare(oldPassword, user.password as string);
 
     if (!isMatch) {
       throw new CustomError(
@@ -18,11 +18,11 @@ export default async (req: UserAuth, res: Response, next: NextFunction): Promise
       );
     }
 
-    const hashedPassword = await hash(password, 10);
+    const hashedPassword = await hash(password, SALT_ROUNDS);
 
     await User.update(
       { password: hashedPassword },
-      { where: { id: user?.id } },
+      { where: { id: user.id } },
     );
 
     res.json({ message: MESSAGES.authResponse.PASSWORD_CHANGED });

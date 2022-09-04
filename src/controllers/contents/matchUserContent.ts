@@ -1,18 +1,12 @@
 import { Request, Response, NextFunction } from 'express';
 import { matchUserContent } from '../../services';
-import { constants } from '../../helpers';
+import { constants, dto } from '../../helpers';
 
-export default async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-  const { body } = req;
-  const modifiedBody = {
-    ...body,
-    filmingCosts: body.filmingCosts.toString(),
-    advance: body.advance.toString(),
-    feePaid: body.feePaid.toString(),
-  };
+export default async (request: Request, res: Response, next: NextFunction): Promise<void> => {
+  const data = dto.contentDTO.matchUserContentDTO(request);
 
   try {
-    const content = await matchUserContent(modifiedBody);
+    const content = await matchUserContent(data);
 
     res.json({ message: constants.MESSAGES.authResponse.SUCCESS, data: content });
   } catch (err) {

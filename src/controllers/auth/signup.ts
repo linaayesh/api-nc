@@ -1,24 +1,22 @@
 import { Request, Response, NextFunction } from 'express';
 import { hash } from 'bcrypt';
 import {
-  checkExistence, constants, sendEmail,
+  checkExistence, constants, sendEmail, dto,
 } from '../../helpers';
 import { addUser } from '../../services';
 
-export default async ({ body }: Request, res: Response, next: NextFunction):Promise<void> => {
-  const { name, email, password } = body;
+export default async (request: Request, res: Response, next: NextFunction):Promise<void> => {
+  const { name, email, password } = dto.authDTO.signupDTO(request);
   const { HttpStatus, USER_ROLES, EMAIL_TYPE } = constants;
 
   try {
-    const lowercaseEmail = email.toLowerCase();
-
-    await checkExistence.RegistrationCheck(lowercaseEmail);
+    await checkExistence.RegistrationCheck(email);
 
     const hashedPassword = await hash(password, 10);
 
     const user = await addUser({
       name,
-      email: email.toLowerCase(),
+      email,
       userRoleId: USER_ROLES.COMEDIAN,
       password: hashedPassword,
       createdBy: USER_ROLES.SYSTEM,

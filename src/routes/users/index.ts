@@ -12,6 +12,7 @@ import {
   matchUserContent,
   changePassword,
   getUserStatistics,
+  editProfile,
 } from '../../controllers';
 import {
   constants,
@@ -21,6 +22,7 @@ import {
   createUserSchema,
   matchUserContentSchema,
   changePasswordSchema,
+  editProfileSchema,
 } from '../../helpers';
 import { checkUserRole } from '../../middleware';
 
@@ -30,6 +32,7 @@ const { ADMIN, MASTER_ADMIN, COMEDIAN } = constants.USER_ROLES;
 
 router.use(checkUserRole([COMEDIAN, ADMIN, MASTER_ADMIN]));
 router.patch('/change-password', validator.body(changePasswordSchema), changePassword);
+router.patch('/edit-profile', validator.body(editProfileSchema), editProfile);
 
 router.use(checkUserRole([ADMIN, MASTER_ADMIN]));
 

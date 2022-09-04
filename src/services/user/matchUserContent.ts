@@ -1,15 +1,9 @@
 import { Content, IContent } from 'db-models-nc';
 import { CustomError } from '../../helpers';
 import { HttpStatus } from '../../helpers/constants';
+import { matchUserContent } from '../../interfaces/DtoContents';
 
-type IMatchUserContent = (_: {
-  id: string,
-  userId: number,
-  filmingCosts: string,
-  launchDate: string,
-  advance: string,
-  feePaid: string
-}) => Promise<IContent>
+type IMatchUserContent = (_: matchUserContent) => Promise<IContent>
 
 const matchUserContent: IMatchUserContent = async ({
   id,

@@ -6,10 +6,11 @@ import {
   constants,
   sendEmail,
   googleAuthentication,
+  dto,
 } from '../../helpers';
 import { addUser } from '../../services';
 
-export default async ({ body }: Request, res: Response, next: NextFunction)
+export default async (request: Request, res: Response, next: NextFunction)
 :Promise<void> => {
   const {
     HttpStatus,
@@ -18,11 +19,11 @@ export default async ({ body }: Request, res: Response, next: NextFunction)
     PASSWORD_LENGTH,
     EMAIL_TYPE,
   } = constants;
-
+  const { tokenId } = dto.authDTO.GoogleDTO(request);
   try {
     const {
       email, name, image, googleId,
-    } = await googleAuthentication(body.tokenId);
+    } = await googleAuthentication(tokenId);
 
     await checkExistence.RegistrationCheck(email);
 

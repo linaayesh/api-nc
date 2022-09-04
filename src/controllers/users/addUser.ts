@@ -1,39 +1,36 @@
-import { Response, NextFunction } from 'express';
+import { Response, NextFunction, Request } from 'express';
 import { hash } from 'bcrypt';
 import generatePassword from 'generate-password';
 import {
-  checkExistence, constants, CustomError, sendEmail,
+  checkExistence, constants, sendEmail, dto,
 } from '../../helpers';
-import { UserAuth } from '../../interfaces';
 import { addUser } from '../../services';
 
-export default async (req: UserAuth, res: Response, next: NextFunction):Promise<void> => {
+export default async (request: Request, res: Response, next: NextFunction):Promise<void> => {
   const {
     name, email, roleId,
-  } = req.body;
+  } = dto.usersDTO.addUserDTO(request);
   const {
-    HttpStatus, USER_STATUS, PASSWORD_LENGTH, EMAIL_TYPE,
+    HttpStatus, USER_STATUS, PASSWORD_LENGTH, EMAIL_TYPE, SALT_ROUNDS,
   } = constants;
 
   try {
-    const lowercaseEmail = email.toLowerCase();
-    await checkExistence.RegistrationCheck(lowercaseEmail);
+    await checkExistence.RegistrationCheck(email);
 
     const password = generatePassword.generate({
       length: PASSWORD_LENGTH, numbers: true, strict: true, lowercase: true, uppercase: true,
     });
-    const hashedPassword = await hash(password, 10);
+    const hashedPassword = await hash(password, SALT_ROUNDS);
 
-    if (!req.user || !req.user.id) {
-      throw new CustomError(constants.MESSAGES.authResponse.UNAUTHORIZED, HttpStatus.UNAUTHORIZED);
-    }
+    const test = request.app.get('user');
+
     const user = await addUser({
       name,
       email: email.toLowerCase(),
       userRoleId: roleId,
       password: hashedPassword,
-      createdBy: req.user.id,
-      updatedBy: req.user.id,
+      createdBy: test.id,
+      updatedBy: test.id,
       userStatusId: USER_STATUS.APPROVED,
       accPaidRevenue: constants.REVENUE_DEFAULT_VALUE,
       freeToBePaidRevenue: constants.REVENUE_DEFAULT_VALUE,

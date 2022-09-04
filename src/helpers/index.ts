@@ -2,9 +2,11 @@ import * as Constants from './constants';
 import * as Checkers from './checkUserExistence';
 import { validator } from './validate';
 import * as VALIDATION_RULES from './validationRules';
+import * as DTO from './dto';
 
 const checkExistence = Checkers;
 const constants = Constants;
+const dto = DTO;
 
 export {
   signupSchema,
@@ -23,7 +25,7 @@ export {
 export { forgetPasswordDTO } from './dto/auth';
 
 export {
-  validator, checkExistence, constants, VALIDATION_RULES,
+  validator, checkExistence, constants, VALIDATION_RULES, dto,
 };
 
 export { default as Logger } from './logger';

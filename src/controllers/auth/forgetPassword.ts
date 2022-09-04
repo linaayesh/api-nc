@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import {
-  constants, checkExistence, sendEmail, forgetPasswordDTO,
+  constants, checkExistence, sendEmail, dto,
 } from '../../helpers';
 import { getUserByEmail } from '../../services';
 
@@ -9,7 +9,8 @@ export default async (req: Request, res: Response, next: NextFunction)
   const {
     MESSAGES, HttpStatus, EMAIL_TYPE, REDIRECT_URLS,
   } = constants;
-  const email = forgetPasswordDTO(req);
+
+  const { email } = dto.authDTO.forgetPasswordDTO(req);
 
   try {
     const userData = await getUserByEmail(email);
@@ -30,5 +31,3 @@ export default async (req: Request, res: Response, next: NextFunction)
     next(err);
   }
 };
-
-// export default ForgetPassword;

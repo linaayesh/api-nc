@@ -1,13 +1,15 @@
 import { Request, Response, NextFunction } from 'express';
-import { USER_STATUS, MESSAGES, HttpStatus } from '../../helpers/constants';
+import { constants, dto } from '../../helpers';
 import { getUsersStatus } from '../../services';
 
-export default async ({ query }: Request, res: Response, next: NextFunction)
+export default async (request: Request, res: Response, next: NextFunction)
 :Promise<void> => {
-  const { page, limit } = query;
+  const { USER_STATUS, MESSAGES, HttpStatus } = constants;
+  const { page, limit } = dto.generalDTO.paginationDTO(request);
+
   try {
     const RejectedUsers = await getUsersStatus(USER_STATUS.REJECTED, {
-      page: Number(page), limit: Number(limit),
+      page, limit,
     });
 
     res

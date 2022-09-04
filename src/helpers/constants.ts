@@ -94,6 +94,7 @@ export const LOGGER_COLORS = {
 };
 
 export const PASSWORD_LENGTH = 15;
+export const SALT_ROUNDS = 10;
 
 export const EMAIL_TYPE = {
   CREATE: 'create',

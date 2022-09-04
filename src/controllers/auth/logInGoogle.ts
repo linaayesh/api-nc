@@ -1,12 +1,12 @@
 import { Request, Response, NextFunction } from 'express';
 import {
-  checkExistence, constants, validateError, signToken, googleAuthentication,
+  checkExistence, constants, validateError, signToken, googleAuthentication, dto,
 } from '../../helpers';
 import { getUserByEmail } from '../../services';
 
-export default async ({ body }: Request, res: Response, next: NextFunction)
+export default async (request: Request, res: Response, next: NextFunction)
 :Promise<void> => {
-  const { tokenId } = body;
+  const { tokenId } = dto.authDTO.GoogleDTO(request);
   try {
     const { logIn } = constants.MESSAGES.authResponse;
     const { accessToken } = constants.MESSAGES.token;
