@@ -20,6 +20,7 @@ export {
   getPaginatedDataSchema,
   matchUserContentSchema,
   changePasswordSchema,
+  editSystemSettingsSchema,
 } from './validation';
 
 export { forgetPasswordDTO } from './dto/auth';

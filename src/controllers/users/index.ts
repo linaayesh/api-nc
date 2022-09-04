@@ -10,3 +10,5 @@ export { default as editProfile } from './editProfile';
 export { default as createUser } from './addUser';
 export { default as changePassword } from './changePassword';
 export { default as getUserStatistics } from './getUserStatistics';
+export { default as editDashboardSettings } from './editDashboardSettings';
+export { default as getDashboardSettings } from './getDashboardSettings';

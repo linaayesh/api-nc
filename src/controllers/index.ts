@@ -19,6 +19,8 @@ export {
   blockUser,
   changePassword,
   getUserStatistics,
+  editDashboardSettings,
+  getDashboardSettings,
 } from './users';
 
 export {
