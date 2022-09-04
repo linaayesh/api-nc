@@ -101,6 +101,20 @@ interface IUsers {
 type ICustomContent = Omit<IContent, 'deletedAt'>
 type ICustomUser = Pick<IUser, 'id' | 'name' | 'email' | 'image'>
 
+interface AddUserInterface{
+  name: string;
+  email: string;
+  password: string;
+  userRoleId: number;
+  createdBy: number;
+  updatedBy: number;
+  image?: string;
+  googleId?: string;
+  accPaidRevenue: number;
+  userStatusId: number;
+  freeToBePaidRevenue: number;
+}
+
 export {
   IServerAddress,
   IUserInfo,
@@ -116,4 +130,5 @@ export {
   IUsers,
   ICustomUser,
   ICustomContent,
+  AddUserInterface,
 };

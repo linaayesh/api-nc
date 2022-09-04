@@ -2,6 +2,7 @@ import config from '../config';
 
 export const MESSAGES = {
   authResponse: {
+    NO_CONTENT: 'No such a content',
     ALREADY_EXIST: 'ALREADY EXIST USER',
     PASSWORD_CHANGED: 'PASSWORD CHANGED',
     INCORRECT_PASSWORD: 'INCORRECT PASSWORD',

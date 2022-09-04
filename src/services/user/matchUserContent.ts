@@ -1,11 +1,8 @@
-import { Content, IContent } from 'db-models-nc';
-import { CustomError } from '../../helpers';
-import { HttpStatus } from '../../helpers/constants';
-import { matchUserContent } from '../../interfaces/DtoContents';
+import { Content } from 'db-models-nc';
+import { CustomError, constants } from '../../helpers';
+import { IMatchUserContentDTO } from '../../helpers/dto/services';
 
-type IMatchUserContent = (_: matchUserContent) => Promise<IContent>
-
-const matchUserContent: IMatchUserContent = async ({
+const matchUserContent: IMatchUserContentDTO = async ({
   id,
   userId,
   filmingCosts,
@@ -14,7 +11,12 @@ const matchUserContent: IMatchUserContent = async ({
   feePaid,
 }) => {
   const content = await Content.findOne({ where: { id } });
-  if (!content) throw new CustomError('No such a content', HttpStatus.NOT_FOUND);
+  if (!content) {
+    throw new CustomError(
+      constants.MESSAGES.authResponse.NO_CONTENT,
+      constants.HttpStatus.NOT_FOUND,
+    );
+  }
 
   content.userId = userId;
   content.filmingCosts = filmingCosts;

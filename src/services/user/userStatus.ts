@@ -1,12 +1,9 @@
 import { Op, col } from 'sequelize';
-import { IUser, User, UserRole } from 'db-models-nc';
+import { User, UserRole } from 'db-models-nc';
 import { constants } from '../../helpers';
+import { GetUsersStatusDTO } from '../../helpers/dto/services';
 
-type GetUsersStatus = (statusId: number, _: {
-  page: number, limit: number
-}) => Promise<{rows: IUser[], count: number} | IUser[]>
-
-const getUsersStatus: GetUsersStatus = (statusId: number, { page, limit }) => {
+const getUsersStatus: GetUsersStatusDTO = (statusId: number, { page, limit }) => {
   if (!page && !limit) {
     return User.findAll({
       where: {
