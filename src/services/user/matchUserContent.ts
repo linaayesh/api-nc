@@ -77,7 +77,8 @@ const matchUserContent: IMatchUserContent = async ({
     const afterExpRevenue:Big = new Big(revenue).minus(beforeExpRevenue);
     let nextupRevenue = afterExpRevenue.times(nextUpToOwedSplitPercentage);
     let owedRevenue = afterExpRevenue.times(owedSplitPercentage);
-    const remainingCosts = new Big(filmingCosts).plus(feePaid).minus(recoveredCosts);// >=0
+    const remainingCosts = new Big(filmingCosts)
+      .plus(feePaid).plus(advance).minus(recoveredCosts);// >=0
     let splittableBeforeExpRevenue = beforeExpRevenue;
     if (remainingCosts.gt(0)) {
       splittableBeforeExpRevenue = splittableBeforeExpRevenue.minus(remainingCosts);
