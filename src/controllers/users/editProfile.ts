@@ -1,6 +1,6 @@
 import { NextFunction, Response, Request } from 'express';
 import {
-  constants, CustomError, upload, dto,
+  constants, errorMessages, upload, dto,
 } from '../../helpers';
 import { getUserById } from '../../services';
 
@@ -13,7 +13,7 @@ export default async (request: Request, response: Response, next: NextFunction)
 
   try {
     const currentUser = await getUserById(id);
-    if (!currentUser) throw new CustomError(messages.authResponse.NOT_EXIST, httpStatus.NOT_FOUND);
+    if (!currentUser) throw errorMessages.NOT_EXIST_ERROR;
 
     if (image) {
       const { Location } = await upload(image, id);

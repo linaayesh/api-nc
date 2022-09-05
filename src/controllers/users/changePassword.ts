@@ -1,6 +1,6 @@
 import { Response, NextFunction, Request } from 'express';
 import { compare, hash } from 'bcrypt';
-import { CustomError, constants, dto } from '../../helpers';
+import { errorMessages, constants, dto } from '../../helpers';
 
 export default async (request: Request, response: Response, next: NextFunction): Promise<void> => {
   const { oldPassword, password } = dto.usersDTO.resetPasswordDTO(request);
@@ -11,10 +11,7 @@ export default async (request: Request, response: Response, next: NextFunction):
     const isMatch = await compare(oldPassword, user.password as string);
 
     if (!isMatch) {
-      throw new CustomError(
-        messages.authResponse.INCORRECT_PASSWORD,
-        httpStatus.BAD_REQUEST,
-      );
+      throw errorMessages.INCORRECT_PASSWORD_ERROR;
     }
     const hashedPassword = await hash(password, SALT_ROUNDS);
 

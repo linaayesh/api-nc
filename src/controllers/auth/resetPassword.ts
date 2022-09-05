@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { hash } from 'bcrypt';
 import {
-  constants, checkExistence, CustomError,
+  constants, checkExistence, errorMessages,
   verifyToken, tokenError, dto,
 } from '../../helpers';
 import { getUserByEmail } from '../../services';
@@ -14,7 +14,7 @@ export default async (request: Request, response: Response, next: NextFunction):
 
   try {
     if (!resetPasswordToken) {
-      throw new CustomError(messages.authResponse.UNAUTHORIZED, httpStatus.UNAUTHORIZED);
+      throw errorMessages.UNAUTHORIZED_ERROR;
     }
 
     const { email } = await verifyToken(resetPasswordToken);

@@ -1,11 +1,11 @@
 import { Request, Response, NextFunction } from 'express';
 import { compare } from 'bcrypt';
 import {
-  constants, checkExistence, signToken, CustomError, dto,
+  constants, checkExistence, signToken, dto, errorMessages,
 } from '../../helpers';
 import { getUserByEmail } from '../../services';
 
-export default async (request: Request, res: Response, next: NextFunction):
+export default async (request: Request, response: Response, next: NextFunction):
 Promise<void> => {
   const { email, password, rememberMe } = dto.authDTO.loginDTO(request);
   const { messages, httpStatus } = constants;
@@ -20,10 +20,7 @@ Promise<void> => {
 
     const isValid = await compare(password, user.password);
     if (!isValid) {
-      throw new CustomError(
-        messages.authResponse.WRONG_EMAIL_OR_PASSWORD,
-        httpStatus.UNAUTHORIZED,
-      );
+      throw errorMessages.WRONG_EMAIL_OR_PASSWORD_ERROR;
     }
 
     const { id, name, userRoleId } = user;
@@ -31,7 +28,7 @@ Promise<void> => {
       id: Number(id), name, email, roleId: userRoleId,
     }, { expiresIn });
 
-    res
+    response
       .status(httpStatus.OK)
       .cookie(messages.token.ACCESS_TOKEN, token, { httpOnly: true })
       .json({

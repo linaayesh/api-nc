@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { getUserById } from '../../services';
 import {
-  constants, CustomError, sendEmail, dto,
+  constants, sendEmail, dto, errorMessages,
 } from '../../helpers';
 
 export default async (request: Request, response: Response, next: NextFunction)
@@ -13,7 +13,7 @@ export default async (request: Request, response: Response, next: NextFunction)
 
   try {
     const user = await getUserById(userId);
-    if (!user) throw new CustomError(messages.authResponse.NOT_EXIST, httpStatus.NOT_FOUND);
+    if (!user) { throw errorMessages.NOT_EXIST_ERROR; }
 
     user.userStatusId = userStatus.APPROVED;
     user.updatedBy = userRoles.SYSTEM;

@@ -1,5 +1,5 @@
 import { Content } from 'db-models-nc';
-import { CustomError, constants } from '../../helpers';
+import { errorMessages } from '../../helpers';
 import { IMatchUserContentDTO } from '../../helpers/dto/services';
 
 const matchUserContent: IMatchUserContentDTO = async ({
@@ -12,10 +12,7 @@ const matchUserContent: IMatchUserContentDTO = async ({
 }) => {
   const content = await Content.findOne({ where: { id } });
   if (!content) {
-    throw new CustomError(
-      constants.messages.authResponse.NO_CONTENT,
-      constants.httpStatus.NOT_FOUND,
-    );
+    throw errorMessages.NO_CONTENT_ERROR;
   }
 
   content.userId = userId;

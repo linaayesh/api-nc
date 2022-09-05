@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import {
-  checkExistence, constants, validateError, signToken, googleAuthentication, dto, CustomError,
+  checkExistence, constants, validateError, signToken, googleAuthentication, dto, errorMessages,
 } from '../../helpers';
 import { getUserByEmail } from '../../services';
 
@@ -17,10 +17,7 @@ export default async (request: Request, response: Response, next: NextFunction)
     const user = await checkExistence.ApprovalChecks(userData);
 
     if (user.googleId !== googleId) {
-      throw new CustomError(
-        messages.authResponse.UNAUTHORIZED,
-        httpStatus.UNAUTHORIZED,
-      );
+      throw errorMessages.UNAUTHORIZED_ERROR;
     }
 
     const { id, name, userRoleId } = user;
