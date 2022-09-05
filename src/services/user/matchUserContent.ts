@@ -52,7 +52,7 @@ const matchUserContent: IMatchUserContent = async ({
   const { expiredAfterInYears, nextUpToOwedSplitPercentage } = await settings;
 
   const owedSplitPercentage = new Big(1).minus(nextUpToOwedSplitPercentage);
-  const cReports = content.contentReports.map(({
+  const cReports = content?.contentReports?.map(({
     id,
     contentId,
     reportId,
@@ -120,17 +120,19 @@ const matchUserContent: IMatchUserContent = async ({
       afterExpRevenue: afterExpRevenue.toString(),
     });
   });
-  await ContentReport.bulkCreate(cReports, {
-    updateOnDuplicate: [
-      'nextupRevenue',
-      'owedRevenue',
-      'beforeExpiryReportDaysPercentage',
-      'beforeExpRevenue',
-      'splittableBeforeExpRevenue',
-      'reimbursementBeforeExpRevenue',
-      'afterExpRevenue',
-    ],
-  });
+  if (cReports) {
+    await ContentReport.bulkCreate(cReports, {
+      updateOnDuplicate: [
+        'nextupRevenue',
+        'owedRevenue',
+        'beforeExpiryReportDaysPercentage',
+        'beforeExpRevenue',
+        'splittableBeforeExpRevenue',
+        'reimbursementBeforeExpRevenue',
+        'afterExpRevenue',
+      ],
+    });
+  }
   await content.save();
   return content;
 };
