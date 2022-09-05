@@ -6,9 +6,18 @@ import {
 } from 'date-fns';
 import Big from 'big.js';
 
+import { EventEmitter } from 'node:events';
 import { CustomError } from '../../helpers';
 import { HttpStatus } from '../../helpers/constants';
 
+let settings = getDashboardSettings();
+class MyEmitter extends EventEmitter {}
+
+const myEmitter = new MyEmitter();
+myEmitter.on('update', () => {
+  console.log('settings was updated');
+  settings = getDashboardSettings();
+});
 type IMatchUserContent = (_: {
   id: string,
   userId: number,
@@ -19,7 +28,6 @@ type IMatchUserContent = (_: {
   recoveredCosts: string,
 }) => Promise<IContent>
 
-const settings = getDashboardSettings();
 const matchUserContent: IMatchUserContent = async ({
   id,
   userId,
@@ -139,3 +147,4 @@ const matchUserContent: IMatchUserContent = async ({
 };
 
 export default matchUserContent;
+export { myEmitter };
