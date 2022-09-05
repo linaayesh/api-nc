@@ -59,9 +59,6 @@ interface FinancialInformation {
   updatedBy?: number,
 }
 
-interface UserAuth extends Request {
-  user?: IUser,
-}
 interface ErrorWithDetails extends Error {
   details: [
     {
@@ -128,7 +125,6 @@ export {
   IUserInfo,
   IServer,
   IDatabase,
-  UserAuth,
   ApprovedUser,
   GoogleUserRequest,
   IUser,
