@@ -1,12 +1,14 @@
 import { Request, Response, NextFunction } from 'express';
+import { HttpStatus } from '../../helpers/constants';
 import { CustomError } from '../../helpers';
 import { matchUserContent } from '../../services';
 
 export default async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   const { body } = req;
+  const totalCost = body.filmingCosts + body.advance + body.feePaid;
 
   try {
-    if (body.recoveredCosts > (body.filmingCosts + body.advance + body.feePaid)) throw new CustomError("Recovered costs can't be greater than costs", 400);
+    if (body.recoveredCosts > totalCost) throw new CustomError("Recovered costs can't be greater than costs", HttpStatus.BAD_REQUEST);
 
     const modifiedBody = {
       ...body,
