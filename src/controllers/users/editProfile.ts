@@ -8,7 +8,7 @@ export default async (request: Request, response: Response, next: NextFunction)
 :Promise<void> => {
   const { httpStatus, userRoles, messages } = constants;
   const {
-    id, image,
+    id, image, name,
   } = dto.usersDTO.editProfileDTO(request);
 
   try {
@@ -19,14 +19,13 @@ export default async (request: Request, response: Response, next: NextFunction)
       const { Location } = await upload(image, id);
       currentUser.image = Location;
     }
+
+    if (name) { currentUser.name = name; }
+
     const user = request.app.get('user');
 
     currentUser.updatedBy = user.id || userRoles.SYSTEM;
     await currentUser.save();
-    // ! ask Nujood about it
-    // await currentUser.update({
-    //   ...userUpdatedFields,
-    // });
 
     response
       .status(httpStatus.OK)

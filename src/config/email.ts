@@ -1,15 +1,15 @@
 import Joi from 'joi';
 import { IEmailConfigs } from '../interfaces/email';
-import { ENV_STRING, email } from '../helpers/validationRules';
+import { requiredString, email } from '../helpers/validationRules';
 
 const envVarsSchema = Joi.object({
   SENDGRID_ADMIN_EMAIL: email,
-  SENDGRID_API_KEY: ENV_STRING,
-  SENDGRID_VERIFICATION_TEMPLATE_ID: ENV_STRING,
-  SENDGRID_RESET_PASSWORD_TEMPLATE_ID: ENV_STRING,
-  SENDGRID_APPROVAL_TEMPLATE_ID: ENV_STRING,
-  SENDGRID_REJECTION_TEMPLATE_ID: ENV_STRING,
-  SENDGRID_CREATE_USER_TEMPLATE_ID: ENV_STRING,
+  SENDGRID_API_KEY: requiredString,
+  SENDGRID_VERIFICATION_TEMPLATE_ID: requiredString,
+  SENDGRID_RESET_PASSWORD_TEMPLATE_ID: requiredString,
+  SENDGRID_APPROVAL_TEMPLATE_ID: requiredString,
+  SENDGRID_REJECTION_TEMPLATE_ID: requiredString,
+  SENDGRID_CREATE_USER_TEMPLATE_ID: requiredString,
   NEXTUP_COMEDY_SUPPORT_EMAIL: email,
 }).unknown().required();
 
