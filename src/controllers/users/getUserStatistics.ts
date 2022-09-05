@@ -4,7 +4,7 @@ import { getUserById, getNumberOfContent } from '../../services';
 
 export default async (req: Request, res: Response, next: NextFunction)
 :Promise<void> => {
-  const { MESSAGES, HttpStatus } = constants;
+  const { messages, httpStatus } = constants;
   try {
     const { userId } = req.params;
     const userData = await getUserById(+userId);
@@ -17,9 +17,9 @@ export default async (req: Request, res: Response, next: NextFunction)
     );
 
     res
-      .status(HttpStatus.OK)
+      .status(httpStatus.OK)
       .json({
-        message: MESSAGES.authResponse.userStatistics,
+        message: messages.authResponse.USER_STATISTICS,
         data: {
           accPaidRevenue, freeToBePaidRevenue, balance, earning, Content,
         },

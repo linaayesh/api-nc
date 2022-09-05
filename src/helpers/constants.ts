@@ -1,6 +1,6 @@
 import config from '../config';
 
-export const MESSAGES = {
+export const messages = {
   authResponse: {
     NO_CONTENT: 'No such a content',
     ALREADY_EXIST: 'ALREADY EXIST USER',
@@ -12,22 +12,17 @@ export const MESSAGES = {
     BANNED: 'BANNED ACCOUNT',
     UNAUTHORIZED: 'UNAUTHORIZED',
     NOT_FOUND: 'NOT_FOUND',
-    approvedUser: 'APPROVED ACCOUNT',
-    rejectedUser: 'REJECTED ACCOUNT',
-    UNVERIFIED: 'NOT VERIFIED ACCOUNT',
-    notExist: 'NOT EXIST USER',
-    waitApprove: 'WAITING APPROVAL',
-    wrongEmailOrPassword: 'Incorrect email or password',
-    logIn: 'SUCCESS LOGIN',
+    SUCCESS_RESET_PASSWORD: 'RESET PASSWORD SUCCESSFULLY',
+    APPROVED_USER: 'APPROVED ACCOUNT',
     SUCCESS: 'SUCCESS PROCESS',
+    SUCCESS_ADD_USER: 'ADDED USER SUCCESSFULLY',
+    NOT_EXIST: 'NOT EXIST USER',
+    SUCCESS_EDIT: 'EDIT SUCCESSFULLY',
+    WRONG_EMAIL_OR_PASSWORD: 'Incorrect email or password',
+    SUCCESS_LOGIN: 'SUCCESS LOGIN',
+    SUCCESS_SIGNUP: 'SUCCESS SIGNUP',
     LOGOUT: 'SUCCESS LOGOUT',
-    reset: 'SUCCESS RESET',
-    edit: 'SUCCESS EDIT',
-    success: 'SUCCESS',
-    unAuthUser: 'UNAUTHORIZED',
-    resetPassword: 'RESET PASSWORD',
-    conflict: 'CONFLICT',
-    userStatistics: 'USER STATISTICS',
+    USER_STATISTICS: 'USER STATISTICS',
     DASHBOARD_VARS_CHANGED: 'DASHBOARD VARS CHANGED SUCCESSFULLY',
   },
   check: {
@@ -35,18 +30,19 @@ export const MESSAGES = {
     REJECT_EMAIL_CHECK: 'REJECT_EMAIL_CHECK',
   },
   listOfUsers: {
-    approved: 'APPROVED USERS',
-    notApproved: 'PENDING USERS',
-    rejected: 'REJECTED USERS',
+    APPROVED: 'APPROVED USERS',
+    PENDING: 'PENDING USERS',
+    REJECTED: 'REJECTED USERS',
+    BANNED: 'BANNED USERS',
   },
   token: {
-    accessToken: 'accessToken',
-    resetToken: 'resetPasswordToken',
-    verifyToken: 'verifyEmailToken',
+    ACCESS_TOKEN: 'accessToken',
+    RESET_TOKEN: 'resetPasswordToken',
+    VERIFY_TOKEN: 'verifyEmailToken',
   },
 };
 
-export const HttpStatus = {
+export const httpStatus = {
   UNAUTHORIZED: 401,
   CREATED: 201,
   OK: 200,
@@ -57,21 +53,21 @@ export const HttpStatus = {
   REDIRECT: 302,
 };
 
-export const USER_STATUS = {
+export const userStatus = {
   PENDING: 1,
   APPROVED: 2,
   REJECTED: 3,
   BANNED: 4,
 };
 
-export const USER_ROLES = {
+export const userRoles = {
   SYSTEM: 1,
   MASTER_ADMIN: 2,
   ADMIN: 3,
   COMEDIAN: 4,
 };
 
-export const ERROR_RESPONSE = {
+export const errorResponse = {
   CLIENT: 'PAGE NOT FOUND',
   SERVER: 'INTERNAL SERVER ERROR',
 };
@@ -98,7 +94,7 @@ export const LOGGER_COLORS = {
 export const PASSWORD_LENGTH = 15;
 export const SALT_ROUNDS = 10;
 
-export const EMAIL_TYPE = {
+export const emailType = {
   CREATE: 'create',
   VERIFY: 'verify',
   RESET: 'reset',
@@ -106,7 +102,7 @@ export const EMAIL_TYPE = {
   REJECT: 'reject',
 };
 
-export const REDIRECT_URLS = {
+export const redirectURLs = {
   RESET: `${config.server.CLIENT_URL}/resetPassword`,
   LOGIN: `${config.server.CLIENT_URL}`,
   FAQ: `${config.server.CLIENT_URL}/faq`,

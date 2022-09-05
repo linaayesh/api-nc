@@ -1,5 +1,4 @@
 import { Response, NextFunction, Request } from 'express';
-// import { UserAuth } from '../interfaces';
 import {
   constants, CustomError, verifyToken, tokenError,
 } from '../helpers';
@@ -10,12 +9,13 @@ export default (userTypes: number[]) => async (
   _res: Response,
   next: NextFunction,
 ): Promise<void> => {
-  const { USER_STATUS, MESSAGES } = constants;
-  const { UNAUTHORIZED, notExist } = MESSAGES.authResponse;
+  const { userStatus, messages } = constants;
   try {
     const { accessToken } = req.cookies;
 
-    if (!accessToken) throw new CustomError(UNAUTHORIZED, constants.HttpStatus.UNAUTHORIZED);
+    if (!accessToken) {
+      throw new CustomError(messages.authResponse.UNAUTHORIZED, constants.httpStatus.UNAUTHORIZED);
+    }
 
     const userPayload = await verifyToken(accessToken);
 
@@ -23,12 +23,14 @@ export default (userTypes: number[]) => async (
 
     const userData = await getUserById(id as number);
 
-    if (!userData) throw new CustomError(notExist, constants.HttpStatus.NOT_FOUND);
+    if (!userData) {
+      throw new CustomError(messages.authResponse.NOT_EXIST, constants.httpStatus.NOT_FOUND);
+    }
 
     const { userRoleId, userStatusId } = userData;
 
-    if (!userTypes.includes(userRoleId) || userStatusId !== USER_STATUS.APPROVED) {
-      throw new CustomError(UNAUTHORIZED, constants.HttpStatus.UNAUTHORIZED);
+    if (!userTypes.includes(userRoleId) || userStatusId !== userStatus.APPROVED) {
+      throw new CustomError(messages.authResponse.UNAUTHORIZED, constants.httpStatus.UNAUTHORIZED);
     }
 
     req.app.set('user', userData);

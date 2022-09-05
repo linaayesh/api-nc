@@ -1,26 +1,18 @@
 import { IUser } from 'db-models-nc';
 import CustomError from './CustomError';
-import { MESSAGES, HttpStatus, USER_STATUS } from './constants';
+import { messages, httpStatus, userStatus } from './constants';
 import { getUserByEmail } from '../services';
-
-const {
-  notExist, ALREADY_EXIST,
-} = MESSAGES.authResponse;
-const { UNAUTHORIZED, INTERNAL_SERVER_ERROR } = HttpStatus;
-const {
-  REJECTED, PENDING, BANNED,
-} = USER_STATUS;
 
 const check = (statusOfTheUser: number): void => {
   switch (statusOfTheUser) {
-    case (REJECTED):
-      throw new CustomError(MESSAGES.authResponse.ALREADY_REJECTED, UNAUTHORIZED);
+    case (userStatus.REJECTED):
+      throw new CustomError(messages.authResponse.ALREADY_REJECTED, httpStatus.UNAUTHORIZED);
       break;
-    case (PENDING):
-      throw new CustomError(MESSAGES.authResponse.PENDING, UNAUTHORIZED);
+    case (userStatus.PENDING):
+      throw new CustomError(messages.authResponse.PENDING, httpStatus.UNAUTHORIZED);
       break;
-    case (BANNED):
-      throw new CustomError(MESSAGES.authResponse.BANNED, UNAUTHORIZED);
+    case (userStatus.BANNED):
+      throw new CustomError(messages.authResponse.BANNED, httpStatus.UNAUTHORIZED);
       break;
     default: break;
   }
@@ -35,14 +27,16 @@ const check = (statusOfTheUser: number): void => {
 export const RegistrationCheck = async (email: string): Promise<string> => {
   try {
     const userExists = await getUserByEmail(email);
-    if (userExists) throw new CustomError(ALREADY_EXIST, UNAUTHORIZED);
+    if (userExists) {
+      throw new CustomError(messages.authResponse.ALREADY_EXIST, httpStatus.UNAUTHORIZED);
+    }
 
-    return notExist;
+    return messages.authResponse.NOT_EXIST;
   } catch (error) {
     if (error instanceof CustomError) {
       throw error;
     }
-    throw new CustomError(String(error), INTERNAL_SERVER_ERROR);
+    throw new CustomError(String(error), httpStatus.INTERNAL_SERVER_ERROR);
   }
 };
 
@@ -54,8 +48,9 @@ export const RegistrationCheck = async (email: string): Promise<string> => {
  */
 export const ApprovalChecks = async (userExists: IUser | null): Promise<IUser> => {
   try {
-    if (!userExists || !userExists.userStatusId) throw new CustomError(notExist, UNAUTHORIZED);
-
+    if (!userExists || !userExists.userStatusId) {
+      throw new CustomError(messages.authResponse.NOT_EXIST, httpStatus.UNAUTHORIZED);
+    }
     check(userExists.userStatusId);
 
     return userExists;
@@ -63,6 +58,6 @@ export const ApprovalChecks = async (userExists: IUser | null): Promise<IUser> =
     if (error instanceof CustomError) {
       throw error;
     }
-    throw new CustomError(String(error), INTERNAL_SERVER_ERROR);
+    throw new CustomError(String(error), httpStatus.INTERNAL_SERVER_ERROR);
   }
 };

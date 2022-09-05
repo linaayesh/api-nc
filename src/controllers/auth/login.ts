@@ -5,13 +5,10 @@ import {
 } from '../../helpers';
 import { getUserByEmail } from '../../services';
 
-export default async (req: Request, res: Response, next: NextFunction):
+export default async (request: Request, res: Response, next: NextFunction):
 Promise<void> => {
-  const { email, password, rememberMe } = dto.authDTO.loginDTO(req);
-
-  const { wrongEmailOrPassword, logIn } = constants.MESSAGES.authResponse;
-  const { accessToken } = constants.MESSAGES.token;
-  const { OK, UNAUTHORIZED } = constants.HttpStatus;
+  const { email, password, rememberMe } = dto.authDTO.loginDTO(request);
+  const { messages, httpStatus } = constants;
 
   try {
     let expiresIn;
@@ -22,7 +19,12 @@ Promise<void> => {
     const user = await checkExistence.ApprovalChecks(userData);
 
     const isValid = await compare(password, user.password);
-    if (!isValid) throw new CustomError(wrongEmailOrPassword, UNAUTHORIZED);
+    if (!isValid) {
+      throw new CustomError(
+        messages.authResponse.WRONG_EMAIL_OR_PASSWORD,
+        httpStatus.UNAUTHORIZED,
+      );
+    }
 
     const { id, name, userRoleId } = user;
     const token = await signToken({
@@ -30,10 +32,10 @@ Promise<void> => {
     }, { expiresIn });
 
     res
-      .status(OK)
-      .cookie(accessToken, token, { httpOnly: true })
+      .status(httpStatus.OK)
+      .cookie(messages.token.ACCESS_TOKEN, token, { httpOnly: true })
       .json({
-        message: logIn,
+        message: messages.authResponse.SUCCESS_LOGIN,
         payload: {
           id: Number(id), name, email, roleId: userRoleId,
         },

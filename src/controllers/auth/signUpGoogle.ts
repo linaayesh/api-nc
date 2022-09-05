@@ -10,14 +10,14 @@ import {
 } from '../../helpers';
 import { addUser } from '../../services';
 
-export default async (request: Request, res: Response, next: NextFunction)
+export default async (request: Request, response: Response, next: NextFunction)
 :Promise<void> => {
   const {
-    HttpStatus,
-    USER_ROLES,
+    httpStatus,
+    userRoles,
     REVENUE_DEFAULT_VALUE,
     PASSWORD_LENGTH,
-    EMAIL_TYPE,
+    emailType,
   } = constants;
   const { tokenId } = dto.authDTO.GoogleDTO(request);
   try {
@@ -40,26 +40,26 @@ export default async (request: Request, res: Response, next: NextFunction)
     const user = await addUser({
       name,
       email,
-      userRoleId: USER_ROLES.COMEDIAN,
+      userRoleId: userRoles.COMEDIAN,
       password: hashedPassword,
-      createdBy: USER_ROLES.SYSTEM,
-      updatedBy: USER_ROLES.SYSTEM,
+      createdBy: userRoles.SYSTEM,
+      updatedBy: userRoles.SYSTEM,
       image,
       googleId,
-      userStatusId: constants.USER_STATUS.PENDING,
+      userStatusId: constants.userStatus.PENDING,
       freeToBePaidRevenue: REVENUE_DEFAULT_VALUE,
       accPaidRevenue: REVENUE_DEFAULT_VALUE,
     });
 
     await sendEmail({
       email: user.email,
-      type: EMAIL_TYPE.VERIFY,
+      type: emailType.VERIFY,
       name: user.name,
     });
 
-    res
-      .status(HttpStatus.CREATED)
-      .json({ message: constants.MESSAGES.authResponse.SUCCESS });
+    response
+      .status(httpStatus.CREATED)
+      .json({ message: constants.messages.authResponse.SUCCESS_SIGNUP });
   } catch (error) {
     next(error);
   }

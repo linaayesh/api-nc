@@ -13,8 +13,8 @@ const matchUserContent: IMatchUserContentDTO = async ({
   const content = await Content.findOne({ where: { id } });
   if (!content) {
     throw new CustomError(
-      constants.MESSAGES.authResponse.NO_CONTENT,
-      constants.HttpStatus.NOT_FOUND,
+      constants.messages.authResponse.NO_CONTENT,
+      constants.httpStatus.NOT_FOUND,
     );
   }
 

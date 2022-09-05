@@ -6,12 +6,18 @@ import {
 } from '../../helpers';
 import { addUser } from '../../services';
 
-export default async (request: Request, res: Response, next: NextFunction):Promise<void> => {
+export default async (request: Request, response: Response, next: NextFunction):Promise<void> => {
   const {
     name, email, roleId,
-  } = dto.usersDTO.addUserDTO(request);
+  } = dto.adminDTO.addUserDTO(request);
   const {
-    HttpStatus, USER_STATUS, PASSWORD_LENGTH, EMAIL_TYPE, SALT_ROUNDS,
+    httpStatus,
+    userStatus,
+    PASSWORD_LENGTH,
+    emailType,
+    SALT_ROUNDS,
+    REVENUE_DEFAULT_VALUE,
+    messages,
   } = constants;
 
   try {
@@ -22,30 +28,31 @@ export default async (request: Request, res: Response, next: NextFunction):Promi
     });
     const hashedPassword = await hash(password, SALT_ROUNDS);
 
-    const test = request.app.get('user');
+    const loginUser = request.app.get('user');
 
     const user = await addUser({
       name,
       email: email.toLowerCase(),
       userRoleId: roleId,
       password: hashedPassword,
-      createdBy: test.id,
-      updatedBy: test.id,
-      userStatusId: USER_STATUS.APPROVED,
-      accPaidRevenue: constants.REVENUE_DEFAULT_VALUE,
-      freeToBePaidRevenue: constants.REVENUE_DEFAULT_VALUE,
+      createdBy: loginUser.id,
+      updatedBy: loginUser.id,
+      userStatusId: userStatus.APPROVED,
+      accPaidRevenue: REVENUE_DEFAULT_VALUE,
+      freeToBePaidRevenue: REVENUE_DEFAULT_VALUE,
     });
 
     await sendEmail({
       email: user.email,
-      type: EMAIL_TYPE.CREATE,
+      type: emailType.CREATE,
       name: user.name,
       password,
     });
-    res
-      .status(HttpStatus.CREATED)
-      .json({ message: constants.MESSAGES.authResponse.SUCCESS, data: user });
-  } catch (err) {
-    next(err);
+
+    response
+      .status(httpStatus.CREATED)
+      .json({ message: messages.authResponse.SUCCESS_ADD_USER, data: user });
+  } catch (error) {
+    next(error);
   }
 };

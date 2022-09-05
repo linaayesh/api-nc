@@ -12,8 +12,8 @@ const getUsersStatus: GetUsersStatusDTO = (statusId: number, { page, limit }) =>
           {
             userRoleId: {
               [Op.notIn]: [
-                constants.USER_ROLES.MASTER_ADMIN,
-                constants.USER_ROLES.SYSTEM,
+                constants.userRoles.MASTER_ADMIN,
+                constants.userRoles.SYSTEM,
               ],
             },
           },
@@ -42,8 +42,8 @@ const getUsersStatus: GetUsersStatusDTO = (statusId: number, { page, limit }) =>
         {
           userRoleId: {
             [Op.notIn]: [
-              constants.USER_ROLES.MASTER_ADMIN,
-              constants.USER_ROLES.SYSTEM,
+              constants.userRoles.MASTER_ADMIN,
+              constants.userRoles.SYSTEM,
             ],
           },
         },

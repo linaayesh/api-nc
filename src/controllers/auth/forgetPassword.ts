@@ -4,13 +4,13 @@ import {
 } from '../../helpers';
 import { getUserByEmail } from '../../services';
 
-export default async (req: Request, res: Response, next: NextFunction)
+export default async (request: Request, response: Response, next: NextFunction)
 :Promise<void> => {
   const {
-    MESSAGES, HttpStatus, EMAIL_TYPE, REDIRECT_URLS,
+    messages, httpStatus, emailType, redirectURLs,
   } = constants;
 
-  const { email } = dto.authDTO.forgetPasswordDTO(req);
+  const { email } = dto.authDTO.forgetPasswordDTO(request);
 
   try {
     const userData = await getUserByEmail(email);
@@ -19,15 +19,15 @@ export default async (req: Request, res: Response, next: NextFunction)
 
     await sendEmail({
       email,
-      type: EMAIL_TYPE.RESET,
+      type: emailType.RESET,
       name: user.name,
-      redirectURL: REDIRECT_URLS.RESET,
+      redirectURL: redirectURLs.RESET,
     });
 
-    res
-      .status(HttpStatus.OK)
-      .json({ message: MESSAGES.check.RESET_EMAIL_CHECK });
-  } catch (err) {
-    next(err);
+    response
+      .status(httpStatus.OK)
+      .json({ message: messages.check.RESET_EMAIL_CHECK });
+  } catch (error) {
+    next(error);
   }
 };

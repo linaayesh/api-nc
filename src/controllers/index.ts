@@ -9,19 +9,23 @@ export {
   logInGoogle,
 } from './auth';
 export {
-  pendingUsers,
-  approveUser,
-  approvedUser,
-  rejectUser,
-  rejectedUsers,
   editProfile,
-  createUser,
-  blockUser,
   changePassword,
   getUserStatistics,
+} from './users';
+
+export {
+  createUser,
+  approveUser,
+  pendingUsers,
+  approvedUser,
+  bannedUsers,
+  rejectedUsers,
+  rejectUser,
+  blockUser,
   editDashboardSettings,
   getDashboardSettings,
-} from './users';
+} from './admin';
 
 export {
   getPaginatedContents,

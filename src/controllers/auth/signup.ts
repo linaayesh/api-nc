@@ -5,37 +5,39 @@ import {
 } from '../../helpers';
 import { addUser } from '../../services';
 
-export default async (request: Request, res: Response, next: NextFunction):Promise<void> => {
+export default async (request: Request, response: Response, next: NextFunction):Promise<void> => {
   const { name, email, password } = dto.authDTO.signupDTO(request);
-  const { HttpStatus, USER_ROLES, EMAIL_TYPE } = constants;
+  const {
+    httpStatus, userRoles, emailType, SALT_ROUNDS, userStatus, REVENUE_DEFAULT_VALUE,
+  } = constants;
 
   try {
     await checkExistence.RegistrationCheck(email);
 
-    const hashedPassword = await hash(password, 10);
+    const hashedPassword = await hash(password, SALT_ROUNDS);
 
     const user = await addUser({
       name,
       email,
-      userRoleId: USER_ROLES.COMEDIAN,
+      userRoleId: userRoles.COMEDIAN,
       password: hashedPassword,
-      createdBy: USER_ROLES.SYSTEM,
-      updatedBy: USER_ROLES.SYSTEM,
-      userStatusId: constants.USER_STATUS.PENDING,
-      accPaidRevenue: constants.REVENUE_DEFAULT_VALUE,
-      freeToBePaidRevenue: constants.REVENUE_DEFAULT_VALUE,
+      createdBy: userRoles.SYSTEM,
+      updatedBy: userRoles.SYSTEM,
+      userStatusId: userStatus.PENDING,
+      accPaidRevenue: REVENUE_DEFAULT_VALUE,
+      freeToBePaidRevenue: REVENUE_DEFAULT_VALUE,
     });
 
     await sendEmail({
       email: user.email,
-      type: EMAIL_TYPE.VERIFY,
+      type: emailType.VERIFY,
       name: user.name,
     });
 
-    res
-      .status(HttpStatus.CREATED)
-      .json({ message: constants.MESSAGES.authResponse.SUCCESS });
-  } catch (err) {
-    next(err);
+    response
+      .status(httpStatus.CREATED)
+      .json({ message: constants.messages.authResponse.SUCCESS_SIGNUP });
+  } catch (error) {
+    next(error);
   }
 };

@@ -1,32 +1,36 @@
 import { NextFunction, Response, Request } from 'express';
-import { constants, CustomError, upload } from '../../helpers';
+import {
+  constants, CustomError, upload, dto,
+} from '../../helpers';
 import { getUserById } from '../../services';
 
-export default async (req: Request, res: Response, next: NextFunction)
+export default async (request: Request, response: Response, next: NextFunction)
 :Promise<void> => {
-  const { HttpStatus, USER_ROLES } = constants;
-  const { notExist, edit } = constants.MESSAGES.authResponse;
+  const { httpStatus, userRoles, messages } = constants;
   const {
-    id, image, ...userUpdatedFields
-  } = req.body;
+    id, image,
+  } = dto.usersDTO.editProfileDTO(request);
 
   try {
     const currentUser = await getUserById(id);
-    if (!currentUser) throw new CustomError(notExist, HttpStatus.NOT_FOUND);
+    if (!currentUser) throw new CustomError(messages.authResponse.NOT_EXIST, httpStatus.NOT_FOUND);
 
     if (image) {
       const { Location } = await upload(image, id);
-      userUpdatedFields.image = Location;
+      currentUser.image = Location;
     }
-    const user = req.app.get('user');
+    const user = request.app.get('user');
 
-    userUpdatedFields.updatedBy = user.id || USER_ROLES.SYSTEM;
+    currentUser.updatedBy = user.id || userRoles.SYSTEM;
+    await currentUser.save();
+    // ! ask Nujood about it
+    // await currentUser.update({
+    //   ...userUpdatedFields,
+    // });
 
-    await currentUser.update({
-      ...userUpdatedFields,
-    });
-
-    res.status(HttpStatus.OK).json({ message: edit });
+    response
+      .status(httpStatus.OK)
+      .json({ message: messages.authResponse.SUCCESS_EDIT });
   } catch (error) {
     next(error);
   }

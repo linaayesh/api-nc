@@ -116,7 +116,14 @@ interface AddUserInterface{
   freeToBePaidRevenue: number;
 }
 
+interface GoogleAuthentication{
+  googleId: string,
+  email:string
+  name: string,
+  image: string,
+}
 export {
+  GoogleAuthentication,
   IServerAddress,
   IUserInfo,
   IServer,

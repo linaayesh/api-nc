@@ -6,22 +6,20 @@ import {
 } from '../../helpers';
 import { getUserByEmail } from '../../services';
 
-export default async (request: Request, res: Response, next: NextFunction):Promise<void> => {
+export default async (request: Request, response: Response, next: NextFunction):Promise<void> => {
   const { password, resetPasswordToken } = dto.authDTO.resetPasswordDTO(request);
   const {
-    MESSAGES, HttpStatus, SALT_ROUNDS, REDIRECT_URLS,
+    messages, httpStatus, SALT_ROUNDS, redirectURLs,
   } = constants;
 
   try {
     if (!resetPasswordToken) {
-      throw new CustomError(MESSAGES.authResponse.unAuthUser, HttpStatus.UNAUTHORIZED);
+      throw new CustomError(messages.authResponse.UNAUTHORIZED, httpStatus.UNAUTHORIZED);
     }
 
     const { email } = await verifyToken(resetPasswordToken);
 
-    const lowerCaseEmail = email.toLowerCase();
-
-    const user = await getUserByEmail(lowerCaseEmail);
+    const user = await getUserByEmail(email);
 
     const userData = await checkExistence.ApprovalChecks(user);
 
@@ -29,11 +27,14 @@ export default async (request: Request, res: Response, next: NextFunction):Promi
     userData.password = hashedPassword;
     await userData.save();
 
-    res.status(HttpStatus.OK).clearCookie(MESSAGES.token.resetToken).json({
-      message: { message: MESSAGES.authResponse.resetPassword },
-      redirect: REDIRECT_URLS.LOGIN,
-    });
-  } catch (err) {
-    next(tokenError(err as Error));
+    response
+      .status(httpStatus.OK)
+      .clearCookie(messages.token.RESET_TOKEN)
+      .json({
+        message: { message: messages.authResponse.SUCCESS_RESET_PASSWORD },
+        redirect: redirectURLs.LOGIN,
+      });
+  } catch (error) {
+    next(tokenError(error as Error));
   }
 };

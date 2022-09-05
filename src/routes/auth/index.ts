@@ -10,7 +10,7 @@ import {
   constants, validator, loginSchema, signupSchema, emailSchema, passwordSchema,
 } from '../../helpers';
 
-const { ADMIN, MASTER_ADMIN, COMEDIAN } = constants.USER_ROLES;
+const { ADMIN, MASTER_ADMIN, COMEDIAN } = constants.userRoles;
 
 const router = Router();
 

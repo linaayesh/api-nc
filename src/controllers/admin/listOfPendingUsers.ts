@@ -2,18 +2,18 @@ import { Response, NextFunction, Request } from 'express';
 import { getUsersStatus } from '../../services';
 import { constants, dto } from '../../helpers';
 
-export default async (request: Request, res: Response, next: NextFunction)
+export default async (request: Request, response: Response, next: NextFunction)
 :Promise<void> => {
-  const { MESSAGES, USER_STATUS, HttpStatus } = constants;
+  const { messages, userStatus, httpStatus } = constants;
   const { page, limit } = dto.generalDTO.paginationDTO(request);
   try {
-    const pendingUsers = await getUsersStatus(USER_STATUS.PENDING, {
+    const pendingUsers = await getUsersStatus(userStatus.PENDING, {
       page: Number(page), limit: Number(limit),
     });
 
-    res
-      .status(HttpStatus.OK)
-      .json({ message: MESSAGES.listOfUsers.notApproved, data: pendingUsers });
+    response
+      .status(httpStatus.OK)
+      .json({ message: messages.listOfUsers.PENDING, data: pendingUsers });
   } catch (error) {
     next(error);
   }

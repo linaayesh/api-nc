@@ -2,7 +2,6 @@ import { IContent, IUser } from 'db-models-nc';
 import { pagination, matchUserContent } from '../../interfaces/DtoContents';
 import { ICustomContent, ICustomUser, AddUserInterface } from '../../interfaces';
 
-// CONTENTS TYPES
 type IGetPaginatedContentsDTO = (_: pagination) => Promise<
   { rows: ICustomContent[]; count: number; } | ICustomContent[] | ICustomContent | null
 >
@@ -20,7 +19,9 @@ type IGetPaginatedUsersDTO = (_: pagination) => Promise<
 export type IMatchUserContentDTO = (_: matchUserContent) => Promise<IContent>
 
 export type GetUserByEmailDTO = (email: string) => Promise<IUser | null>
+
 export type GetUserByIdDTO = (id: number) => Promise<IUser | null>
+
 export type AddUserDTO = (data: AddUserInterface) => Promise<IUser>
 
 export type GetUsersStatusDTO = (statusId: number, _: {
