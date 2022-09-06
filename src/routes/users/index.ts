@@ -16,6 +16,7 @@ import {
   editDashboardSettings,
   getDashboardSettings,
   editProfile,
+  getUserDataByID,
 } from '../../controllers';
 import {
   constants,
@@ -56,5 +57,6 @@ router.use(checkUserRole([MASTER_ADMIN]));
 router.get('/dashboard-settings', getDashboardSettings);
 router.patch('/edit-dashboard-settings', validator.body(editSystemSettingsSchema), editDashboardSettings);
 router.patch('/block-user/:userId', validator.params(idSchema), blockUser);
+router.get('/get-user-data/:userId', validator.params(idSchema), getUserDataByID);
 
 export default router;
