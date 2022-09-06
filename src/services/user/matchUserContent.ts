@@ -1,5 +1,5 @@
 import {
-  Content, IContent, ContentReport, Report, getDashboardSettings,
+  Content, IContent, ContentReport, Report, getDashboardSettings, User,
 } from 'db-models-nc';
 import {
   min, max, differenceInDays, addYears,
@@ -9,16 +9,17 @@ import Big from 'big.js';
 import { EventEmitter } from 'node:events';
 import { CustomError } from '../../helpers';
 import { HttpStatus } from '../../helpers/constants';
+import Logger from '../../helpers/logger';
 
 let settings = getDashboardSettings();
 class MyEmitter extends EventEmitter {}
 
 const myEmitter = new MyEmitter();
 myEmitter.on('update', () => {
-  console.log('settings was updated');
+  Logger.info('settings was updated');
   settings = getDashboardSettings();
 });
-type IMatchUserContent = (_: {
+type IMatchUserContent = (userData: {
   id: string,
   userId: number,
   filmingCosts: string,
@@ -42,9 +43,7 @@ const matchUserContent: IMatchUserContent = async ({
     include: {
       model: ContentReport,
       as: 'contentReports',
-      include: [{
-        model: Report,
-      }],
+      include: [{ model: Report, attributes: ['watchTimeFrom', 'watchTimeTo'] }, { model: User, attributes: ['accPaidRevenue'] }],
     },
   });
 
@@ -73,7 +72,7 @@ const matchUserContent: IMatchUserContent = async ({
     watches,
     report,
   }) => {
-    if (!report) throw Error();
+    if (!report) throw new CustomError('Bad Request', HttpStatus.BAD_REQUEST);
     const toDate = new Date(report.watchTimeTo);
     const fromDate:Date = new Date(report.watchTimeFrom);
     const expDate = addYears(new Date(launchDate), expiredAfterInYears);
