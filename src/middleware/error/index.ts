@@ -10,7 +10,6 @@ interface IError extends Error {
 }
 
 const serverError = (err: IError, req: Request, res: Response, _next: NextFunction):void => {
-  console.log(err);
   res
     .status(err.status || constants.HttpStatus.INTERNAL_SERVER_ERROR)
     .json({ message: err.status ? err.message : constants.ERROR_RESPONSE.SERVER });
