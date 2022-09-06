@@ -10,4 +10,5 @@ export default Joi.object({
   launchDate: date,
   advance: financialValidation,
   feePaid: financialValidation,
+  recoveredCosts: financialValidation,
 });

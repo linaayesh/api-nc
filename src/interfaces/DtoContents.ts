@@ -12,4 +12,5 @@ export interface matchUserContent {
   launchDate: string,
   advance: string,
   feePaid: string
+  recoveredCosts: string
 }

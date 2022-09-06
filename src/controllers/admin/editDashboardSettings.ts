@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { editDashboardSettings } from '../../services';
 import { constants, dto } from '../../helpers';
+import { myEmitter } from '../../services/user/matchUserContent';
 
 export default async (request: Request, response: Response, next: NextFunction): Promise<void> => {
   const { viewliftPassword, ...regularVariables } = dto.adminDTO.editDashboardSettingsDTO(request);
@@ -17,6 +18,7 @@ export default async (request: Request, response: Response, next: NextFunction):
         message: messages.authResponse.DASHBOARD_VARS_CHANGED,
         data: { ...newRegularVariables, ...encryptedVariables },
       });
+    myEmitter.emit('update');
   } catch (error) {
     next(error);
   }

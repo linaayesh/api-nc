@@ -8,4 +8,6 @@ export const matchUserContentDTO = ({ body }: Request): matchUserContent => (
     filmingCosts: body.filmingCosts.toString(),
     advance: body.advance.toString(),
     feePaid: body.feePaid.toString(),
-  });
+    recoveredCosts: body.recoveredCosts.toString(),
+  }
+);
