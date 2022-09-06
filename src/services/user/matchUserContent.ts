@@ -12,9 +12,8 @@ import { HttpStatus } from '../../helpers/constants';
 import Logger from '../../helpers/logger';
 
 let settings = getDashboardSettings();
-class MyEmitter extends EventEmitter {}
 
-const myEmitter = new MyEmitter();
+const myEmitter = new EventEmitter();
 myEmitter.on('update', () => {
   Logger.info('settings was updated');
   settings = getDashboardSettings();
@@ -43,7 +42,7 @@ const matchUserContent: IMatchUserContent = async ({
     include: {
       model: ContentReport,
       as: 'contentReports',
-      include: [{ model: Report, attributes: ['watchTimeFrom', 'watchTimeTo'] }, { model: User, attributes: ['accPaidRevenue'] }],
+      include: [{ model: Report, attributes: ['watchTimeFrom', 'watchTimeTo'] }, { model: User, attributes: ['totalRevenue', 'totalRevenue'] }],
     },
   });
 
