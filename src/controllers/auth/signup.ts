@@ -24,8 +24,8 @@ export default async ({ body }: Request, res: Response, next: NextFunction):Prom
       password: hashedPassword,
       createdBy: SYSTEM,
       updatedBy: SYSTEM,
-      accPaidRevenue: constants.REVENUE_DEFAULT_VALUE,
-      freeToBePaidRevenue: constants.REVENUE_DEFAULT_VALUE,
+      totalRevenue: constants.REVENUE_DEFAULT_VALUE,
+      paidRevenue: constants.REVENUE_DEFAULT_VALUE,
     });
 
     await sendEmail({

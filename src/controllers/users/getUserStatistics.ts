@@ -9,9 +9,8 @@ export default async (req: Request, res: Response, next: NextFunction)
     const { userId } = req.params;
     const userData = await getUserById(+userId);
     const user = await checkExistence.ApprovalChecks(userData);
-    const { accPaidRevenue, freeToBePaidRevenue } = user;
-    const balance = accPaidRevenue - freeToBePaidRevenue;
-    const earning = accPaidRevenue + freeToBePaidRevenue;
+    const { totalRevenue, paidRevenue } = user;
+    const balance = totalRevenue - paidRevenue;
     const Content = await getNumberOfContent(
       { page: 1, limit: 10, userId: Number(userId) },
     );
@@ -21,7 +20,7 @@ export default async (req: Request, res: Response, next: NextFunction)
       .json({
         message: messages.authResponse.userStatistics,
         data: {
-          accPaidRevenue, freeToBePaidRevenue, balance, earning, Content,
+          totalRevenue, paidRevenue, balance, Content,
         },
       });
   } catch (error) {

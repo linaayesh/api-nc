@@ -9,9 +9,9 @@ interface AddUserInterface{
   updatedBy: number;
   image?: string;
   googleId?: string;
-  accPaidRevenue: number;
   userStatusId?: number;
-  freeToBePaidRevenue: number;
+  totalRevenue: number;
+  paidRevenue: number;
 }
 
 type GetUserByEmail = (email: string) => Promise<IUser | null>

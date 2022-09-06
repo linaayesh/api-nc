@@ -34,8 +34,8 @@ export default async (req: UserAuth, res: Response, next: NextFunction):Promise<
       createdBy: req.user.id,
       updatedBy: req.user.id,
       userStatusId: APPROVED,
-      accPaidRevenue: constants.REVENUE_DEFAULT_VALUE,
-      freeToBePaidRevenue: constants.REVENUE_DEFAULT_VALUE,
+      totalRevenue: constants.REVENUE_DEFAULT_VALUE,
+      paidRevenue: constants.REVENUE_DEFAULT_VALUE,
     });
 
     await sendEmail({
