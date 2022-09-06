@@ -24,8 +24,8 @@ export default async (request: Request, response: Response, next: NextFunction):
       createdBy: userRoles.SYSTEM,
       updatedBy: userRoles.SYSTEM,
       userStatusId: userStatus.PENDING,
-      accPaidRevenue: REVENUE_DEFAULT_VALUE,
-      freeToBePaidRevenue: REVENUE_DEFAULT_VALUE,
+      totalRevenue: REVENUE_DEFAULT_VALUE,
+      paidRevenue: REVENUE_DEFAULT_VALUE,
     });
 
     await sendEmail({
