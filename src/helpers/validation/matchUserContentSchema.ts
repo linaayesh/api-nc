@@ -7,4 +7,5 @@ export default Joi.object({
   launchDate: Joi.string().isoDate().required(),
   advance: Joi.number().min(0).required(),
   feePaid: Joi.number().min(0).required(),
+  recoveredCosts: Joi.number().min(0).required(),
 });
