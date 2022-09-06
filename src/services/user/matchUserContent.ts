@@ -42,7 +42,7 @@ const matchUserContent: IMatchUserContent = async ({
     include: {
       model: ContentReport,
       as: 'contentReports',
-      include: [{ model: Report, attributes: ['watchTimeFrom', 'watchTimeTo'] }, { model: User, attributes: ['totalRevenue', 'totalRevenue'] }],
+      include: [{ model: Report, attributes: ['watchTimeFrom', 'watchTimeTo'] }, { model: User, attributes: ['totalRevenue', 'paidRevenue'] }],
     },
   });
 
