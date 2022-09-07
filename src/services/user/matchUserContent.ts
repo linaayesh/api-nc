@@ -36,19 +36,20 @@ const matchUserContent: IMatchUserContent = async ({
   feePaid,
   recoveredCosts,
 }) => {
-  const content = await Content.findOne({
+  const [content, user] = await Promise.all([Content.findOne({
     where: { id },
     include: {
       model: ContentReport,
       as: 'contentReports',
-      include: [{ model: Report, attributes: ['watchTimeFrom', 'watchTimeTo'] }, { model: User, attributes: ['totalRevenue', 'paidRevenue'] }],
+      include: [{ model: Report, attributes: ['watchTimeFrom', 'watchTimeTo'] }],
     },
-  });
+  }), User.findOne({ where: { id: userId } })]);
 
   if (!content) {
     throw errorMessages.NO_CONTENT_ERROR;
   }
   if (content.userId) throw new CustomError('Content is already matched with a user', constants.httpStatus.BAD_REQUEST);
+  if (!user) throw new CustomError("The user you are trying to match with doesn't exist", constants.httpStatus.BAD_REQUEST);
   content.userId = userId;
   content.filmingCosts = filmingCosts;
   content.launchDate = launchDate;
@@ -107,6 +108,7 @@ const matchUserContent: IMatchUserContent = async ({
       .plus(content.owedAccRevenue).toString();
     content.recoveredCosts = reimbursementBeforeExpRevenue
       .plus(recoveredCosts).toString();
+    user.totalRevenue = owedRevenue.plus(user.totalRevenue);
 
     return ({
       id,
@@ -141,7 +143,7 @@ const matchUserContent: IMatchUserContent = async ({
       ],
     });
   }
-  await content.save();
+  await Promise.all([content.save(), user.save()]);
   return content;
 };
 
