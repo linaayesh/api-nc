@@ -1,12 +1,12 @@
 import { Request, Response, NextFunction } from 'express';
+import { getUserById } from '../../services';
 import { messages, HttpStatus } from '../../helpers/constants';
-import getUserData from '../../services/user/getUserData';
 
 const getUserDataByID = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const { userId } = req.params;
 
-    const user = await getUserData(+userId);
+    const user = await getUserById(+userId);
     if (!user) {
       res.status(HttpStatus.NOT_FOUND).json({ message: messages.authResponse.notExist });
 
