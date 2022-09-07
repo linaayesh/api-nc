@@ -23,12 +23,16 @@ export const limit = Joi.number().min(1).max(1000);
 
 export const page = Joi.number().min(1);
 
-export const financialValidation = Joi.number().min(0).required();
+export const positiveNumber = Joi.number().min(0).required();
+
+export const percentageNumber = Joi.number().min(0).max(1).required();
 
 export const date = Joi.string().isoDate().required();
 
-export const guid = Joi.string().guid().required();
+export const guid = Joi.string().guid();
 
-export const requiredString = Joi.string().required();
+export const passwordRef = Joi.string().invalid(Joi.ref('oldPassword')).messages({ 'any.invalid': "New password shouldn't be the same as the old one" }).required();
 
-export const ENV_NUMBER = Joi.string().required();
+export const confirmPassword = Joi.ref('password');
+
+export const uri = Joi.string().uri().required();

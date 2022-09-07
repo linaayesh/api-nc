@@ -1,14 +1,14 @@
 import Joi from 'joi';
 import {
-  idValidation, financialValidation, date, guid,
+  idValidation, positiveNumber, date, guid,
 } from '../validationRules';
 
 export default Joi.object({
-  id: guid,
+  id: guid.required(),
   userId: idValidation,
-  filmingCosts: financialValidation,
+  filmingCosts: positiveNumber,
   launchDate: date,
-  advance: financialValidation,
-  feePaid: financialValidation,
-  recoveredCosts: financialValidation,
+  advance: positiveNumber,
+  feePaid: positiveNumber,
+  recoveredCosts: positiveNumber,
 });

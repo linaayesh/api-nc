@@ -8,6 +8,7 @@ export {
   getNumberOfContent,
   editDashboardSettings,
   getDashboardSettings,
+  getAllUserDataById,
 } from './user';
 
 export {

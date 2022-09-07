@@ -1,21 +1,21 @@
 import Joi from 'joi';
 import { IServer } from '../interfaces';
-import { requiredString, ENV_NUMBER } from '../helpers/validationRules';
+import { stringValidation } from '../helpers/validationRules';
 
 const envVarsSchema = Joi.object({
-  JWT_SECRET: requiredString,
-  APP_MAIL: requiredString,
-  MAIL_PASSWORD: requiredString,
-  PORT: ENV_NUMBER,
-  CLIENT_BASE_URL: requiredString,
-  SERVER_BASE_URL: requiredString,
-  CLIENT_ID: requiredString,
-  GOOGLE_API: requiredString,
-  AWS_BUCKET_NAME: requiredString,
-  AWS_BUCKET_REGION: requiredString,
-  AWS_ACCESS_KEY_ID: requiredString,
-  AWS_SECRET_ACCESS_KEY: requiredString,
-  ENCRYPTION_SECRET_KEY: requiredString,
+  JWT_SECRET: stringValidation.required(),
+  APP_MAIL: stringValidation.required(),
+  MAIL_PASSWORD: stringValidation.required(),
+  PORT: stringValidation.required(),
+  CLIENT_BASE_URL: stringValidation.required(),
+  SERVER_BASE_URL: stringValidation.required(),
+  CLIENT_ID: stringValidation.required(),
+  GOOGLE_API: stringValidation.required(),
+  AWS_BUCKET_NAME: stringValidation.required(),
+  AWS_BUCKET_REGION: stringValidation.required(),
+  AWS_ACCESS_KEY_ID: stringValidation.required(),
+  AWS_SECRET_ACCESS_KEY: stringValidation.required(),
+  ENCRYPTION_SECRET_KEY: stringValidation.required(),
 }).unknown().required();
 
 const config = (): IServer => {

@@ -1,4 +1,6 @@
-export { getUserByEmail, getUserById, addUser } from './user';
+export {
+  getUserByEmail, getUserById, addUser, getAllUserDataById,
+} from './user';
 export { default as getUsersStatus } from './userStatus';
 export { default as getUsers } from './getUsers';
 export { default as matchUserContent } from './matchUserContent';

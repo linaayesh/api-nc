@@ -4,6 +4,7 @@ import {
   editProfile,
   changePassword,
   getUserStatistics,
+  getUserDataByID,
 } from '../../controllers';
 import {
   constants,
@@ -26,5 +27,8 @@ router.use(checkUserRole([ADMIN, MASTER_ADMIN]));
 
 router.get('/statistics/:userId', validator.params(idSchema), getUserStatistics);
 router.patch('/edit-user-profile', validator.body(editProfileSchema), editProfile);
+
+router.use(checkUserRole([MASTER_ADMIN]));
+router.get('/get-user-data/:userId', validator.params(idSchema), getUserDataByID);
 
 export default router;
