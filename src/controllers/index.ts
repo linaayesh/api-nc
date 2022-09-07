@@ -25,4 +25,5 @@ export {
   getUserStatistics,
   editDashboardSettings,
   getDashboardSettings,
+  getUserDataByID,
 } from './users';
