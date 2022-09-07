@@ -3,7 +3,7 @@ import { UserAuth } from '../interfaces';
 import {
   constants, CustomError, verifyToken, tokenError,
 } from '../helpers';
-import { getUserById } from '../services';
+import { getAllUserDataById } from '../services';
 
 export default (userTypes: number[]) => async (
   req: UserAuth,
@@ -21,7 +21,7 @@ export default (userTypes: number[]) => async (
 
     const { id } = userPayload;
 
-    const userData = await getUserById(id as number);
+    const userData = await getAllUserDataById(id as number);
 
     if (!userData) throw new CustomError(notExist, constants.HttpStatus.NOT_FOUND);
 

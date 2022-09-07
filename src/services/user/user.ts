@@ -20,8 +20,17 @@ type AddUser = (data: AddUserInterface) => Promise<IUser>
 
 const getUserByEmail: GetUserByEmail = (email: string) => User.findOne({ where: { email } });
 
-const getUserById: GetUserById = (id: number) => User.findOne({ where: { id } });
+const getUserById: GetUserById = (id: number) => User.findOne({
+  where: { id },
+  attributes: { exclude: ['password'] },
+});
+
+const getAllUserDataById: GetUserById = (id: number) => User.findOne({
+  where: { id },
+});
 
 const addUser: AddUser = (data: AddUserInterface) => User.create(data);
 
-export { getUserByEmail, getUserById, addUser };
+export {
+  getUserByEmail, getUserById, addUser, getAllUserDataById,
+};
