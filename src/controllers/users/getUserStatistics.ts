@@ -10,7 +10,7 @@ export default async (req: Request, res: Response, next: NextFunction)
     const userData = await getUserById(+userId);
     const user = await checkExistence.ApprovalChecks(userData);
     const { totalRevenue, paidRevenue } = user;
-    const balance = totalRevenue - paidRevenue;
+    const balance = +totalRevenue - +paidRevenue;
     const Content = await getNumberOfContent(
       { page: 1, limit: 10, userId: Number(userId) },
     );
