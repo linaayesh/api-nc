@@ -41,11 +41,9 @@ const getNumberOfContent: IGetPaginatedContents = ({ page, limit, userId }) => {
       'launchDate',
       'nextUpAccRevenue',
       'owedAccRevenue',
-      'freeToBePaid',
       'feePaid',
       'filmingCosts',
       'recoveredCosts',
-      'paidToOwedAmount',
       'primaryCategory',
     ],
 
