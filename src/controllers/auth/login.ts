@@ -1,12 +1,19 @@
 import { Request, Response, NextFunction } from 'express';
 import { compare } from 'bcrypt';
 import {
-  constants, checkExistence, signToken, dto, errorMessages,
+  constants,
+  checkExistence,
+  signToken,
+  dto,
+  errorMessages,
 } from '../../helpers';
 import { getUserByEmail } from '../../services';
 
-export default async (request: Request, response: Response, next: NextFunction):
-Promise<void> => {
+export default async (
+  request: Request,
+  response: Response,
+  next: NextFunction,
+): Promise<void> => {
   const { email, password, rememberMe } = dto.authDTO.loginDTO(request);
   const { messages, httpStatus, expire } = constants;
 
@@ -23,10 +30,19 @@ Promise<void> => {
       throw errorMessages.WRONG_EMAIL_OR_PASSWORD_ERROR;
     }
 
-    const { id, name, userRoleId } = user;
-    const token = await signToken({
-      id: Number(id), name, email, roleId: userRoleId,
-    }, { expiresIn });
+    const {
+      id, name, userRoleId, image,
+    } = user;
+    const token = await signToken(
+      {
+        id: Number(id),
+        name,
+        email,
+        roleId: userRoleId,
+      },
+      { expiresIn },
+    );
+    console.log(1111, request.app.get('user'));
 
     response
       .status(httpStatus.OK)
@@ -34,7 +50,11 @@ Promise<void> => {
       .json({
         message: messages.authResponse.SUCCESS_LOGIN,
         payload: {
-          id: Number(id), name, email, roleId: userRoleId,
+          name,
+          image,
+          email,
+          roleId: userRoleId,
+          id: Number(id),
         },
       });
   } catch (error) {
