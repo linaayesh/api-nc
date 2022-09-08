@@ -47,8 +47,8 @@ export default async (request: Request, response: Response, next: NextFunction)
       image,
       googleId,
       userStatusId: constants.userStatus.PENDING,
-      freeToBePaidRevenue: REVENUE_DEFAULT_VALUE,
-      accPaidRevenue: REVENUE_DEFAULT_VALUE,
+      totalRevenue: REVENUE_DEFAULT_VALUE,
+      paidRevenue: REVENUE_DEFAULT_VALUE,
     });
 
     await sendEmail({

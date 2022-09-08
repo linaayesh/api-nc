@@ -1,7 +1,8 @@
 import Joi from 'joi';
+import { stringValidation, passwordRef, confirmPassword } from '../validationRules';
 
 export default Joi.object({
-  oldPassword: Joi.string().required(),
-  password: Joi.string().invalid(Joi.ref('oldPassword')).messages({ 'any.invalid': "New password shouldn't be the same as the old one" }).required(),
-  confirm: Joi.ref('password'),
+  oldPassword: stringValidation.required(),
+  password: passwordRef,
+  confirm: confirmPassword,
 });

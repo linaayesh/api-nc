@@ -8,10 +8,12 @@ export {
   signUpGoogle,
   logInGoogle,
 } from './auth';
+
 export {
   editProfile,
   changePassword,
   getUserStatistics,
+  getUserDataByID,
 } from './users';
 
 export {
