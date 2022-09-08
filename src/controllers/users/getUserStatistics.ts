@@ -1,13 +1,14 @@
 import { Request, Response, NextFunction } from 'express';
-import { checkExistence, constants } from '../../helpers';
+import { checkExistence, constants, dto } from '../../helpers';
 import { getUserById, getNumberOfContent } from '../../services';
 
 export default async (request: Request, response: Response, next: NextFunction)
 :Promise<void> => {
   const { messages, httpStatus } = constants;
+  const { userId } = dto.generalDTO.userIdDTO(request);
   try {
-    const { userId } = request.params;
-    const userData = await getUserById(+userId);
+    const userData = await getUserById(userId);
+
     const user = await checkExistence.ApprovalChecks(userData);
     const { totalRevenue, paidRevenue } = user;
     const balance = +totalRevenue - +paidRevenue;
