@@ -1,2 +1,2 @@
-export { default as getPaginatedContents } from './getPaginatedContents';
+export { default as getUnMatchContent } from './getUnMatchContent';
 export { default as matchUserContent } from './matchUserContent';

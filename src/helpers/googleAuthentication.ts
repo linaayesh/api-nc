@@ -1,9 +1,9 @@
 import { OAuth2Client } from 'google-auth-library';
 import axios from 'axios';
 import config from '../config';
-import { GoogleAuthentication } from '../interfaces';
+import { IGoogleAuthentication } from '../interfaces';
 
-type GoogleAuth = (tokenId: string) => Promise<GoogleAuthentication>;
+type GoogleAuth = (tokenId: string) => Promise<IGoogleAuthentication>;
 const { CLIENT_ID } = config.server;
 const client = new OAuth2Client(CLIENT_ID);
 

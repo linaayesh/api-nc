@@ -1,11 +1,11 @@
-export interface pagination {
+export interface IPagination {
   limit: number,
   page: number,
   title?: string | undefined,
   id?: string | undefined,
 }
 
-export interface matchUserContent {
+export interface IMatchUserContent {
   id: string,
   userId: number,
   filmingCosts: string,

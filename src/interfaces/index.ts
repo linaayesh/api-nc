@@ -99,19 +99,7 @@ interface IUsers {
 type ICustomContent = Omit<IContent, 'deletedAt'>
 type ICustomUser = Pick<IUser, 'id' | 'name' | 'email' | 'image'>
 
-interface AddUserInterface{
-  // name: string;
-  // email: string;
-  // password: string;
-  // userRoleId: number;
-  // createdBy: number;
-  // updatedBy: number;
-  // image?: string;
-  // googleId?: string;
-  // accPaidRevenue: number;
-  // userStatusId: number;
-  // freeToBePaidRevenue: number;
-  // interface AddUserInterface{
+interface IAddUser{
     name: string;
     email: string;
     password: string;
@@ -123,17 +111,16 @@ interface AddUserInterface{
     userStatusId?: number;
     totalRevenue: number;
     paidRevenue: number;
-  // }
 }
 
-interface GoogleAuthentication{
+interface IGoogleAuthentication{
   googleId: string,
   email:string
   name: string,
   image: string,
 }
 export {
-  GoogleAuthentication,
+  IGoogleAuthentication,
   IServerAddress,
   IUserInfo,
   IServer,
@@ -147,5 +134,5 @@ export {
   IUsers,
   ICustomUser,
   ICustomContent,
-  AddUserInterface,
+  IAddUser,
 };

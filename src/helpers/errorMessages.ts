@@ -45,3 +45,23 @@ export const NO_CONTENT_ERROR = new CustomError(
   messages.authResponse.NO_CONTENT,
   httpStatus.NOT_FOUND,
 );
+
+export const RECOVERED_GREATER_COST_ERROR = new CustomError(
+  messages.authResponse.RECOVERED_GREATER_COST,
+  httpStatus.BAD_REQUEST,
+);
+
+export const CONTENT_MATCH_ERROR = new CustomError(
+  messages.authResponse.ALREADY_MATCHED,
+  httpStatus.BAD_REQUEST,
+);
+
+export const NOT_EXIST_USER_ERROR = new CustomError(
+  messages.authResponse.NOT_EXIST_USER,
+  httpStatus.BAD_REQUEST,
+);
+
+export const BAD_REQUEST_ERROR = new CustomError(
+  messages.authResponse.BAD_REQUEST,
+  httpStatus.BAD_REQUEST,
+);

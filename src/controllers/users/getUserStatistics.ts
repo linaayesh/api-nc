@@ -2,11 +2,11 @@ import { Request, Response, NextFunction } from 'express';
 import { checkExistence, constants } from '../../helpers';
 import { getUserById, getNumberOfContent } from '../../services';
 
-export default async (req: Request, res: Response, next: NextFunction)
+export default async (request: Request, response: Response, next: NextFunction)
 :Promise<void> => {
   const { messages, httpStatus } = constants;
   try {
-    const { userId } = req.params;
+    const { userId } = request.params;
     const userData = await getUserById(+userId);
     const user = await checkExistence.ApprovalChecks(userData);
     const { totalRevenue, paidRevenue } = user;
@@ -15,7 +15,7 @@ export default async (req: Request, res: Response, next: NextFunction)
       { page: 1, limit: 10, userId: Number(userId) },
     );
 
-    res
+    response
       .status(httpStatus.OK)
       .json({
         message: messages.authResponse.USER_STATISTICS,

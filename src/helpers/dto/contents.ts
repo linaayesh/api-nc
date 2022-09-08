@@ -1,8 +1,7 @@
-/* eslint-disable import/prefer-default-export */
 import { Request } from 'express';
-import { matchUserContent } from '../../interfaces/DtoContents';
+import { IMatchUserContent } from '../../interfaces/DtoContents';
 
-export const matchUserContentDTO = ({ body }: Request): matchUserContent => (
+export const matchUserContentDTO = ({ body }: Request): IMatchUserContent => (
   {
     ...body,
     filmingCosts: body.filmingCosts.toString(),

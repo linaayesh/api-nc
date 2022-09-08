@@ -1,12 +1,12 @@
-export interface userId {
+export interface IUserId {
 userId: number
 }
-export interface resetPassword {
+export interface IResetPassword {
 password: string
 oldPassword: string
 }
 
-export interface editProfile {
+export interface IEditProfile {
   id: number
   name: string
   image: string

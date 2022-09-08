@@ -1,6 +1,6 @@
 import { Request } from 'express';
-import { resetPassword, editProfile } from '../../interfaces/DtoUsers';
+import { IResetPassword, IEditProfile } from '../../interfaces/DtoUsers';
 
-export const resetPasswordDTO = (request: Request): resetPassword => ({ ...request.body });
+export const resetPasswordDTO = (request: Request): IResetPassword => ({ ...request.body });
 
-export const editProfileDTO = (request: Request): editProfile => ({ ...request.body });
+export const editProfileDTO = (request: Request): IEditProfile => ({ ...request.body });

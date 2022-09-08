@@ -5,13 +5,13 @@ import {
 import { getAllUserDataById } from '../services';
 
 export default (userTypes: number[]) => async (
-  req: Request,
+  request: Request,
   _res: Response,
   next: NextFunction,
 ): Promise<void> => {
   const { userStatus } = constants;
   try {
-    const { accessToken } = req.cookies;
+    const { accessToken } = request.cookies;
 
     if (!accessToken) {
       throw errorMessages.UNAUTHORIZED_ERROR;
@@ -33,7 +33,7 @@ export default (userTypes: number[]) => async (
       throw errorMessages.UNAUTHORIZED_ERROR;
     }
 
-    req.app.set('user', userData);
+    request.app.set('user', userData);
 
     next();
   } catch (error) {

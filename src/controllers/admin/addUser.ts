@@ -28,15 +28,15 @@ export default async (request: Request, response: Response, next: NextFunction):
     });
     const hashedPassword = await hash(password, SALT_ROUNDS);
 
-    const loginUser = request.app.get('user');
+    const currentUser = request.app.get('user');
 
     const user = await addUser({
       name,
       email: email.toLowerCase(),
       userRoleId: roleId,
       password: hashedPassword,
-      createdBy: loginUser.id,
-      updatedBy: loginUser.id,
+      createdBy: currentUser.id,
+      updatedBy: currentUser.id,
       userStatusId: userStatus.APPROVED,
       totalRevenue: REVENUE_DEFAULT_VALUE,
       paidRevenue: REVENUE_DEFAULT_VALUE,

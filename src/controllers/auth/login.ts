@@ -8,11 +8,11 @@ import { getUserByEmail } from '../../services';
 export default async (request: Request, response: Response, next: NextFunction):
 Promise<void> => {
   const { email, password, rememberMe } = dto.authDTO.loginDTO(request);
-  const { messages, httpStatus } = constants;
+  const { messages, httpStatus, expire } = constants;
 
   try {
     let expiresIn;
-    if (rememberMe) { expiresIn = '30d'; } else { expiresIn = '24h'; }
+    if (rememberMe) { expiresIn = expire.EXP_30d; } else { expiresIn = expire.EXP_24h; }
 
     const userData = await getUserByEmail(email);
 

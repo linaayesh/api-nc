@@ -1,7 +1,7 @@
 import { Router } from 'express';
 
 import {
-  getPaginatedContents,
+  getUnMatchContent,
   matchUserContent,
 } from '../../controllers';
 import {
@@ -18,7 +18,7 @@ const { ADMIN, MASTER_ADMIN } = constants.userRoles;
 
 router.use(checkUserRole([ADMIN, MASTER_ADMIN]));
 
-router.get('/contents', validator.query(getPaginatedDataSchema), getPaginatedContents);
+router.get('/un-match-contents', validator.query(getPaginatedDataSchema), getUnMatchContent);
 router.patch('/match-user-content', validator.body(matchUserContentSchema), matchUserContent);
 
 export default router;

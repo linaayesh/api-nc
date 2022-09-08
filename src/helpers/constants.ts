@@ -2,7 +2,10 @@ import config from '../config';
 
 export const messages = {
   authResponse: {
-    NO_CONTENT: 'No such a content',
+    NO_CONTENT: 'NO SUCH A CONTENT',
+    ALREADY_MATCHED: 'CONTENT IS ALREADY MATCHED',
+    NOT_EXIST_USER: 'NOT EXIST USER',
+    BAD_REQUEST: 'BAD REQUEST',
     ALREADY_EXIST: 'ALREADY EXIST USER',
     PASSWORD_CHANGED: 'PASSWORD CHANGED',
     INCORRECT_PASSWORD: 'INCORRECT PASSWORD',
@@ -24,10 +27,11 @@ export const messages = {
     LOGOUT: 'SUCCESS LOGOUT',
     USER_STATISTICS: 'USER STATISTICS',
     DASHBOARD_VARS_CHANGED: 'DASHBOARD VARS CHANGED SUCCESSFULLY',
+    RECOVERED_GREATER_COST: 'RECOVERED COSTS CAN NOT BE GREATER THAN COSTS',
   },
   check: {
-    RESET_EMAIL_CHECK: 'RESET_EMAIL_CHECK',
-    REJECT_EMAIL_CHECK: 'REJECT_EMAIL_CHECK',
+    RESET_EMAIL_CHECK: 'RESET EMAIL CHECK',
+    REJECT_EMAIL_CHECK: 'REJECT EMAIL CHECK',
   },
   listOfUsers: {
     APPROVED: 'APPROVED USERS',
@@ -107,4 +111,17 @@ export const redirectURLs = {
   LOGIN: `${config.server.CLIENT_URL}`,
   FAQ: `${config.server.CLIENT_URL}/faq`,
   CONTACT_US: `mailto:${config.email.NEXTUP_COMEDY_SUPPORT_EMAIL}`,
+};
+
+export const expire = {
+  EXP_30d: '30d',
+  EXP_24h: '24h',
+};
+
+export const validationRulesMessages = {
+  VALID_EMAIL: 'You must enter a valid Email',
+  NAME_EMPTY: 'Name cannot be empty',
+  NAME_REQUIRED: 'Name is required',
+  PASSWORD_LENGTH: 'Password length must be between 6 and 33 characters',
+  PASSWORD_MATCH: 'New password should not be the same as the old one',
 };

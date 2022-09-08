@@ -1,23 +1,23 @@
-export interface forgetPassword {
+export interface IForgetPassword {
   email: string,
 }
 
-export interface login {
+export interface ILogin {
   rememberMe: string,
   password: string,
   email: string,
 }
 
-export interface Google {
+export interface IGoogleTokenId {
   tokenId: string,
 }
 
-export interface resetPassword {
+export interface IResetPassword {
   password: string,
   resetPasswordToken: string,
 }
 
-export interface signup {
+export interface ISignup {
   password: string,
   name: string,
   email: string,

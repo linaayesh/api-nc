@@ -30,6 +30,6 @@ export {
 } from './admin';
 
 export {
-  getPaginatedContents,
+  getUnMatchContent,
   matchUserContent,
 } from './contents';

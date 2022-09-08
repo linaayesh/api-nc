@@ -6,8 +6,8 @@ import {
   ALREADY_REJECTED_ERROR, PENDING_ERROR, BANNED_ERROR, ALREADY_EXIST_ERROR, NOT_EXIST_ERROR,
 } from './errorMessages';
 
-const check = (statusOfTheUser: number): void => {
-  switch (statusOfTheUser) {
+const check = (status: number): void => {
+  switch (status) {
     case (userStatus.REJECTED):
       throw ALREADY_REJECTED_ERROR;
       break;
@@ -17,7 +17,6 @@ const check = (statusOfTheUser: number): void => {
     case (userStatus.BANNED):
       throw BANNED_ERROR;
       break;
-    default: break;
   }
 };
 
@@ -51,10 +50,8 @@ export const RegistrationCheck = async (email: string): Promise<string> => {
  */
 export const ApprovalChecks = async (userExists: IUser | null): Promise<IUser> => {
   try {
-    if (!userExists || !userExists.userStatusId) {
-      throw NOT_EXIST_ERROR;
-      // throw new CustomError(messages.authResponse.NOT_EXIST, httpStatus.UNAUTHORIZED);
-    }
+    if (!userExists || !userExists.userStatusId) throw NOT_EXIST_ERROR;
+
     check(userExists.userStatusId);
 
     return userExists;

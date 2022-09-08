@@ -1,27 +1,27 @@
 import { Request } from 'express';
 import {
-  forgetPassword, login, Google, resetPassword, signup,
+  IForgetPassword, ILogin, IGoogleTokenId, IResetPassword, ISignup,
 } from '../../interfaces/DtoAuth';
 
-export const forgetPasswordDTO = (request: Request): forgetPassword => (
+export const forgetPasswordDTO = (request: Request): IForgetPassword => (
   { email: request.body.email.toLowerCase() });
 
-export const loginDTO = (request: Request): login => ({
+export const loginDTO = (request: Request): ILogin => ({
   email: request.body.email.toLowerCase(),
   password: request.body.password,
   rememberMe: request.body.rememberMe,
 });
 
-export const GoogleDTO = (request: Request): Google => ({
+export const GoogleDTO = (request: Request): IGoogleTokenId => ({
   tokenId: request.body.tokenId,
 });
 
-export const resetPasswordDTO = (request: Request): resetPassword => ({
+export const resetPasswordDTO = (request: Request): IResetPassword => ({
   password: request.body.password,
   resetPasswordToken: request.cookies,
 });
 
-export const signupDTO = (request: Request): signup => ({
+export const signupDTO = (request: Request): ISignup => ({
   password: request.body.password,
   name: request.body.name,
   email: request.body.email.toLowerCase(),

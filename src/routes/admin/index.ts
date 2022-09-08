@@ -24,9 +24,7 @@ import { checkUserRole } from '../../middleware';
 
 const router = Router();
 
-const { ADMIN, MASTER_ADMIN, COMEDIAN } = constants.userRoles;
-
-router.use(checkUserRole([COMEDIAN, ADMIN, MASTER_ADMIN]));
+const { ADMIN, MASTER_ADMIN } = constants.userRoles;
 
 router.use(checkUserRole([ADMIN, MASTER_ADMIN]));
 

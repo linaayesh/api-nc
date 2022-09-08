@@ -1,4 +1,4 @@
-export interface editDashboardSettings {
+export interface IEditDashboardSettings {
   nextupToOwedSplitPercentage: string
   fetchMaxCount: string
   expiredAfterInYears: string
@@ -9,7 +9,7 @@ export interface editDashboardSettings {
   systemActivationDate: string
   }
 
-export interface addUser {
+export interface IAddUser {
     name: string
     email: string
     roleId: number
