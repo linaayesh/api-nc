@@ -1,45 +1,61 @@
 import { Request, Response, NextFunction } from 'express';
 import { compare } from 'bcrypt';
 import {
-  constants, checkExistence, signToken, CustomError,
+  constants,
+  checkExistence,
+  signToken,
+  dto,
+  errorMessages,
 } from '../../helpers';
 import { getUserByEmail } from '../../services';
 
-export default async ({ body }: Request, res: Response, next: NextFunction):
-Promise<void> => {
-  const { email, password, rememberMe } = body;
-  const { wrongEmailOrPassword, logIn } = constants.messages.authResponse;
-  const { accessToken } = constants.messages.token;
-  const { OK, UNAUTHORIZED } = constants.HttpStatus;
+export default async (
+  request: Request,
+  response: Response,
+  next: NextFunction,
+): Promise<void> => {
+  const { email, password, rememberMe } = dto.authDTO.loginDTO(request);
+  const { messages, httpStatus } = constants;
+
   try {
     let expiresIn;
-    if (rememberMe) { expiresIn = '30d'; } else { expiresIn = '24h'; }
+    if (rememberMe) {
+      expiresIn = '30d';
+    } else {
+      expiresIn = '24h';
+    }
 
-    const lowerCaseEmail = email.toLowerCase();
-
-    const userData = await getUserByEmail(lowerCaseEmail);
+    const userData = await getUserByEmail(email);
 
     const user = await checkExistence.ApprovalChecks(userData);
 
     const isValid = await compare(password, user.password);
-    if (!isValid) throw new CustomError(wrongEmailOrPassword, UNAUTHORIZED);
+    if (!isValid) {
+      throw errorMessages.WRONG_EMAIL_OR_PASSWORD_ERROR;
+    }
 
     const {
       id, name, userRoleId, image,
     } = user;
-    const token = await signToken({
-      id: Number(id), name, email: lowerCaseEmail, roleId: userRoleId,
-    }, { expiresIn });
+    const token = await signToken(
+      {
+        id: Number(id),
+        name,
+        email,
+        roleId: userRoleId,
+      },
+      { expiresIn },
+    );
 
-    res
-      .status(OK)
-      .cookie(accessToken, token, { httpOnly: true })
+    response
+      .status(httpStatus.OK)
+      .cookie(messages.token.ACCESS_TOKEN, token, { httpOnly: true })
       .json({
-        message: logIn,
+        message: messages.authResponse.SUCCESS_LOGIN,
         payload: {
           name,
           image,
-          email: lowerCaseEmail,
+          email,
           roleId: userRoleId,
           id: Number(id),
         },
