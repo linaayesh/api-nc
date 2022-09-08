@@ -1,40 +1,47 @@
 import { Request, Response, NextFunction } from 'express';
 import { compare } from 'bcrypt';
 import {
-  constants, checkExistence, signToken, dto, errorMessages,
+  constants, checkExistence, signToken, CustomError,
 } from '../../helpers';
 import { getUserByEmail } from '../../services';
 
-export default async (request: Request, response: Response, next: NextFunction):
+export default async ({ body }: Request, res: Response, next: NextFunction):
 Promise<void> => {
-  const { email, password, rememberMe } = dto.authDTO.loginDTO(request);
-  const { messages, httpStatus } = constants;
-
+  const { email, password, rememberMe } = body;
+  const { wrongEmailOrPassword, logIn } = constants.messages.authResponse;
+  const { accessToken } = constants.messages.token;
+  const { OK, UNAUTHORIZED } = constants.HttpStatus;
   try {
     let expiresIn;
     if (rememberMe) { expiresIn = '30d'; } else { expiresIn = '24h'; }
 
-    const userData = await getUserByEmail(email);
+    const lowerCaseEmail = email.toLowerCase();
+
+    const userData = await getUserByEmail(lowerCaseEmail);
 
     const user = await checkExistence.ApprovalChecks(userData);
 
     const isValid = await compare(password, user.password);
-    if (!isValid) {
-      throw errorMessages.WRONG_EMAIL_OR_PASSWORD_ERROR;
-    }
+    if (!isValid) throw new CustomError(wrongEmailOrPassword, UNAUTHORIZED);
 
-    const { id, name, userRoleId } = user;
+    const {
+      id, name, userRoleId, image,
+    } = user;
     const token = await signToken({
-      id: Number(id), name, email, roleId: userRoleId,
+      id: Number(id), name, email: lowerCaseEmail, roleId: userRoleId,
     }, { expiresIn });
 
-    response
-      .status(httpStatus.OK)
-      .cookie(messages.token.ACCESS_TOKEN, token, { httpOnly: true })
+    res
+      .status(OK)
+      .cookie(accessToken, token, { httpOnly: true })
       .json({
-        message: messages.authResponse.SUCCESS_LOGIN,
+        message: logIn,
         payload: {
-          id: Number(id), name, email, roleId: userRoleId,
+          name,
+          image,
+          email: lowerCaseEmail,
+          roleId: userRoleId,
+          id: Number(id),
         },
       });
   } catch (error) {
