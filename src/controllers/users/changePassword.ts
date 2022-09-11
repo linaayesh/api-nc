@@ -1,13 +1,14 @@
-import { Response, NextFunction, Request } from 'express';
+import { Response, NextFunction } from 'express';
 import { compare, hash } from 'bcrypt';
 import { errorMessages, constants, dto } from '../../helpers';
+import { IUserRequest } from '../../interfaces';
 
-export default async (request: Request, response: Response, next: NextFunction): Promise<void> => {
-  const { oldPassword, password } = dto.usersDTO.resetPasswordDTO(request);
+export default async (request: IUserRequest, response: Response, next: NextFunction)
+:Promise<void> => {
+  const { oldPassword, password, user } = dto.usersDTO.resetPasswordDTO(request);
   const { httpStatus, messages, SALT_ROUNDS } = constants;
 
   try {
-    const user = request.app.get('user');
     const isMatch = await compare(oldPassword, user.password as string);
 
     if (!isMatch) {

@@ -119,7 +119,13 @@ interface IGoogleAuthentication{
   name: string,
   image: string,
 }
+
+interface IUserRequest extends Request {
+  user?: IUser,
+}
+
 export {
+  IUserRequest,
   IGoogleAuthentication,
   IServerAddress,
   IUserInfo,

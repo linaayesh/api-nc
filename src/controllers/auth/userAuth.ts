@@ -1,12 +1,14 @@
-import { Response, NextFunction, Request } from 'express';
-import { constants } from '../../helpers';
+import { Response, NextFunction } from 'express';
+import { IUserRequest } from '../../interfaces';
+import { constants, dto, errorMessages } from '../../helpers';
 
-export default async (request: Request, response: Response, next: NextFunction):
+export default async (request: IUserRequest, response: Response, next: NextFunction):
 Promise<void> => {
   const { messages, httpStatus } = constants;
-  const user = request.app.get('user');
+  const { user } = dto.authDTO.userAuthDTO(request);
 
   try {
+    if (!user) throw errorMessages.NOT_EXIST_ERROR;
     const {
       id,
       userRoleId,

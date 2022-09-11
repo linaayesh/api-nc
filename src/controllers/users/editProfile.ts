@@ -1,14 +1,15 @@
-import { NextFunction, Response, Request } from 'express';
+import { NextFunction, Response } from 'express';
 import {
   constants, errorMessages, upload, dto,
 } from '../../helpers';
 import { getUserById } from '../../services';
+import { IUserRequest } from '../../interfaces';
 
-export default async (request: Request, response: Response, next: NextFunction)
+export default async (request: IUserRequest, response: Response, next: NextFunction)
 :Promise<void> => {
   const { httpStatus, userRoles, messages } = constants;
   const {
-    id, image, name,
+    id, image, name, user,
   } = dto.usersDTO.editProfileDTO(request);
 
   try {
@@ -21,8 +22,6 @@ export default async (request: Request, response: Response, next: NextFunction)
     }
 
     if (name) { currentUser.name = name; }
-
-    const user = request.app.get('user');
 
     currentUser.updatedBy = user.id || userRoles.SYSTEM;
     await currentUser.save();

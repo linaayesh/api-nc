@@ -42,7 +42,6 @@ export default async (
       },
       { expiresIn },
     );
-    console.log(1111, request.app.get('user'));
 
     response
       .status(httpStatus.OK)

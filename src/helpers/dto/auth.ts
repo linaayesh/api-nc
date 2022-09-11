@@ -1,7 +1,8 @@
 import { Request } from 'express';
 import {
-  IForgetPassword, ILogin, IGoogleTokenId, IResetPassword, ISignup,
+  IForgetPassword, ILogin, IGoogleTokenId, IResetPassword, ISignup, IUserAuth,
 } from '../../interfaces/DtoAuth';
+import { IUserRequest } from '../../interfaces';
 
 export const forgetPasswordDTO = (request: Request): IForgetPassword => (
   { email: request.body.email.toLowerCase() });
@@ -25,4 +26,8 @@ export const signupDTO = (request: Request): ISignup => ({
   password: request.body.password,
   name: request.body.name,
   email: request.body.email.toLowerCase(),
+});
+
+export const userAuthDTO = (request: IUserRequest): IUserAuth => ({
+  user: request.user,
 });

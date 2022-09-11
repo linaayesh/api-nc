@@ -1,11 +1,12 @@
-import { Response, NextFunction, Request } from 'express';
+import { Response, NextFunction } from 'express';
 import {
   constants, verifyToken, tokenError, errorMessages,
 } from '../helpers';
 import { getAllUserDataById } from '../services';
+import { IUserRequest } from '../interfaces';
 
 export default (userTypes: number[]) => async (
-  request: Request,
+  request: IUserRequest,
   _res: Response,
   next: NextFunction,
 ): Promise<void> => {
@@ -33,8 +34,7 @@ export default (userTypes: number[]) => async (
       throw errorMessages.UNAUTHORIZED_ERROR;
     }
 
-    request.app.set('user', userData);
-
+    request.user = userData;
     next();
   } catch (error) {
     next(tokenError(error as Error));

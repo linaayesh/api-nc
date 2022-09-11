@@ -1,15 +1,18 @@
-import { Response, NextFunction, Request } from 'express';
+import { Response, NextFunction } from 'express';
 import { hash } from 'bcrypt';
 import generatePassword from 'generate-password';
 import {
-  checkExistence, constants, sendEmail, dto,
+  checkExistence, constants, sendEmail, dto, errorMessages,
 } from '../../helpers';
 import { addUser } from '../../services';
+import { IUserRequest } from '../../interfaces';
 
-export default async (request: Request, response: Response, next: NextFunction):Promise<void> => {
+export default async (request: IUserRequest, response: Response, next: NextFunction)
+:Promise<void> => {
   const {
-    name, email, roleId,
+    name, email, roleId, currentUser,
   } = dto.adminDTO.addUserDTO(request);
+
   const {
     httpStatus,
     userStatus,
@@ -21,14 +24,14 @@ export default async (request: Request, response: Response, next: NextFunction):
   } = constants;
 
   try {
+    if (!currentUser || !currentUser.id) throw errorMessages.NOT_EXIST_USER_ERROR;
+
     await checkExistence.RegistrationCheck(email);
 
     const password = generatePassword.generate({
       length: PASSWORD_LENGTH, numbers: true, strict: true, lowercase: true, uppercase: true,
     });
     const hashedPassword = await hash(password, SALT_ROUNDS);
-
-    const currentUser = request.app.get('user');
 
     const user = await addUser({
       name,

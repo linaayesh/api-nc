@@ -1,3 +1,5 @@
+import { IUser } from 'db-models-nc';
+
 export interface IEditDashboardSettings {
   nextupToOwedSplitPercentage: string
   fetchMaxCount: string
@@ -13,4 +15,5 @@ export interface IAddUser {
     name: string
     email: string
     roleId: number
+    currentUser?: IUser
     }

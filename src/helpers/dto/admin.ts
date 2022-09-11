@@ -1,5 +1,6 @@
 import { Request } from 'express';
 import { IEditDashboardSettings, IAddUser } from '../../interfaces/DtoAdmin';
+import { IUserRequest } from '../../interfaces';
 
 export const editDashboardSettingsDTO = (request: Request): IEditDashboardSettings => ({
   nextupToOwedSplitPercentage: request.body.nextupToOwedSplitPercentage.tostring(),
@@ -12,9 +13,10 @@ export const editDashboardSettingsDTO = (request: Request): IEditDashboardSettin
   systemActivationDate: request.body.systemActivationDate.tostring(),
 });
 
-export const addUserDTO = (request: Request): IAddUser => (
+export const addUserDTO = (request: IUserRequest): IAddUser => (
   {
     name: request.body.name,
     email: request.body.email.toLowerCase(),
     roleId: request.body.roleId,
+    currentUser: request.user,
   });
