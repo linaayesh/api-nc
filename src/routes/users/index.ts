@@ -38,6 +38,7 @@ const { ADMIN, MASTER_ADMIN, COMEDIAN } = constants.USER_ROLES;
 router.use(checkUserRole([COMEDIAN, ADMIN, MASTER_ADMIN]));
 router.patch('/change-password', validator.body(changePasswordSchema), changePassword);
 
+router.get('/statistics', getUserStatistics);
 router.use(checkUserRole([ADMIN, MASTER_ADMIN]));
 
 router.get('/approved-list', approvedUser);
@@ -45,7 +46,6 @@ router.get('/rejected-list', rejectedUsers);
 router.get('/waiting-list', pendingUsers);
 router.get('/contents', validator.query(getPaginatedDataSchema), getPaginatedContents);
 router.get('/users', validator.query(getPaginatedDataSchema), getPaginatedUsers);
-router.get('/statistics/:userId', validator.params(idSchema), getUserStatistics);
 router.post('/add-user', validator.body(createUserSchema), createUser);
 
 router.patch('/reject/:userId', validator.params(idSchema), rejectUser);
