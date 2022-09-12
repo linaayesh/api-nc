@@ -11,6 +11,7 @@ import {
   editDashboardSettings,
   getDashboardSettings,
   createUser,
+  getPaginatedUsers,
 } from '../../controllers';
 import {
   constants,
@@ -37,6 +38,8 @@ router.post('/add-user', validator.body(createUserSchema), createUser);
 
 router.patch('/reject/:userId', validator.params(idSchema), rejectUser);
 router.patch('/approve/:userId', validator.params(idSchema), approveUser);
+
+router.get('/users', validator.body(getPaginatedDataSchema), getPaginatedUsers);
 
 router.use(checkUserRole([MASTER_ADMIN]));
 router.get('/dashboard-settings', getDashboardSettings);

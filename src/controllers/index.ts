@@ -27,6 +27,7 @@ export {
   blockUser,
   editDashboardSettings,
   getDashboardSettings,
+  getPaginatedUsers,
 } from './admin';
 
 export {

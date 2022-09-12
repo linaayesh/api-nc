@@ -1,19 +1,21 @@
-import { Request, Response, NextFunction } from 'express';
-import { checkExistence, constants, dto } from '../../helpers';
-import { getUserById, getNumberOfContent } from '../../services';
+import { Response, NextFunction } from 'express';
+import { IUserRequest } from '../../interfaces';
+import {
+  constants, dto, errorMessages,
+} from '../../helpers';
+import { getNumberOfContent } from '../../services';
 
-export default async (request: Request, response: Response, next: NextFunction)
+export default async (request: IUserRequest, response: Response, next: NextFunction)
 :Promise<void> => {
   const { messages, httpStatus } = constants;
-  const { userId } = dto.generalDTO.userIdDTO(request);
+  const { user } = dto.generalDTO.userDTO(request);
   try {
-    const userData = await getUserById(userId);
+    if (!user) throw errorMessages.NOT_EXIST_ERROR;
 
-    const user = await checkExistence.ApprovalChecks(userData);
     const { totalRevenue, paidRevenue } = user;
     const balance = +totalRevenue - +paidRevenue;
     const Content = await getNumberOfContent(
-      { page: 1, limit: 10, userId: Number(userId) },
+      { page: 1, limit: 10, userId: Number(user.id) },
     );
 
     response

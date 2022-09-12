@@ -11,3 +11,5 @@ export { default as getDashboardSettings } from './getDashboardSettings';
 
 export { default as approveUser } from './approveUser';
 export { default as createUser } from './addUser';
+
+export { default as getPaginatedUsers } from './getPaginatedUsers';

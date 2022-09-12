@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import { getUserById } from '../../services';
 import { constants, errorMessages, dto } from '../../helpers';
 
-const getUserDataByID = async (request: Request, response: Response, next: NextFunction)
+export default async (request: Request, response: Response, next: NextFunction)
 : Promise<void> => {
   const { httpStatus, messages } = constants;
   const { userId } = dto.generalDTO.userIdDTO(request);
@@ -15,5 +15,3 @@ const getUserDataByID = async (request: Request, response: Response, next: NextF
     next(error);
   }
 };
-
-export default getUserDataByID;
