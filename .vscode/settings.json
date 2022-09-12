@@ -9,5 +9,6 @@
     "javascriptreact",
     "typescriptreact",
     "typescript"
-  ]
+  ],
+  "git.mergeEditor": false
 }

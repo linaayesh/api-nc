@@ -1,32 +1,34 @@
 import { NextFunction, Response } from 'express';
-import { UserAuth } from '../../interfaces';
-import { constants, CustomError, upload } from '../../helpers';
+import {
+  constants, errorMessages, upload, dto,
+} from '../../helpers';
 import { getUserById } from '../../services';
+import { IUserRequest } from '../../interfaces';
 
-export default async (req: UserAuth, res: Response, next: NextFunction)
+export default async (request: IUserRequest, response: Response, next: NextFunction)
 :Promise<void> => {
-  const { HttpStatus, USER_ROLES } = constants;
-  const { notExist, edit, UNAUTHORIZED } = constants.messages.authResponse;
+  const { httpStatus, userRoles, messages } = constants;
   const {
-    id, image, ...userUpdatedFields
-  } = req.body;
+    id, image, name, user,
+  } = dto.usersDTO.editProfileDTO(request);
 
   try {
     const currentUser = await getUserById(id);
-    if (!currentUser) throw new CustomError(notExist, HttpStatus.NOT_FOUND);
+    if (!currentUser) throw errorMessages.NOT_EXIST_ERROR;
 
     if (image) {
       const { Location } = await upload(image, id);
-      userUpdatedFields.image = Location;
+      currentUser.image = Location;
     }
-    if (!req.user) throw new CustomError(UNAUTHORIZED, HttpStatus.UNAUTHORIZED);
-    userUpdatedFields.updatedBy = req.user.id || USER_ROLES.SYSTEM;
 
-    await currentUser.update({
-      ...userUpdatedFields,
-    });
+    if (name) { currentUser.name = name; }
 
-    res.status(HttpStatus.OK).json({ message: edit });
+    currentUser.updatedBy = user.id || userRoles.SYSTEM;
+    await currentUser.save();
+
+    response
+      .status(httpStatus.OK)
+      .json({ message: messages.authResponse.SUCCESS_EDIT });
   } catch (error) {
     next(error);
   }

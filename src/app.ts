@@ -17,7 +17,7 @@ app.use([
   cors(),
 ]);
 
-app.get('/', (_req, res) => res.json({ message: 'Server Is Running' }));
+app.get('/', (_request, response) => response.json({ message: 'Server Is Running' }));
 
 app.use(morgan);
 app.use('/api/v1', router);

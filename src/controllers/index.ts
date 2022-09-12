@@ -3,27 +3,34 @@ export {
   loginHandler,
   userAuth,
   forgetPassword,
-  resetPasswordEmail,
   resetPassword,
   logOut,
   signUpGoogle,
   logInGoogle,
 } from './auth';
+
 export {
-  pendingUsers,
-  approveUser,
-  approvedUser,
-  rejectUser,
-  rejectedUsers,
   editProfile,
-  createUser,
-  blockUser,
-  getPaginatedContents,
-  getPaginatedUsers,
-  matchUserContent,
   changePassword,
   getUserStatistics,
-  editDashboardSettings,
-  getDashboardSettings,
   getUserDataByID,
 } from './users';
+
+export {
+  createUser,
+  approveUser,
+  pendingUsers,
+  approvedUser,
+  bannedUsers,
+  rejectedUsers,
+  rejectUser,
+  blockUser,
+  editDashboardSettings,
+  getDashboardSettings,
+  getPaginatedUsers,
+} from './admin';
+
+export {
+  getUnMatchContent,
+  matchUserContent,
+} from './contents';

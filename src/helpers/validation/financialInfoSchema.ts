@@ -1,7 +1,8 @@
 import Joi from 'joi';
+import { stringValidation } from '../validationRules';
 
 export default Joi.object({
-  name: Joi.string().required(),
-  address: Joi.string().required(),
-  method: Joi.string(),
+  name: stringValidation.required(),
+  address: stringValidation.required(),
+  method: stringValidation,
 });

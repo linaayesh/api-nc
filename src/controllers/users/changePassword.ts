@@ -1,31 +1,27 @@
 import { Response, NextFunction } from 'express';
-import { User } from 'db-models-nc';
 import { compare, hash } from 'bcrypt';
-import { UserAuth } from '../../interfaces';
-import { CustomError, constants } from '../../helpers';
+import { errorMessages, constants, dto } from '../../helpers';
+import { IUserRequest } from '../../interfaces';
 
-export default async (req: UserAuth, res: Response, next: NextFunction): Promise<void> => {
-  const { body: { oldPassword, password }, user } = req;
-  const { HttpStatus, messages } = constants;
+export default async (request: IUserRequest, response: Response, next: NextFunction)
+:Promise<void> => {
+  const { oldPassword, password, user } = dto.usersDTO.resetPasswordDTO(request);
+  const { httpStatus, messages, SALT_ROUNDS } = constants;
 
   try {
-    const isMatch = await compare(oldPassword, user?.password as string);
+    const isMatch = await compare(oldPassword, user.password as string);
 
     if (!isMatch) {
-      throw new CustomError(
-        messages.authResponse.INCORRECT_PASSWORD,
-        HttpStatus.BAD_REQUEST,
-      );
+      throw errorMessages.INCORRECT_PASSWORD_ERROR;
     }
+    const hashedPassword = await hash(password, SALT_ROUNDS);
 
-    const hashedPassword = await hash(password, 10);
+    user.password = hashedPassword;
+    await user.save();
 
-    await User.update(
-      { password: hashedPassword },
-      { where: { id: user?.id } },
-    );
-
-    res.json({ message: messages.authResponse.PASSWORD_CHANGED });
+    response
+      .status(httpStatus.OK)
+      .json({ message: messages.authResponse.PASSWORD_CHANGED });
   } catch (error) {
     next(error);
   }

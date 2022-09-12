@@ -1,20 +1,15 @@
 import { Op } from 'sequelize';
 import { Content } from 'db-models-nc';
-import { ICustomContent } from '../../interfaces';
+import { IGetPaginatedContentsDTO } from '../../helpers/dto/services';
 
-type IGetPaginatedContents = (_: {
-  page: number,
-  limit: number,
-  title: string | undefined
-  id: string | undefined
-}) => Promise<
-  { rows: ICustomContent[]; count: number; } | ICustomContent[] | ICustomContent | null
->
-
-const getPaginatedContents: IGetPaginatedContents = ({
+const getUnmatchedContent: IGetPaginatedContentsDTO = ({
   page, limit, title, id,
 }) => {
-  if (!page && !limit) return Content.findAll();
+  if (!page && !limit) {
+    return Content.findAll({
+      where: { userId: { [Op.is]: null } },
+    });
+  }
 
   const offset = (page - 1) * limit;
 
@@ -37,4 +32,4 @@ const getPaginatedContents: IGetPaginatedContents = ({
   });
 };
 
-export default getPaginatedContents;
+export default getUnmatchedContent;

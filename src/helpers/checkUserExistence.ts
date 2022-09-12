@@ -1,44 +1,44 @@
 import { IUser } from 'db-models-nc';
 import CustomError from './CustomError';
-import { messages, HttpStatus, USER_STATUS } from './constants';
-import { getUserByEmail, getUserById } from '../services';
+import { messages, httpStatus, userStatus } from './constants';
+import { getUserByEmail } from '../services';
+import {
+  ALREADY_REJECTED_ERROR, PENDING_ERROR, BANNED_ERROR, ALREADY_EXIST_ERROR, NOT_EXIST_ERROR,
+} from './errorMessages';
 
-const {
-  notExist, ALREADY_APPROVED, ALREADY_REJECTED,
-} = messages.authResponse;
-const { CONFLICT, UNAUTHORIZED, INTERNAL_SERVER_ERROR } = HttpStatus;
-const {
-  APPROVED, REJECTED, PENDING, BANNED,
-} = USER_STATUS;
+const check = (status: number): void => {
+  switch (status) {
+    case (userStatus.REJECTED):
+      throw ALREADY_REJECTED_ERROR;
+      break;
+    case (userStatus.PENDING):
+      throw PENDING_ERROR;
+      break;
+    case (userStatus.BANNED):
+      throw BANNED_ERROR;
+      break;
+  }
+};
 
 /**
  * @description RegistrationCheck is a function  used to check user existence sign up
  * @param {string} email user email
  * @returns {Promise<string | void>}
- * if the user exist return his status, if not exist continue registration
+ * if the user exist return error existence, if not exist continue registration
  */
-
-export const RegistrationCheck = async (email: string): Promise<string | void> => {
+export const RegistrationCheck = async (email: string): Promise<string> => {
   try {
     const userExists = await getUserByEmail(email);
-    if (!userExists) return notExist;
+    if (userExists) {
+      throw ALREADY_EXIST_ERROR;
+    }
 
-    const userStatus = userExists.userStatusId;
-
-    if (userStatus === APPROVED) throw new CustomError(ALREADY_APPROVED, CONFLICT);
-
-    if (userStatus === REJECTED) throw new CustomError(ALREADY_REJECTED, UNAUTHORIZED);
-
-    if (userStatus === PENDING) throw new CustomError(messages.authResponse.PENDING, UNAUTHORIZED);
-
-    if (userStatus === BANNED) throw new CustomError(messages.authResponse.BANNED, UNAUTHORIZED);
-
-    return '';
+    return messages.authResponse.NOT_EXIST;
   } catch (error) {
     if (error instanceof CustomError) {
       throw error;
     }
-    throw new CustomError(String(error), INTERNAL_SERVER_ERROR);
+    throw new CustomError(String(error), httpStatus.INTERNAL_SERVER_ERROR);
   }
 };
 
@@ -48,51 +48,17 @@ export const RegistrationCheck = async (email: string): Promise<string | void> =
  * @returns {Promise<IUser>}
  * if the user dose not exist return error, then check his status => if approved return User Object
  */
-
 export const ApprovalChecks = async (userExists: IUser | null): Promise<IUser> => {
   try {
-    if (!userExists) throw new CustomError(notExist, UNAUTHORIZED);
+    if (!userExists || !userExists.userStatusId) throw NOT_EXIST_ERROR;
 
-    const userStatus = userExists.userStatusId;
-
-    if (userStatus === REJECTED) throw new CustomError(ALREADY_REJECTED, UNAUTHORIZED);
-
-    if (userStatus === PENDING) throw new CustomError(messages.authResponse.PENDING, UNAUTHORIZED);
-
-    if (userStatus === BANNED) throw new CustomError(messages.authResponse.BANNED, UNAUTHORIZED);
+    check(userExists.userStatusId);
 
     return userExists;
   } catch (error) {
     if (error instanceof CustomError) {
       throw error;
     }
-    throw new CustomError(String(error), INTERNAL_SERVER_ERROR);
-  }
-};
-
-/**
- * @description VerificationChecks is a function  used to check user verify=> true|change his status
- * @param {number} id user id
- * @returns {Promise<IUser>}
- * if the user dose not exist return error, then if [not verified, approved, rejected ] => error
- * if verify return User Object
- */
-
-export const VerificationChecks = async (id: number):Promise<IUser> => {
-  try {
-    const userExists = await getUserById(id);
-
-    if (!userExists) throw new CustomError(notExist, UNAUTHORIZED);
-
-    if (userExists.userStatusId === APPROVED) throw new CustomError(ALREADY_APPROVED, CONFLICT);
-
-    if (userExists.userStatusId === REJECTED) throw new CustomError(ALREADY_REJECTED, UNAUTHORIZED);
-
-    return userExists;
-  } catch (error) {
-    if (error instanceof CustomError) {
-      throw error;
-    }
-    throw new CustomError(String(error), INTERNAL_SERVER_ERROR);
+    throw new CustomError(String(error), httpStatus.INTERNAL_SERVER_ERROR);
   }
 };

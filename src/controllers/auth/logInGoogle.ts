@@ -1,25 +1,24 @@
 import { Request, Response, NextFunction } from 'express';
 import {
-  checkExistence, constants, validateError, signToken, googleAuthentication,
+  checkExistence, constants, validateError, signToken, googleAuthentication, dto, errorMessages,
 } from '../../helpers';
 import { getUserByEmail } from '../../services';
 
-export default async ({ body }: Request, res: Response, next: NextFunction)
+export default async (request: Request, response: Response, next: NextFunction)
 :Promise<void> => {
-  const { tokenId } = body;
+  const { tokenId } = dto.authDTO.GoogleDTO(request);
+  const { messages, httpStatus } = constants;
   try {
-    const { logIn } = constants.messages.authResponse;
-    const { accessToken } = constants.messages.token;
-
     const {
       email, googleId,
     } = await googleAuthentication(tokenId);
 
     const userData = await getUserByEmail(email);
-
     const user = await checkExistence.ApprovalChecks(userData);
 
-    if (user.googleId !== googleId) res.status(401).json({ message: 'unAuthorized test' });
+    if (user.googleId !== googleId) {
+      throw errorMessages.UNAUTHORIZED_ERROR;
+    }
 
     const { id, name, userRoleId } = user;
 
@@ -27,12 +26,15 @@ export default async ({ body }: Request, res: Response, next: NextFunction)
       id: Number(id), name, email, roleId: userRoleId,
     }, { expiresIn: '24h' });
 
-    res.status(200).cookie(accessToken, token, { httpOnly: true }).json({
-      message: logIn,
-      payload: {
-        id: Number(id), name, email, roleId: userRoleId,
-      },
-    });
+    response
+      .status(httpStatus.OK)
+      .cookie(messages.token.ACCESS_TOKEN, token, { httpOnly: true })
+      .json({
+        message: messages.authResponse.SUCCESS_LOGIN,
+        payload: {
+          id: Number(id), name, email, roleId: userRoleId,
+        },
+      });
   } catch (error) {
     next(validateError(error as Error));
   }

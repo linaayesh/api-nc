@@ -1,8 +1,11 @@
 import Joi from 'joi';
+import {
+  limit, page, stringValidation, guid,
+} from '../validationRules';
 
 export default Joi.object({
-  limit: Joi.number().min(1).max(1000),
-  page: Joi.number().min(1),
-  title: Joi.string(),
-  id: Joi.string().guid(),
+  limit,
+  page,
+  title: stringValidation,
+  id: guid,
 });
