@@ -25,6 +25,7 @@ router.patch('/change-password', validator.body(changePasswordSchema), changePas
 router.patch('/edit-profile', validator.body(editProfileSchema), editProfile);
 router.get('/statistics', getUserStatistics);
 
+router.get('/statistics', getUserStatistics);
 router.use(checkUserRole([ADMIN, MASTER_ADMIN]));
 
 router.use(checkUserRole([MASTER_ADMIN]));
