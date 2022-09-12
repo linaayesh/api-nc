@@ -12,6 +12,7 @@ import {
   getDashboardSettings,
   createUser,
   getPaginatedUsers,
+  editProfile,
 } from '../../controllers';
 import {
   constants,
@@ -20,6 +21,7 @@ import {
   getPaginatedDataSchema,
   createUserSchema,
   editSystemSettingsSchema,
+  editProfileSchema,
 } from '../../helpers';
 import { checkUserRole } from '../../middleware';
 
@@ -35,6 +37,8 @@ router.get('/waiting-list', validator.query(getPaginatedDataSchema), pendingUser
 router.get('/banned-list', validator.query(getPaginatedDataSchema), bannedUsers);
 
 router.post('/add-user', validator.body(createUserSchema), createUser);
+
+router.patch('/edit-user-profile', validator.body(editProfileSchema), editProfile);
 
 router.patch('/reject/:userId', validator.params(idSchema), rejectUser);
 router.patch('/approve/:userId', validator.params(idSchema), approveUser);

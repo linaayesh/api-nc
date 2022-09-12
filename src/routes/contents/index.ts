@@ -18,7 +18,7 @@ const { ADMIN, MASTER_ADMIN } = constants.userRoles;
 
 router.use(checkUserRole([ADMIN, MASTER_ADMIN]));
 
-router.get('/contents', validator.query(getPaginatedDataSchema), getUnMatchContent);
+router.get('/', validator.query(getPaginatedDataSchema), getUnMatchContent);
 router.patch('/match-user-content', validator.body(matchUserContentSchema), matchUserContent);
 
 export default router;

@@ -27,8 +27,6 @@ router.get('/statistics', getUserStatistics);
 
 router.use(checkUserRole([ADMIN, MASTER_ADMIN]));
 
-router.patch('/edit-user-profile', validator.body(editProfileSchema), editProfile);
-
 router.use(checkUserRole([MASTER_ADMIN]));
 
 router.get('/user-data/:userId', validator.params(idSchema), getUserDataByID);

@@ -3,14 +3,14 @@ import { IEditDashboardSettings, IAddUser } from '../../interfaces/DtoAdmin';
 import { IUserRequest } from '../../interfaces';
 
 export const editDashboardSettingsDTO = (request: Request): IEditDashboardSettings => ({
-  nextupToOwedSplitPercentage: request.body.nextupToOwedSplitPercentage.tostring(),
-  fetchMaxCount: request.body.fetchMaxCount.tostring(),
-  expiredAfterInYears: request.body.expiredAfterInYears.tostring(),
-  viewliftWatchesFetchLimit: request.body.viewliftWatchesFetchLimit.tostring(),
-  viewliftPassword: request.body.viewliftPassword.tostring(),
-  viewliftEndpoint: request.body.viewliftEndpoint.tostring(),
-  viewliftEmail: request.body.viewliftEmail.tostring(),
-  systemActivationDate: request.body.systemActivationDate.tostring(),
+  nextupToOwedSplitPercentage: request.body.nextupToOwedSplitPercentage.toString(),
+  fetchMaxCount: request.body.fetchMaxCount.toString(),
+  expiredAfterInYears: request.body.expiredAfterInYears.toString(),
+  viewliftWatchesFetchLimit: request.body.viewliftWatchesFetchLimit.toString(),
+  viewliftPassword: request.body.viewliftPassword.toString(),
+  viewliftEndpoint: request.body.viewliftEndpoint.toString(),
+  viewliftEmail: request.body.viewliftEmail.toString(),
+  systemActivationDate: request.body.systemActivationDate.toString(),
 });
 
 export const addUserDTO = (request: IUserRequest): IAddUser => (
