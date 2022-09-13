@@ -17,6 +17,7 @@ import {
   getDashboardSettings,
   editProfile,
   getUserDataByID,
+  getAdminStatistics,
 } from '../../controllers';
 import {
   constants,
@@ -28,6 +29,7 @@ import {
   changePasswordSchema,
   editSystemSettingsSchema,
   editProfileSchema,
+  getAdminStatisticsSchema,
 } from '../../helpers';
 import { checkUserRole } from '../../middleware';
 
@@ -46,6 +48,7 @@ router.get('/rejected-list', rejectedUsers);
 router.get('/waiting-list', pendingUsers);
 router.get('/contents', validator.query(getPaginatedDataSchema), getPaginatedContents);
 router.get('/users', validator.query(getPaginatedDataSchema), getPaginatedUsers);
+router.get('/user-data/:userId', validator.params(idSchema), getUserDataByID);
 router.post('/add-user', validator.body(createUserSchema), createUser);
 
 router.patch('/reject/:userId', validator.params(idSchema), rejectUser);
@@ -54,9 +57,9 @@ router.patch('/match-user-content', validator.body(matchUserContentSchema), matc
 router.patch('/edit-user-profile', validator.body(editProfileSchema), editProfile);
 
 router.use(checkUserRole([MASTER_ADMIN]));
+router.get('/admin-statistics', validator.query(getAdminStatisticsSchema), getAdminStatistics);
 router.get('/dashboard-settings', getDashboardSettings);
 router.patch('/edit-dashboard-settings', validator.body(editSystemSettingsSchema), editDashboardSettings);
 router.patch('/block-user/:userId', validator.params(idSchema), blockUser);
-router.get('/get-user-data/:userId', validator.params(idSchema), getUserDataByID);
 
 export default router;

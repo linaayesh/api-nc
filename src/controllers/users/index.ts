@@ -14,3 +14,4 @@ export { default as getUserStatistics } from './getUserStatistics';
 export { default as editDashboardSettings } from './editDashboardSettings';
 export { default as getDashboardSettings } from './getDashboardSettings';
 export { default as getUserDataByID } from './getUserDataByID';
+export { default as getAdminStatistics } from './getAdminStatistics';

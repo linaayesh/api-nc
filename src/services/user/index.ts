@@ -8,3 +8,5 @@ export { default as matchUserContent } from './matchUserContent';
 export { default as getNumberOfContent } from './getContentReport';
 export { default as editDashboardSettings } from './editDashboardSettings';
 export { default as getDashboardSettings } from './getDashboardSettings';
+export { default as getAdminStatistics } from './getAdminStatistics';
+export { default as getPaginatedReports } from './getPaginatedReports';

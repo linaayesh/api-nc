@@ -1,23 +1,18 @@
 import { Request, Response, NextFunction } from 'express';
+import { CustomError, constants } from '../../helpers';
 import { getUserById } from '../../services';
-import { messages, HttpStatus } from '../../helpers/constants';
 
-const getUserDataByID = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+const { messages, HttpStatus } = constants;
+
+export default async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const { userId } = req.params;
 
     const user = await getUserById(+userId);
-    if (!user) {
-      res.status(HttpStatus.NOT_FOUND).json({ message: messages.authResponse.notExist });
+    if (!user) throw new CustomError(messages.authResponse.notExist, HttpStatus.NOT_FOUND);
 
-      return;
-    }
-    res.status(HttpStatus.OK).json(user);
+    res.status(HttpStatus.OK).json({ data: user });
   } catch (error) {
-    console.log(error);
-
     next(error);
   }
 };
-
-export default getUserDataByID;

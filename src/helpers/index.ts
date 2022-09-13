@@ -18,6 +18,7 @@ export {
   matchUserContentSchema,
   changePasswordSchema,
   editSystemSettingsSchema,
+  getAdminStatisticsSchema,
 } from './validation';
 
 export { validator, checkExistence, constants };
