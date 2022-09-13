@@ -96,6 +96,45 @@ interface IUsers {
   image: string;
 }
 
+interface IStatistics {
+  counts: {
+    allUsers: number,
+    pendingUsers: number,
+    approvedUsers: number,
+    rejectedUsers: number,
+    bannedUsers: number,
+    contents: number,
+    payouts: number
+  },
+  revenues: {
+    paid: {
+      allUsers: number,
+      pendingUsers: number,
+      approvedUsers: number,
+      rejectedUsers: number,
+      bannedUsers: number
+    },
+    total: {
+      earnings: number,
+      allUsers: number,
+      pendingUsers: number,
+      approvedUsers: number,
+      rejectedUsers: number,
+      bannedUsers: number
+    }
+  }
+}
+
+interface IReports {
+  count: number;
+  rows: {
+    watchTimeFrom: string;
+    watchTimeTo: string;
+    overallWatchedSeconds: string;
+    totalRevenue: string;
+  }
+}
+
 type ICustomContent = Omit<IContent, 'deletedAt'>
 type ICustomUser = Pick<IUser, 'id' | 'name' | 'email' | 'image'>
 
@@ -141,4 +180,6 @@ export {
   ICustomUser,
   ICustomContent,
   IAddUser,
+  IStatistics,
+  IReports,
 };

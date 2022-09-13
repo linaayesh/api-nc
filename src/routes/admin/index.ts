@@ -13,6 +13,8 @@ import {
   createUser,
   getPaginatedUsers,
   editProfile,
+  getUserDataByID,
+  getAdminStatistics,
 } from '../../controllers';
 import {
   constants,
@@ -22,6 +24,7 @@ import {
   createUserSchema,
   editSystemSettingsSchema,
   editProfileSchema,
+  getAdminStatisticsSchema,
 } from '../../helpers';
 import { checkUserRole } from '../../middleware';
 
@@ -35,15 +38,15 @@ router.get('/approved-list', validator.query(getPaginatedDataSchema), approvedUs
 router.get('/rejected-list', validator.query(getPaginatedDataSchema), rejectedUsers);
 router.get('/waiting-list', validator.query(getPaginatedDataSchema), pendingUsers);
 router.get('/banned-list', validator.query(getPaginatedDataSchema), bannedUsers);
+router.get('/users', validator.body(getPaginatedDataSchema), getPaginatedUsers);
+router.get('/user-data/:userId', validator.params(idSchema), getUserDataByID);
+router.get('/statistics', validator.query(getAdminStatisticsSchema), getAdminStatistics);
 
 router.post('/add-user', validator.body(createUserSchema), createUser);
 
 router.patch('/edit-user-profile', validator.body(editProfileSchema), editProfile);
-
 router.patch('/reject/:userId', validator.params(idSchema), rejectUser);
 router.patch('/approve/:userId', validator.params(idSchema), approveUser);
-
-router.get('/users', validator.body(getPaginatedDataSchema), getPaginatedUsers);
 
 router.use(checkUserRole([MASTER_ADMIN]));
 router.get('/dashboard-settings', getDashboardSettings);
