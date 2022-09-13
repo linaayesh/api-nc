@@ -1,7 +1,8 @@
 import Joi from 'joi';
+import { name, email, idValidation } from '../validationRules';
 
 export default Joi.object({
-  name: Joi.string().required(),
-  email: Joi.string().email().required(),
-  roleId: Joi.number().required(),
+  name,
+  email,
+  roleId: idValidation,
 });

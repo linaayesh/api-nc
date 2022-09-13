@@ -1,15 +1,11 @@
 import { User } from 'db-models-nc';
-import { USER_ROLES } from '../../helpers/constants';
-import { ICustomUser } from '../../interfaces';
+import { userRoles } from '../../helpers/constants';
+import { IGetPaginatedUsersDTO } from '../../helpers/dto/services';
 
-type IGetPaginatedUsers = (_: { page: number, limit: number }) => Promise<
-  { rows: ICustomUser[]; count: number; } | ICustomUser[]
->
-
-const getPaginatedUsers: IGetPaginatedUsers = ({ page, limit }) => {
+const getPaginatedUsers: IGetPaginatedUsersDTO = ({ page, limit }) => {
   if (!page && !limit) {
     return User.findAll({
-      where: { userRoleId: USER_ROLES.COMEDIAN },
+      where: { userRoleId: userRoles.COMEDIAN },
       attributes: ['id', 'name', 'email', 'image'],
     });
   }
@@ -19,7 +15,7 @@ const getPaginatedUsers: IGetPaginatedUsers = ({ page, limit }) => {
   return User.findAndCountAll({
     offset,
     limit,
-    where: { userRoleId: USER_ROLES.COMEDIAN },
+    where: { userRoleId: userRoles.COMEDIAN },
     attributes: ['id', 'name', 'email', 'image'],
     order: [['id', 'DESC']],
   });

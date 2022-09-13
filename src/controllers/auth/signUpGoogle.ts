@@ -6,17 +6,20 @@ import {
   constants,
   sendEmail,
   googleAuthentication,
+  dto,
 } from '../../helpers';
 import { addUser } from '../../services';
 
-export default async ({ body: { tokenId } }: Request, res: Response, next: NextFunction)
+export default async (request: Request, response: Response, next: NextFunction)
 :Promise<void> => {
   const {
-    HttpStatus: { CREATED },
-    USER_ROLES: { SYSTEM, COMEDIAN },
+    httpStatus,
+    userRoles,
     REVENUE_DEFAULT_VALUE,
+    PASSWORD_LENGTH,
+    emailType,
   } = constants;
-
+  const { tokenId } = dto.authDTO.GoogleDTO(request);
   try {
     const {
       email, name, image, googleId,
@@ -25,7 +28,7 @@ export default async ({ body: { tokenId } }: Request, res: Response, next: NextF
     await checkExistence.RegistrationCheck(email);
 
     const password = generatePassword.generate({
-      length: 20,
+      length: PASSWORD_LENGTH,
       numbers: true,
       strict: true,
       lowercase: true,
@@ -37,25 +40,26 @@ export default async ({ body: { tokenId } }: Request, res: Response, next: NextF
     const user = await addUser({
       name,
       email,
-      userRoleId: COMEDIAN,
+      userRoleId: userRoles.COMEDIAN,
       password: hashedPassword,
-      createdBy: SYSTEM,
-      updatedBy: SYSTEM,
+      createdBy: userRoles.SYSTEM,
+      updatedBy: userRoles.SYSTEM,
       image,
       googleId,
-      totalRevenue: constants.REVENUE_DEFAULT_VALUE,
-      paidRevenue: constants.REVENUE_DEFAULT_VALUE,
+      userStatusId: constants.userStatus.PENDING,
+      totalRevenue: REVENUE_DEFAULT_VALUE,
+      paidRevenue: REVENUE_DEFAULT_VALUE,
     });
 
     await sendEmail({
       email: user.email,
-      type: 'verify',
+      type: emailType.VERIFY,
       name: user.name,
     });
 
-    res
-      .status(CREATED)
-      .json({ message: constants.messages.authResponse.SUCCESS });
+    response
+      .status(httpStatus.CREATED)
+      .json({ message: constants.messages.authResponse.SUCCESS_SIGNUP });
   } catch (error) {
     next(error);
   }

@@ -1,39 +1,40 @@
 import { Request, Response, NextFunction } from 'express';
 import { hash } from 'bcrypt';
 import {
-  constants, checkExistence, CustomError,
-  verifyToken, tokenError,
+  constants, checkExistence, errorMessages,
+  verifyToken, tokenError, dto,
 } from '../../helpers';
 import { getUserByEmail } from '../../services';
-import config from '../../config';
 
-export default async (req: Request, res: Response, next: NextFunction):Promise<void> => {
-  const { password } = req.body;
-  const { resetPasswordToken } = req.cookies;
-  const { resetToken } = constants.messages.token;
-  const { unAuthUser, resetPassword } = constants.messages.authResponse;
-  const { OK } = constants.HttpStatus;
+export default async (request: Request, response: Response, next: NextFunction):Promise<void> => {
+  const { password, resetPasswordToken } = dto.authDTO.resetPasswordDTO(request);
+  const {
+    messages, httpStatus, SALT_ROUNDS, redirectURLs,
+  } = constants;
 
   try {
-    if (!resetPasswordToken) throw new CustomError(unAuthUser, 401);
+    if (!resetPasswordToken) {
+      throw errorMessages.UNAUTHORIZED_ERROR;
+    }
 
     const { email } = await verifyToken(resetPasswordToken);
 
-    const lowerCaseEmail = email.toLowerCase();
-
-    const user = await getUserByEmail(lowerCaseEmail);
+    const user = await getUserByEmail(email);
 
     const userData = await checkExistence.ApprovalChecks(user);
 
-    const hashedPassword = await hash(password, 10);
+    const hashedPassword = await hash(password, SALT_ROUNDS);
     userData.password = hashedPassword;
     await userData.save();
 
-    res.status(OK).clearCookie(resetToken).json({
-      message: { message: resetPassword },
-      redirect: `${config.server.CLIENT_URL}/login`,
-    });
-  } catch (err) {
-    next(tokenError(err as Error));
+    response
+      .status(httpStatus.OK)
+      .clearCookie(messages.token.RESET_TOKEN)
+      .json({
+        message: { message: messages.authResponse.SUCCESS_RESET_PASSWORD },
+        redirect: redirectURLs.LOGIN,
+      });
+  } catch (error) {
+    next(tokenError(error as Error));
   }
 };

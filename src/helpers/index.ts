@@ -1,9 +1,14 @@
 import * as Constants from './constants';
 import * as Checkers from './checkUserExistence';
 import { validator } from './validate';
+import * as VALIDATION_RULES from './validationRules';
+import * as DTO from './dto';
+import * as ERROR_MESSAGES from './errorMessages';
 
 const checkExistence = Checkers;
 const constants = Constants;
+const dto = DTO;
+const errorMessages = ERROR_MESSAGES;
 
 export {
   signupSchema,
@@ -20,8 +25,13 @@ export {
   editSystemSettingsSchema,
 } from './validation';
 
-export { validator, checkExistence, constants };
+export { forgetPasswordDTO } from './dto/auth';
 
+export {
+  validator, checkExistence, constants, VALIDATION_RULES, dto, errorMessages,
+};
+
+export { default as Logger } from './logger';
 export { default as CustomError } from './CustomError';
 export { default as validateError } from './validationError';
 export { default as sendEmail } from './emailService';

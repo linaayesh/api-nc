@@ -1,32 +1,65 @@
 import { Op, col } from 'sequelize';
-import { IUser, User, UserRole } from 'db-models-nc';
+import { User, UserRole } from 'db-models-nc';
 import { constants } from '../../helpers';
+import { GetUsersStatusDTO } from '../../helpers/dto/services';
 
-type GetUsersStatus = (statusId: number) => Promise<IUser[] | null>
-
-const getUsersStatus: GetUsersStatus = (statusId: number) => User.findAll({
-  where: {
-    [Op.and]: [
-      { userStatusId: statusId },
-      {
-        userRoleId: {
-          [Op.notIn]: [
-            constants.USER_ROLES.MASTER_ADMIN,
-            constants.USER_ROLES.SYSTEM,
-          ],
-        },
+const getUsersStatus: GetUsersStatusDTO = (statusId: number, { page, limit }) => {
+  if (!page && !limit) {
+    return User.findAll({
+      where: {
+        [Op.and]: [
+          { userStatusId: statusId },
+          {
+            userRoleId: {
+              [Op.notIn]: [
+                constants.userRoles.MASTER_ADMIN,
+                constants.userRoles.SYSTEM,
+              ],
+            },
+          },
+        ],
       },
-    ],
-  },
-  attributes: {
-    exclude: ['password', 'updatedAt'],
-    include: [[col('userRole.name'), 'roleName']],
-  },
-  include: {
-    model: UserRole,
-    as: 'userRole',
-    attributes: [],
-  },
-});
+      attributes: {
+        exclude: ['password', 'updatedAt'],
+        include: [[col('userRole.name'), 'roleName']],
+      },
+      include: {
+        model: UserRole,
+        as: 'userRole',
+        attributes: [],
+      },
+      order: [['id', 'DESC']],
+    });
+  }
+  const offset = (page - 1) * limit;
+
+  return User.findAndCountAll({
+    offset,
+    limit,
+    where: {
+      [Op.and]: [
+        { userStatusId: statusId },
+        {
+          userRoleId: {
+            [Op.notIn]: [
+              constants.userRoles.MASTER_ADMIN,
+              constants.userRoles.SYSTEM,
+            ],
+          },
+        },
+      ],
+    },
+    attributes: {
+      exclude: ['password', 'updatedAt'],
+      include: [[col('userRole.name'), 'roleName']],
+    },
+    include: {
+      model: UserRole,
+      as: 'userRole',
+      attributes: [],
+    },
+    order: [['id', 'DESC']],
+  });
+};
 
 export default getUsersStatus;

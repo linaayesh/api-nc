@@ -1,17 +1,16 @@
 import { Router } from 'express';
-
 import { checkUserRole } from '../../middleware';
 
 import {
-  signupHandler, loginHandler, userAuth, forgetPassword, resetPasswordEmail,
-  logInGoogle, resetPassword, logOut, signUpGoogle, editProfile,
+  signupHandler, loginHandler, userAuth, forgetPassword,
+  logInGoogle, resetPassword, logOut, signUpGoogle,
 } from '../../controllers';
 
 import {
-  constants, validator, loginSchema, signupSchema, emailSchema, passwordSchema, editProfileSchema,
+  constants, validator, loginSchema, signupSchema, emailSchema, passwordSchema,
 } from '../../helpers';
 
-const { ADMIN, MASTER_ADMIN, COMEDIAN } = constants.USER_ROLES;
+const { ADMIN, MASTER_ADMIN, COMEDIAN } = constants.userRoles;
 
 const router = Router();
 
@@ -21,14 +20,12 @@ router.post('/signup', validator.body(signupSchema), signupHandler);
 router.post('/log/google', logInGoogle);
 router.post('/sign/google', signUpGoogle);
 
-router.get('/reset-password/:token', resetPasswordEmail);
 router.post('/forget-password', validator.body(emailSchema), forgetPassword);
 router.post('/reset-password', validator.body(passwordSchema), resetPassword);
 
 router.use(checkUserRole([ADMIN, MASTER_ADMIN, COMEDIAN]));
 
 router.get('/user', userAuth);
-router.patch('/edit-profile', validator.body(editProfileSchema), editProfile);
 router.get('/logout', logOut);
 
 export default router;

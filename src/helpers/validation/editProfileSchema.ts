@@ -1,9 +1,10 @@
 import Joi from 'joi';
+import { idValidation, stringValidation, booleanValidation } from '../validationRules';
 
 export default Joi.object({
-  id: Joi.number().required(),
-  name: Joi.string(),
-  image: Joi.string(),
-  videoNotification: Joi.boolean(),
-  paymentNotification: Joi.boolean(),
+  id: idValidation,
+  name: stringValidation,
+  image: stringValidation,
+  videoNotification: booleanValidation,
+  paymentNotification: booleanValidation,
 });

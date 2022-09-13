@@ -1,43 +1,43 @@
 import { Request, Response, NextFunction } from 'express';
 import { hash } from 'bcrypt';
 import {
-  checkExistence, constants, sendEmail,
+  checkExistence, constants, sendEmail, dto,
 } from '../../helpers';
 import { addUser } from '../../services';
 
-export default async ({ body }: Request, res: Response, next: NextFunction):Promise<void> => {
-  const { name, email, password } = body;
-  const { CREATED } = constants.HttpStatus;
-  const { COMEDIAN, SYSTEM } = constants.USER_ROLES;
+export default async (request: Request, response: Response, next: NextFunction):Promise<void> => {
+  const { name, email, password } = dto.authDTO.signupDTO(request);
+  const {
+    httpStatus, userRoles, emailType, SALT_ROUNDS, userStatus, REVENUE_DEFAULT_VALUE,
+  } = constants;
 
   try {
-    const lowercaseEmail = email.toLowerCase();
+    await checkExistence.RegistrationCheck(email);
 
-    await checkExistence.RegistrationCheck(lowercaseEmail);
-
-    const hashedPassword = await hash(password, 10);
+    const hashedPassword = await hash(password, SALT_ROUNDS);
 
     const user = await addUser({
       name,
-      email: email.toLowerCase(),
-      userRoleId: COMEDIAN,
+      email,
+      userRoleId: userRoles.COMEDIAN,
       password: hashedPassword,
-      createdBy: SYSTEM,
-      updatedBy: SYSTEM,
-      totalRevenue: constants.REVENUE_DEFAULT_VALUE,
-      paidRevenue: constants.REVENUE_DEFAULT_VALUE,
+      createdBy: userRoles.SYSTEM,
+      updatedBy: userRoles.SYSTEM,
+      userStatusId: userStatus.PENDING,
+      totalRevenue: REVENUE_DEFAULT_VALUE,
+      paidRevenue: REVENUE_DEFAULT_VALUE,
     });
 
     await sendEmail({
       email: user.email,
-      type: 'verify',
+      type: emailType.VERIFY,
       name: user.name,
     });
 
-    res
-      .status(CREATED)
-      .json({ message: constants.messages.authResponse.SUCCESS });
-  } catch (err) {
-    next(err);
+    response
+      .status(httpStatus.CREATED)
+      .json({ message: constants.messages.authResponse.SUCCESS_SIGNUP });
+  } catch (error) {
+    next(error);
   }
 };

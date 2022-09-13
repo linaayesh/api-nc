@@ -7,8 +7,7 @@ import {
 import Big from 'big.js';
 
 import { EventEmitter } from 'node:events';
-import { CustomError } from '../../helpers';
-import { HttpStatus } from '../../helpers/constants';
+import { errorMessages } from '../../helpers';
 import Logger from '../../helpers/logger';
 
 let settings = getDashboardSettings();
@@ -46,9 +45,14 @@ const matchUserContent: IMatchUserContent = async ({
     },
   }), User.findOne({ where: { id: userId } })]);
 
-  if (!content) throw new CustomError('No such a content', HttpStatus.NOT_FOUND);
-  if (content.userId) throw new CustomError('Content is already matched with a user', HttpStatus.BAD_REQUEST);
-  if (!user) throw new CustomError("The user you are trying to match with doesn't exist", HttpStatus.BAD_REQUEST);
+  if (!content) {
+    throw errorMessages.NO_CONTENT_ERROR;
+  }
+
+  if (content.userId) throw errorMessages.CONTENT_MATCH_ERROR;
+
+  if (!user) throw errorMessages.NOT_EXIST_USER_ERROR;
+
   content.userId = userId;
   content.filmingCosts = filmingCosts;
   content.launchDate = launchDate;
@@ -72,7 +76,8 @@ const matchUserContent: IMatchUserContent = async ({
     watches,
     report,
   }) => {
-    if (!report) throw new CustomError('Bad Request', HttpStatus.BAD_REQUEST);
+    if (!report) throw errorMessages.BAD_REQUEST_ERROR;
+
     const toDate = new Date(report.watchTimeTo);
     const fromDate:Date = new Date(report.watchTimeFrom);
     const expDate = addYears(new Date(launchDate), expiredAfterInYears);

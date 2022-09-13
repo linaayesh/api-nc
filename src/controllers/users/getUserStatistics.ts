@@ -1,26 +1,27 @@
 import { Response, NextFunction } from 'express';
-import { constants } from '../../helpers';
+import { IUserRequest } from '../../interfaces';
+import {
+  constants, dto, errorMessages,
+} from '../../helpers';
 import { getNumberOfContent } from '../../services';
-import { UserAuth } from '../../interfaces';
 
-export default async (req: UserAuth, res: Response, next: NextFunction)
+export default async (request: IUserRequest, response: Response, next: NextFunction)
 :Promise<void> => {
-  const { messages, HttpStatus } = constants;
+  const { messages, httpStatus } = constants;
+  const { user } = dto.generalDTO.userDTO(request);
   try {
-    //  use a DTO ?
-    const { user } = req;
-    if (!user) return;
-    //
-    const { totalRevenue, paidRevenue, id: userId } = user;
+    if (!user) throw errorMessages.NOT_EXIST_ERROR;
+
+    const { totalRevenue, paidRevenue } = user;
     const balance = +totalRevenue - +paidRevenue;
     const Content = await getNumberOfContent(
-      { page: 1, limit: 10, userId: Number(userId) },
+      { page: 1, limit: 10, userId: Number(user.id) },
     );
 
-    res
-      .status(HttpStatus.OK)
+    response
+      .status(httpStatus.OK)
       .json({
-        message: messages.authResponse.userStatistics,
+        message: messages.authResponse.USER_STATISTICS,
         data: {
           totalRevenue, paidRevenue, balance, Content,
         },

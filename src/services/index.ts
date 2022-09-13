@@ -3,7 +3,6 @@ export {
   getUserById,
   getUsersStatus,
   addUser,
-  getContents,
   getUsers,
   matchUserContent,
   getNumberOfContent,
@@ -11,3 +10,7 @@ export {
   getDashboardSettings,
   getAllUserDataById,
 } from './user';
+
+export {
+  getUnmatchedContent,
+} from './contents';

@@ -59,9 +59,6 @@ interface FinancialInformation {
   updatedBy?: number,
 }
 
-interface UserAuth extends Request {
-  user?: IUser,
-}
 interface ErrorWithDetails extends Error {
   details: [
     {
@@ -102,12 +99,38 @@ interface IUsers {
 type ICustomContent = Omit<IContent, 'deletedAt'>
 type ICustomUser = Pick<IUser, 'id' | 'name' | 'email' | 'image'>
 
+interface IAddUser{
+    name: string;
+    email: string;
+    password: string;
+    userRoleId: number;
+    createdBy: number;
+    updatedBy: number;
+    image?: string;
+    googleId?: string;
+    userStatusId?: number;
+    totalRevenue: number;
+    paidRevenue: number;
+}
+
+interface IGoogleAuthentication{
+  googleId: string,
+  email:string
+  name: string,
+  image: string,
+}
+
+interface IUserRequest extends Request {
+  user?: IUser,
+}
+
 export {
+  IUserRequest,
+  IGoogleAuthentication,
   IServerAddress,
   IUserInfo,
   IServer,
   IDatabase,
-  UserAuth,
   ApprovedUser,
   GoogleUserRequest,
   IUser,
@@ -117,4 +140,5 @@ export {
   IUsers,
   ICustomUser,
   ICustomContent,
+  IAddUser,
 };
