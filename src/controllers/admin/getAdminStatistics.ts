@@ -8,15 +8,20 @@ export default async (
   response: Response,
   next: NextFunction,
 ): Promise<void> => {
-  const { fromDate, page, limit } = statisticsDTO(request);
+  const {
+    fromDate,
+    toDate,
+    page,
+    limit,
+  } = statisticsDTO(request);
 
   try {
     let statistics: IStatistics;
     let reports: IReports;
 
-    if (fromDate) {
+    if (fromDate && toDate) {
       [statistics, reports] = await Promise.all([
-        getAdminStatistics({ fromDate }),
+        getAdminStatistics({ fromDate, toDate }),
         getPaginatedReports({ page, limit }),
       ]);
 

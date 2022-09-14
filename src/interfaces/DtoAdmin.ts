@@ -20,6 +20,7 @@ export interface IAddUser {
 
 export interface IStatisticsPayload {
   fromDate: string;
+  toDate: string;
   page: number;
   limit: number;
 }
