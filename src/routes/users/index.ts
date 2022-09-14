@@ -24,6 +24,4 @@ router.get('/statistics', getUserStatistics);
 router.patch('/change-password', validator.body(changePasswordSchema), changePassword);
 router.patch('/edit-profile', validator.body(editProfileSchema), editProfile);
 
-router.use(checkUserRole([ADMIN, MASTER_ADMIN]));
-
 export default router;

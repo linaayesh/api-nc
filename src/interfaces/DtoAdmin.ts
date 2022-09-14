@@ -9,11 +9,17 @@ export interface IEditDashboardSettings {
   viewliftEndpoint: string
   viewliftEmail: string
   systemActivationDate: string
-  }
+}
 
 export interface IAddUser {
-    name: string
-    email: string
-    roleId: number
-    currentUser?: IUser
-    }
+  name: string
+  email: string
+  roleId: number
+  currentUser?: IUser
+}
+
+export interface IStatisticsPayload {
+  fromDate: string;
+  page: number;
+  limit: number;
+}

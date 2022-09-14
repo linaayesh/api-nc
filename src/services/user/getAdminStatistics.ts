@@ -98,7 +98,7 @@ const getAdminStatistics: IGetAdminStatistics = async ({ fromDate }) => {
   };
   statistics.revenues.total.earnings = totalRevenue;
 
-  return { ...statistics };
+  return statistics;
 };
 
 export default getAdminStatistics;

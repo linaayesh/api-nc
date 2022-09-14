@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
+import { statisticsDTO } from '../../helpers/dto/admin';
 import { IStatistics, IReports } from '../../interfaces';
 import { getAdminStatistics, getPaginatedReports } from '../../services';
 
@@ -7,7 +8,7 @@ export default async (
   response: Response,
   next: NextFunction,
 ): Promise<void> => {
-  const { fromDate, page, limit } = request.query;
+  const { fromDate, page, limit } = statisticsDTO(request);
 
   try {
     let statistics: IStatistics;
@@ -15,21 +16,15 @@ export default async (
 
     if (fromDate) {
       [statistics, reports] = await Promise.all([
-        getAdminStatistics({ fromDate: fromDate as string }),
-        getPaginatedReports({
-          page: Number(page || 1),
-          limit: Number(limit || 10),
-        }),
+        getAdminStatistics({ fromDate }),
+        getPaginatedReports({ page, limit }),
       ]);
 
       response.json({ data: { statistics, reports } });
       return;
     }
 
-    reports = await getPaginatedReports({
-      page: Number(page || 1),
-      limit: Number(limit || 10),
-    });
+    reports = await getPaginatedReports({ page, limit });
 
     response.json({ data: { reports } });
   } catch (error) {
