@@ -7,7 +7,7 @@ export default Joi.object({
   id: guid.required(),
   userId: idValidation,
   filmingCosts: positiveNumber,
-  launchDate: date,
+  launchDate: date.required(),
   advance: positiveNumber,
   feePaid: positiveNumber,
   recoveredCosts: positiveNumber,
