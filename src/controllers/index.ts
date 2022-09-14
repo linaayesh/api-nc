@@ -14,7 +14,7 @@ export {
   changePassword,
   getUserStatistics,
   getUserDataByID,
-  getAdminStatistics,
+  getSpecificUserStatistics,
 } from './users';
 
 export {
@@ -29,6 +29,7 @@ export {
   editDashboardSettings,
   getDashboardSettings,
   getPaginatedUsers,
+  getAdminStatistics,
 } from './admin';
 
 export {

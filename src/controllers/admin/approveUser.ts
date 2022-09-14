@@ -8,7 +8,12 @@ export default async (request: Request, response: Response, next: NextFunction)
 :Promise<void> => {
   const { userId } = dto.generalDTO.userIdDTO(request);
   const {
-    messages, httpStatus, userRoles, userStatus, emailType, redirectURLs,
+    messages,
+    httpStatus,
+    userRoles,
+    userStatus,
+    emailType,
+    redirectURLs,
   } = constants;
 
   try {
