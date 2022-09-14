@@ -14,7 +14,7 @@ export default async (request: IUserRequest, response: Response, next: NextFunct
 
     const { totalRevenue, paidRevenue } = user;
     const balance = +totalRevenue - +paidRevenue;
-    const Content = await getNumberOfContent(
+    const content = await getNumberOfContent(
       { page: 1, limit: 10, userId: Number(user.id) },
     );
 
@@ -23,7 +23,10 @@ export default async (request: IUserRequest, response: Response, next: NextFunct
       .json({
         message: messages.authResponse.USER_STATISTICS,
         data: {
-          totalRevenue, paidRevenue, balance, Content,
+          totalRevenue,
+          paidRevenue,
+          balance,
+          content,
         },
       });
   } catch (error) {

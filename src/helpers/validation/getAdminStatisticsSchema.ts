@@ -1,8 +1,9 @@
 import Joi from 'joi';
+import { date, page } from '../validationRules';
 
 export default Joi.object().keys({
-  fromDate: Joi.string().isoDate(),
-  toDate: Joi.string().isoDate(),
-  page: Joi.number().min(1),
-  limit: Joi.number().min(1),
+  fromDate: date,
+  toDate: date,
+  page,
+  limit: page,
 }).and('toDate', 'fromDate');
