@@ -9,6 +9,8 @@ export {
   editDashboardSettings,
   getDashboardSettings,
   getAllUserDataById,
+  getAdminStatistics,
+  getPaginatedReports,
 } from './user';
 
 export {

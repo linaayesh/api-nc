@@ -10,3 +10,4 @@ export { default as getPaginatedDataSchema } from './getPaginatedDataSchema';
 export { default as matchUserContentSchema } from './matchUserContentSchema';
 export { default as changePasswordSchema } from './changePasswordSchema';
 export { default as editSystemSettingsSchema } from './editSystemSettingsSchema';
+export { default as getAdminStatisticsSchema } from './getAdminStatisticsSchema';

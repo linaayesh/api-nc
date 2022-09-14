@@ -23,6 +23,7 @@ export {
   matchUserContentSchema,
   changePasswordSchema,
   editSystemSettingsSchema,
+  getAdminStatisticsSchema,
 } from './validation';
 
 export { forgetPasswordDTO } from './dto/auth';

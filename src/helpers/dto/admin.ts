@@ -1,5 +1,5 @@
 import { Request } from 'express';
-import { IEditDashboardSettings, IAddUser } from '../../interfaces/DtoAdmin';
+import { IEditDashboardSettings, IAddUser, IStatisticsPayload } from '../../interfaces/DtoAdmin';
 import { IUserRequest } from '../../interfaces';
 
 export const editDashboardSettingsDTO = (request: Request): IEditDashboardSettings => ({
@@ -20,3 +20,9 @@ export const addUserDTO = (request: IUserRequest): IAddUser => (
     roleId: request.body.roleId,
     currentUser: request.user,
   });
+
+export const statisticsDTO = (request: Request): IStatisticsPayload => ({
+  fromDate: request.query.fromDate as string,
+  page: Number(request.query.page || 1),
+  limit: Number(request.query.limit || 10),
+});

@@ -17,6 +17,7 @@ myEmitter.on('update', () => {
   Logger.info('settings was updated');
   settings = getDashboardSettings();
 });
+
 type IMatchUserContent = (userData: {
   id: string,
   userId: number,

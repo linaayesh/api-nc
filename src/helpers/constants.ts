@@ -125,3 +125,32 @@ export const validationRulesMessages = {
   PASSWORD_LENGTH: 'Password length must be between 6 and 33 characters',
   PASSWORD_MATCH: 'New password should not be the same as the old one',
 };
+
+export const statisticsInitialValues = {
+  counts: {
+    allUsers: 0,
+    pendingUsers: 0,
+    approvedUsers: 0,
+    rejectedUsers: 0,
+    bannedUsers: 0,
+    contents: 0,
+    payouts: 0,
+  },
+  revenues: {
+    paid: {
+      allUsers: 0,
+      pendingUsers: 0,
+      approvedUsers: 0,
+      rejectedUsers: 0,
+      bannedUsers: 0,
+    },
+    total: {
+      earnings: 0,
+      allUsers: 0,
+      pendingUsers: 0,
+      approvedUsers: 0,
+      rejectedUsers: 0,
+      bannedUsers: 0,
+    },
+  },
+};
