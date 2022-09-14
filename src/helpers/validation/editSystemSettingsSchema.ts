@@ -5,7 +5,7 @@ import {
 
 export default Joi.object({
   nextupToOwedSplitPercentage: percentageNumber,
-  systemActivationDate: date,
+  systemActivationDate: date.required(),
   fetchMaxCount: positiveNumber,
   expiredAfterInYears: positiveNumber,
   viewliftEmail: email,

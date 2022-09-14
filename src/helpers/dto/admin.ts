@@ -23,6 +23,7 @@ export const addUserDTO = (request: IUserRequest): IAddUser => (
 
 export const statisticsDTO = (request: Request): IStatisticsPayload => ({
   fromDate: request.query.fromDate as string,
+  toDate: request.query.toDate as string,
   page: Number(request.query.page || 1),
   limit: Number(request.query.limit || 10),
 });

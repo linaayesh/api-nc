@@ -8,35 +8,37 @@ import {
 import { userStatus, statisticsInitialValues } from '../../helpers/constants';
 import { IStatistics } from '../../interfaces';
 
-type IGetAdminStatistics = ({ fromDate }: { fromDate: string }) => Promise<IStatistics>;
+type IGetAdminStatistics = (
+  { fromDate, toDate }: { fromDate: string, toDate: string }
+) => Promise<IStatistics>;
 
-const getAdminStatistics: IGetAdminStatistics = async ({ fromDate }) => {
+const getAdminStatistics: IGetAdminStatistics = async ({ fromDate, toDate }) => {
   const [contentsNumber, totalRevenue, payoutsNumber, users] = await Promise.all([
     Content.count({
       where: {
         createdAt: {
-          [Op.gte]: fromDate,
+          [Op.between]: [fromDate, toDate],
         },
       },
     }),
     Report.sum('totalRevenue', {
       where: {
         createdAt: {
-          [Op.gte]: fromDate,
+          [Op.between]: [fromDate, toDate],
         },
       },
     }),
     Payout.count({
       where: {
         createdAt: {
-          [Op.gte]: fromDate,
+          [Op.between]: [fromDate, toDate],
         },
       },
     }),
     User.findAll({
       where: {
         createdAt: {
-          [Op.gte]: fromDate,
+          [Op.between]: [fromDate, toDate],
         },
       },
       attributes: [
@@ -96,7 +98,7 @@ const getAdminStatistics: IGetAdminStatistics = async ({ fromDate }) => {
     contents: contentsNumber,
     payouts: payoutsNumber,
   };
-  statistics.revenues.total.earnings = totalRevenue;
+  statistics.revenues.total.earnings = +totalRevenue;
 
   return statistics;
 };

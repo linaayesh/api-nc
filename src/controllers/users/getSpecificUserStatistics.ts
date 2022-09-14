@@ -10,14 +10,14 @@ export default async (request: Request, response: Response, next: NextFunction)
 :Promise<void> => {
   const { messages, httpStatus } = constants;
   const { userId } = dto.generalDTO.userIdDTO(request);
-  const user = await getUserById(userId);
 
   try {
+    const user = await getUserById(userId);
     if (!user) throw errorMessages.NOT_EXIST_ERROR;
 
     const { totalRevenue, paidRevenue } = user;
     const balance = +totalRevenue - +paidRevenue;
-    const Content = await getNumberOfContent(
+    const content = await getNumberOfContent(
       { page: 1, limit: 10, userId: Number(user.id) },
     );
 
@@ -29,7 +29,7 @@ export default async (request: Request, response: Response, next: NextFunction)
           totalRevenue,
           paidRevenue,
           balance,
-          Content,
+          content,
         },
       });
   } catch (error) {
