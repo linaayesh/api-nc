@@ -24,3 +24,21 @@ app.use('/api/v1', router);
 app.use([notFound, serverError]);
 
 export default app;
+
+
+
+
+interface Animal {
+  type: "cat"|"dog"
+  name: string
+}
+
+const fn = (animal:Animal) => {
+ return animal
+}
+
+type FnType = (animal:Animal) => Animal
+
+const fn2: FnType = (animal) => {
+  return animal
+}
